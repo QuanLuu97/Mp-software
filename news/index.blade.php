@@ -360,7 +360,8 @@
 				<td>{!! $news->content !!}</td>
 				<td>{{ $news->date }}</td>
 				<td>
-					<button class="glyphicon btn btn-primary" data-toggle="modal" data-target="#delete">&#xe020;</button>
+					<!-- onclick='deleteItem(<?php echo $news->id; ?>)' -->
+					<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $news->id; ?>)'" >&#xe020;</a>
 				</td>
 				<td>				
 					<button class="glyphicon btn btn-primary" data-toggle="modal" data-target="#edit" onclick='getRecord(<?php echo $news->id; ?>)'>&#x270f;</button>			
@@ -379,52 +380,58 @@
 					<h4 class="modal-title">Edit</h4>
 					</div>
 					<div class="modal-body">
-						
+						<form id="form-edit" >
 							<div class="form-body">							
-								<div class="form-group form-md-line-input">
-									<input type="text" class="form-control" name="title" id="title" placeholder="title">
+								<div class="form-group ">
 									<label for="title">Title input</label>
-									@if($errors->has('title'))
-										<div class="alert alert-danger">{{ $errors->first('title') }}</div>
-									@endif
+									<input type="text" class="form-control" name="title" id="title" placeholder="title">
+																		
 								</div>
-								<div class="form-group form-md-line-input">
+								<div class="form-group ">
+									<label for="image">Image Input</label>
 									<input type="file" class="form-control" name="image" id="image"   >
 									<img src="" id="image_tag" width="200px">
-									<label for="image">Image Input</label>
+									
 									@if($errors->has('image'))
 										<div class="alert alert-danger">{{ $errors->first('image') }}</div>
 									@endif
 								</div>
-								<div class="form-group form-md-line-input has-success ">
-									<textarea class="form-control ckeditor" name="content" id="content"></textarea>
+								<div class="form-group ">
 									<label for="content">Content input</label>
+									<textarea class="form-control ckeditor" name="content" id="content"></textarea>
+									
 									@if($errors->has('content'))
 										<div class="alert alert-danger">{{ $errors->first('content') }}</div>
 									@endif
 								</div>
-								<div class="form-group form-md-line-input ">
-									<input type="date" class="form-control" name="date" id="date">
+								<div class="form-group  ">
 									<label for="date">Date input</label>
+									<input type="date" class="form-control" name="date" id="date">
+									
 									@if($errors->has('date'))
 										<div class="alert alert-danger">{{ $errors->first('date') }}</div>
 									@endif
-								</div>	
+								</div>
 								<input type="hidden" id="post_id" value="" />
-								<button id="save" class="btn btn-primary">Save changes</button>			
+								<span id="save" class="btn btn-primary">Save changes</span>	
+								<div class="form-group form-md-line-input ">
+									<span id="mess"></span>
+								</div>				
 							</div>
 							{{ csrf_field() }}
-						
+						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>						
+						<a href="{{ route('indexNews') }}"  class="btn btn-default" >Close</a>						
 					</div>
 				</div><!-- /.modal-content -->
 
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 	</div>
+
 <script type="text/javascript">
+	//get data by ajax
 	function getRecord(id) {
 		if (id > 0) {
 			$.ajax({
@@ -447,31 +454,147 @@
 			});
 		}
 	}
-	$(document).ready(function(){
-		$('#save').click(function(){
-			var id = $('#post_id').val();
+	// delete item with  swal
+	function deleteItem (id) {
+		swal({
+		  title: 'Are you sure?',
+		  text: "You won't be able to revert this!",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		  if (result.value) {
+		  	$.ajax({
+		  		url: "../news/delete/"+id,
+		  		type:'get',
+		  		data: {
+		  			id:id
+		  		},
+		  		success:function(res) {
+		  			if(res.code == 200) {
+		  				swal(
+							'Deleted!',
+						     res.msg,
+							'success'
+						).then((result) => {
+							if(result.value) {
+								location.reload();
+							}
+							
+						});
+		  			}
+		  			else {
+		  				swal({
+							  type: 'error',
+							  title: 'Oops...',
+							  text: res.msg+'!'
+						})
+		  			}
+		  		},
+
+		  	});    
+		  }
+		});
 			
-			var formData = new FormData();
-			formData.append('title', $('#title').val());
-			formData.append('content', CKEDITOR.instances.content.getData());
-			formData.append('date', $('#date').val());
-			formData.append('image', $('#image')[0].files[0]);
-			$.ajax({
+	};
+	$(document).ready(function(){
+		//validate
+		jQuery.validator.addMethod("isImage", function(value){
+
+		 	var file = $('#image')[0].files[0];
+		 	if(file){
+		 		var fileType = file.type;
+
+				var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+				if($.inArray(fileType, ValidImageTypes) < 0 || file.size >1048576) {
+					return false;
+				}
+				return true;
+		 	} 
+		 	else {
+		 		return true;
+		 	}
+			
+		 });
+		$("#form-edit").validate({
+			ignore: [],
+			rules:{
+				title: {
+					required:true,
+					minlength:5
+				},
+				content: {
+					 required: function() 
+					{
+					CKEDITOR.instances.content.updateElement();
+					},
+					minlength:5
+				},
+				image: {
+					isImage:true
+				},
+				date: {
+					required:true,
+					date:true
+				}
+			},
+			messages:{
+				title: {
+					required: "không được để trống",
+					minlength: "độ dài lớn hơn 5 kí tự"
+				},
+				content: {
+					required: "không được để trống",
+					minlength: "độ dài lớn hơn 5 kí tự"
+				},
+				image:{
+					isImage: "image phải đúng định dạng và kích cỡ dưới 1MB"
+				},
+				date: {
+					required: "không được để trống",
+					date: "sai định sạng ngày"
+				}
+			}
+		});
+	
+		// edit
+		$('#save').click(function(){
+			var check = $('#form-edit').valid();
+		
+			if(check){
+				var id = $('#post_id').val();			
+				var formData = new FormData();
+				formData.append('title', $('#title').val());
+				formData.append('content', CKEDITOR.instances.content.getData());
+				formData.append('date', $('#date').val());
+				formData.append('image', $('#image')[0].files[0]);
+				formData.append('_token', "{{ csrf_token() }}");
+				$.ajax({
 				 	url: "../news/update/"+id,
 					type: 'post',
 					data: formData,
 					contentType: false,
-    				processData: false,
+					processData: false,
 					success: function(res) {
-						alert(res.msg);
+						if(res.code == 202) {
+							$('#mess').html(res.msg);
+							$('#mess').addClass("alert alert-success");
+						}
+						if(res.code == 404) {
+							$('#mess').html(res.msg);
+							$('#mess').addClass("alert alert-danger");
+						}
 					}
-			});
+				});
+			}
+			
 		});
+
 	});
 </script>
 <script type="text/javascript">
-
-	
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();

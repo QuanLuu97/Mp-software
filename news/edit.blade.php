@@ -1,6 +1,6 @@
 <div class="portlet-body form">
 	
-	<form role="form" action="" enctype="multipart/form-data" id="form-edit" method="post" accept="image/*">
+	<form role="form" action="{{ route('updateNews', $news->id) }}" enctype="multipart/form-data" id="form-edit" method="post" accept="image/*">
 		<div class="form-body">
 			<div class="form-group form-md-line-input">
 				<input type="text" class="form-control" name="title" id="title" placeholder="title">
