@@ -22,6 +22,7 @@ Route::post('news/getData', ['as' => 'getData', 'uses' => 'AdminController@getDa
 Route::post('news/store', ['as' => 'storeNews', 'uses' => 'AdminController@store']);
 
 //Route::post('news/update', ['as' => 'updateNews', 'uses' =>'AdminController@update']);
+Route::get('news/edit/{id}', ['as' => 'editNews', 'uses' => 'AdminController@edit']);
 Route::post('news/update/{id}', ['as' => 'updateNews', 'uses' =>'AdminController@update']);
 Route::get('news/delete/{id}', ['as' => 'deleteNews', 'uses' => 'AdminController@delete']);
 

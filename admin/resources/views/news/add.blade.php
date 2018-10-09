@@ -37,18 +37,20 @@
 		<div class="portlet-body form">
 			<form id="form-add"  enctype="multipart/form-data" method="post" accept="image/*">
 				<div class="form-body">
+                    
 					<div class="form-group ">
 						<label for="title">Title input</label>
 						<input type="text" class="form-control" name="title" id="title" placeholder="title" >
+                    </div>
                     <div class="form-group ">
-                        <label for="category_id">category_id</label>
-                        <select id="category_id" class="form-control" name="category_id">
+                        <label for="categories_id">categories_id</label>
+                        <select id="categories_id" class="form-control select" name="categories_id" multiple="multiple">
                             <option value="0"></option>
                             <?php 
                                 function showCategories($categories, $parent_id = 0, $char = '') {
                                     foreach ($categories as $key => $category) {
                                         if($category['parent_id'] == $parent_id) {
-                                            echo '<option value="' . $category['id'] . '">';
+                                            echo '<option  value="' . $category['id'] . '">';
                                             echo $char . ' ' . $category['name'];
                                             echo '</option>';
                                             unset($categories[$key]);
@@ -57,11 +59,11 @@
                                     }
                                 }
                                 showCategories($categories);
-                            ?>
-                            
+                            ?>                       
                         </select>
+                        
                     </div>
-					</div>
+					
 					<div class="form-group ">
 						<label for="image">Image Input</label>
 						<input type="file" class="form-control" name="image" id="image" >
@@ -88,6 +90,7 @@
 	</div>
 
 <script type="text/javascript">
+    
 	//preview image
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -162,11 +165,13 @@
     	});
     	//add
     	$('#add').click(function(){
+            var categories_id = $('#categories_id').val();
+            
     		var check = $('#form-add').valid();
     		if(check) {
     			var formData = new FormData();
 				formData.append('title', $('#title').val());
-                formData.append('category_id', $('#category_id').val());
+                formData.append('categories_id', categories_id);
 				formData.append('content', CKEDITOR.instances.content.getData());
 				formData.append('date', $('#date').val());
 				formData.append('image', $('#image')[0].files[0]);
@@ -199,6 +204,7 @@
     			});
     		}
     	});
+        $('.select').select2();
     });
     
 </script>

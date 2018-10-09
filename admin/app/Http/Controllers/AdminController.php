@@ -7,6 +7,7 @@ use App\News;
 use Validator;
 use Confirm;
 use App\Category;
+use App\Cat_News;
 
 class AdminController extends Controller
 {
@@ -15,10 +16,18 @@ class AdminController extends Controller
 	}
 
     public function index(){
+		
+		
     	$newss = News::where('is_deleted',0)->get();
     	$categories = Category::all();
     	//var_dump($newss);
     	return view('news.index', compact('newss','categories'));
+    	// $cat = Cat_News::select('category_id')->where('news_id',35)->get();
+    	
+    	// $categories = Category::whereIn('id',$cat)->get();
+    	// foreach ($categories as $category) {
+    	// 	echo $category->name.'<br>';
+    	// }
     }
 
     public function add() {
@@ -28,8 +37,13 @@ class AdminController extends Controller
 
     public function store(Request $request) {
     	$title = $request->input('title');
+    	// lay ra mang các id của categories
+    	//$categories_id = explode(",", $request->input('categories_id'));
+    	$categories_id = $request->input('categories_id');
+    	var_dump($categories_id); die;
     	$content = $request->input('content');
     	$date = $request->input('date');
+	
     	if($request->hasFile('image')) {
     		$image = $request->file('image')->getClientOriginalName();
     		$validate = Validator::make(
@@ -74,6 +88,15 @@ class AdminController extends Controller
 	    	'date' => $date
 	    	];
 	    	News::insert($arr);
+	    	$news = News::all()->last();
+  			foreach ($categories_id as $category_id) {
+				Cat_News::insert([
+					'category_id' => $category_id,
+					'category_name' => Category::findOrFail($category_id)->name,
+					'news_id' => $news->id,
+					'news_title' => $news->title
+				]);		
+  			}
     		return response()->json([
     			'code' => 200,
     			'msg' => 'thêm thành công'
@@ -91,10 +114,12 @@ class AdminController extends Controller
     public function getData(Request $request) {
     	if ($request->id > 0) {
     		$news = News::where('id', $request->input('id'))->first();
+    		$categories_id = Cat_News::select('category_id')->where('news_id', $news->id)->get();
     		if (!empty($news)) {
 	    		return response()->json([
 		    		'code' => 202,
-		    		'data' => $news
+		    		'data' => $news,
+		    		'data2' => $categories_id
 		    	]);
 	    	}
     	}
@@ -104,20 +129,31 @@ class AdminController extends Controller
     		'data' => null
     	]);
     }
-    	
+    
+    public function edit($id) {
+    	$news = News::findOrFail($id);
+    	$cat_news = Cat_News::where('news_id', $news->id)->get();
+    	$categories = Category::all();
+
+    	return view('news.edit', compact('news', 'categories', 'cat_news'));
+    }
+
     public function update(Request $request, $id) {
 
     	$news = News::findOrFail($id);
     	$content = $request->input('content');
+    	$categories_id = explode(",", $request->input('categories_id')); // lay ra mang cac categories của news
     	$date = $request->input('date');
     	$title = $request->input('title');
+
     	if($request->hasFile('image')){
     		$image = $request->file('image')->getClientOriginalName();
+
     		$validate = Validator::make(
 	    		$request->all(),
 	    		[
 	    			'title' => 'required|min:5',
-	    			'image' => 'image|max:10000',
+	    			'image' => 'image|max:1048576',
 	    			'content' => 'required|min:5',
 	    			'date' => 'required|date'
 	    		],
@@ -129,6 +165,7 @@ class AdminController extends Controller
 	    			'date' => 'sai định dạng ngày'
 	    		]
 	    	);
+
 	    	if($validate->fails()) {
 	    		
 	    		return response()->json([
@@ -145,7 +182,18 @@ class AdminController extends Controller
 		    		'content' => $content,
 			    	'date' => $date
 		    	]);
-		    
+		    	Cat_News::where('news_id', $news->id)->delete();
+
+		    	foreach ($categories_id as $category_id) {
+					Cat_News::insert([
+						'category_id' => $category_id,
+						'category_name' => Category::findOrFail($category_id)->name,
+						'news_id' => $news->id,
+						'news_title' => $news->title
+					]);	
+
+	  			}
+		    	
 		    	return response()->json([
 		    		'code' => 202,
 		    		'msg' => 'thành công'
@@ -180,9 +228,19 @@ class AdminController extends Controller
 		    		'title' => $title,
 		    		'content' => $content,
 			    	'date' => $date
-		    	]);   
+		    	]);  
+		    	Cat_News::where('news_id', $news->id)->delete();
+
+		    	foreach ($categories_id as $category_id) {
+					Cat_News::insert([
+						'category_id' => $category_id,
+						'category_name' => Category::findOrFail($category_id)->name,
+						'news_id' => $news->id,
+						'news_title' => $news->title
+					]);	
+	  			}
 		    	return response()->json([
-		    		'code' => 202,
+		    		'code' => 200,
 		    		'msg' => 'thành công'
 		    	]);
     		}

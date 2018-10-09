@@ -29,6 +29,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="{{ asset('assets/global/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('assets/global/plugins/simple-line-icons/simple-line-icons.min.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('assets/global/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <link href="{{ asset('assets/global/plugins/uniform/css/uniform.default.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css') }} rel="stylesheet" type="text/css"/>
 <!-- END GLOBAL MANDATORY STYLES -->
@@ -46,8 +47,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="{{ asset('assets/admin/layout/css/layout.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('assets/admin/layout/css/themes/darkblue.css') }}" rel="stylesheet" type="text/css" id="style_color"/>
 <link href="{{ asset('assets/admin/layout/css/custom.css') }}" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="../dist/sweetalert2.min.css">
+<link rel="stylesheet" href="{{ asset('dist/sweetalert2.min.css') }}">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
 <script src="{{ asset('assets/global/plugins/jquery.min.js') }}" type="text/javascript"></script>
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>
@@ -59,6 +61,24 @@ License: You must have a valid license purchased only from themeforest(the above
 		width: 435px;
 	    font-size: 15px;
 	    border-radius: 20px !important;
+	}
+
+	.hideContent {
+	    overflow: hidden;
+	    line-height: 1em;
+	    height: 2em;
+	}
+
+	.showContent {
+	    line-height: 1em;
+	    height: auto;
+	}
+	.showContent{
+	    height: auto;
+	}
+	.show-more {
+	    padding: 10px 0;
+	    text-align: center;
 	}
 </style>
 </head>
@@ -1351,6 +1371,13 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="../../assets/global/plugins/excanvas.min.js"></script> 
 <![endif]-->
  <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+  <script src="{{ asset('js/laravel.js') }}"></script>
+  <script type="text/javascript">
+  	Laravel.init({
+  		token: '{{csrf_token()}}',
+  		base: '{{url('')}}'
+  	});
+  </script>
 <!-- <script> CKEDITOR.replace( 'editor1', {
         filebrowserBrowseUrl: '{{ asset('ckfinder/ckfinder.html') }}',
         filebrowserImageBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Images') }}',
@@ -1360,7 +1387,7 @@ License: You must have a valid license purchased only from themeforest(the above
         filebrowserFlashUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
         } ); 
     </script> -->
-<script src="../dist/sweetalert2.min.js"></script>
+<script src="{{asset('dist/sweetalert2.min.js') }}"></script>
 
 <script src="{{ asset('assets/global/plugins/jquery-migrate.min.js') }}" type="text/javascript"></script>
 <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
@@ -1400,6 +1427,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="{{ asset('assets/admin/pages/scripts/tasks.js') }}" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>	
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>	
 
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>

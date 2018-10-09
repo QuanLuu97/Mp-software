@@ -61,31 +61,44 @@
 		@foreach($newss as $news)
 			<tr>
 				<td class="text-center">{{ $news->title }}</td>
-				<td class="text-center">{{ $news->categories->name}}</td>
+				<td class="text-center"></td>
 				<td class="text-center"><img src="{{ asset('image/'.$news->image) }}" width="200px" height="200px"></td>
-				<td class="text-center">{!! $news->content !!}</td>
-				<td class="text-center">{{ $news->date }}</td>
+				<td class="text-center more" id="more" >
+                    <div  class="content hideContent">
+                        {!! $news->content !!}
+                    </div>
+                   <!--  <div class="show-more">
+                        <a href="#">Show More</a>
+                    </div> -->
+                </td>
+				<td class="text-center" >{{ $news->date }}</td>
 				<td>
-					<!-- onclick='deleteItem(<?php echo $news->id; ?>)' -->
 					<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $news->id; ?>)'" >&#xe020;</a>
 				</td>
-				<td>				
+               <!--  goi route -->
+                <td>
+                    <a href="{{ route('editNews', $news->id) }}" class="glyphicon btn btn-primary">&#x270f;</a>
+                </td>
+                
+                <!-- goi modal -->
+				<!-- <td>				
 					<button class="glyphicon btn btn-primary" data-toggle="modal" data-target="#edit" onclick='getRecord(<?php echo $news->id; ?>)'>&#x270f;</button>			
-				</td>
+				</td> -->
 			</tr>
 			
-		@endforeach		
+		@endforeach   
 
 		</tbody>
 		</table>
-		<div id="edit"  class="modal fade" tabindex="-1" role="dialog">
+
+		<div id="edit"  class="modal fade"  role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" >&times;</button>
 					<h4 class="modal-title">Edit</h4>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body dropdownParent">
 						<form id="form-edit" >
 							<div class="form-body">							
 								<div class="form-group ">
@@ -94,29 +107,38 @@
 																		
 								</div>
 								<div class="form-group ">
+			                         <label for="categories_id">categories_id</label>
+                              <select id="categories_id" class="form-control"  style="width: 400px;" name="categories_id" multiple="multiple">
+                                  <option value="0"></option>
+                                  <?php 
+                                      function showCategories($categories, $parent_id = 0, $char = '') {
+                                          foreach ($categories as $key => $category) {
+                                              if($category['parent_id'] == $parent_id) {
+                                                  echo '<option value="' . $category['id'] . '">';
+                                                  echo $char . ' ' . $category['name'];
+                                                  echo '</option>';
+                                                  unset($categories[$key]);
+                                                  showCategories($categories, $category->id, $char.'- - - ');
+                                              }
+                                          }
+                                      }
+                                      showCategories($categories);
+                                  ?>                       
+                              </select>
+			                        
+			                    </div>
+								<div class="form-group ">
 									<label for="image">Image Input</label>
 									<input type="file" class="form-control" name="image" id="image"   >
 									<img src="" id="image_tag" width="200px">
-									
-									@if($errors->has('image'))
-										<div class="alert alert-danger">{{ $errors->first('image') }}</div>
-									@endif
 								</div>
 								<div class="form-group ">
 									<label for="content">Content input</label>
 									<textarea class="form-control ckeditor" name="content" id="content"></textarea>
-									
-									@if($errors->has('content'))
-										<div class="alert alert-danger">{{ $errors->first('content') }}</div>
-									@endif
 								</div>
 								<div class="form-group  ">
 									<label for="date">Date input</label>
 									<input type="date" class="form-control" name="date" id="date">
-									
-									@if($errors->has('date'))
-										<div class="alert alert-danger">{{ $errors->first('date') }}</div>
-									@endif
 								</div>
 								<input type="hidden" id="post_id" value="" />
 								<span id="save" class="btn btn-primary">Save changes</span>	
@@ -135,10 +157,26 @@
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 	</div>
-
+<script src="../node_modules/readmore-js/readmore.min.js"></script>
 <script type="text/javascript">
+    // $("a").on("click", function() {
+    //     var $this = $(this); 
+    //     var $content = $this.parent().prev("div.content");
+    //     var linkText = $this.text().toUpperCase();    
+        
+    //     if(linkText === "SHOW MORE"){
+    //         linkText = "Show less";
+    //         $content.switchClass("hideContent", "showContent", 10);
+    //     } else {
+    //         linkText = "Show more";
+    //         $content.switchClass("showContent", "hideContent", 10);
+    //     };
+
+    //     $this.text(linkText);
+    // });
 	//get data by ajax
 	function getRecord(id) {
+		
 		if (id > 0) {
 			$.ajax({
 				url: "{{ route('getData') }}",
@@ -148,10 +186,16 @@
 					_token: '{{ csrf_token() }}'
 				},
 				success: function(res) {
-					if(res.code == 202){	
+					if(res.code == 202){
 						$('#title').val(res.data.title);					
 						$('#post_id').val(res.data.id);					
 						$('#title').val(res.data.title);
+                        console.log(res.data2[0]);
+                        $('categories_id').val(res.data2[0]);
+                        // $.each(res.data2, function (key, value){
+                        //     $("#categories_id option[value='" + value + "']").prop("selected", true);
+                        // });
+                        
 						$('#image_tag').attr({'src': '../image/'+res.data.image});
 						CKEDITOR.instances.content.setData(res.data.content); 
 						$('#date').val(res.data.date);
@@ -207,6 +251,11 @@
 	};
 	$(document).ready(function(){
 		//validate
+		  // $("#edit").on("show.bs.modal",function(){
+    //         $("#categories_id").select2({
+    //             dropdownParent: $('.dropdownParent')
+    //         });    
+    //     })
 		jQuery.validator.addMethod("isImage", function(value){
 
 		 	var file = $('#image')[0].files[0];
@@ -278,7 +327,7 @@
 				formData.append('image', $('#image')[0].files[0]);
 				formData.append('_token', "{{ csrf_token() }}");
 				$.ajax({
-				 	url: "../news/update/"+id,
+				 	url: Laravel.data.base + "/news/update/" + id,
 					type: 'post',
 					data: formData,
 					contentType: false,
@@ -299,8 +348,10 @@
 		});
 
 	});
+
 </script>
 <script type="text/javascript">
+
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();

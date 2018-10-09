@@ -1,0 +1,29 @@
+#content{
+	width: 1000px;
+	height:500px;
+	color:red;
+	background-color: green;
+	border: 1px solid black;
+	margin: auto;
+	text-align: center;
+}
+#header{
+	width: 1000px;
+	height:300px;
+	color:red;
+	background-color: gray;
+	border: 1px solid black;
+	margin: auto;
+	text-align: center;
+
+}
+#footer{
+	width: 1000px;
+	height:100px;
+	color:red;
+	background-color: yellow;
+	border: 1px solid black;
+	margin: auto;
+	text-align: center;
+
+}

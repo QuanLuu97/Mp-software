@@ -17,7 +17,7 @@ class Category extends Model
     public function catalog() {
         return $this->belongsTo('App\Category', 'parent_id', 'id');
     }
-    public function news() {
-    	return $this->belongsToMany('App\News','category_news', 'news_id', 'category_id');
+    public function Cat_News() {
+    	return $this->belongsTo('App\Cat_News','category_id','id');
     }
 }
