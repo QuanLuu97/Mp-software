@@ -197,7 +197,11 @@
     							type: 'success',
     							title: 'Success',
     							text: res.msg
-    						});
+    						}).then((result) => {
+                                if(result.value) {
+                                    location.reload();
+                                }
+                            });
     					}
     					if(res.code == 404) {
     						swal({

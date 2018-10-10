@@ -43,56 +43,54 @@ class AdminController extends Controller
     	$categories_id = explode(",", $request->input('categories_id'));
     	// lay ra cac mang tag
     	$tags = explode(",", $request->input('tag'));
-
     	$content = $request->input('content');
-    	$date = $request->input('date');
-	
-    	if($request->hasFile('image')) {
-    		$image = $request->file('image')->getClientOriginalName();
-    		$validate = Validator::make(
-	    		$request->all(),
-	    		[
-	    			'title' => 'required|min:5',
-	    			'image' => 'image|max:20000',
-	    			'content' => 'required',
-	    			'date' => 'required|date'
-	    		],
-	    		[
-	    			'required' => 'không được để trống',
-	    			'min' => '5 kí tự trở lên',
-	    			'image' => 'không đúng định dạng',
-	    			'max' => 'kích thước quá cho phép',
-	    			'date' => 'sai định dạng ngày'
-	    		]
-    		);
-
-    	}
-    	else {
-    		$image = null;
-    		$validate = Validator::make(
-	    		$request->all(),
-	    		[
-	    			'title' => 'required|min:5',
-	    			'content' => 'required',
-	    			'date' => 'required|date'
-	    		],
-	    		[
-	    			'required' => 'không được để trống',
-	    			'min' => '5 kí tự trở lên',
-	    			'date' => 'sai định dạng ngày'
-	    		]
-    		);
-    	}
-    	if(!$validate->fails()) {
+    	$date = $request->input('date');		
+    	$validate = Validator::make( //validate cac truong khac image
+    		$request->all(),
+    		[
+    			'title' => 'required|min:5',
+    			'content' => 'required',
+    			'date' => 'required|date'
+    		],
+    		[
+    			'required' => 'không được để trống',
+    			'min' => '5 kí tự trở lên',
+    			'date' => 'sai định dạng ngày'
+    		]
+		);
+    	if(!$validate->fails()) { //neu k loi thi tao ban ghi voi image = null
     		$arr = [
-    		'title' => $title,
-    		'image' => $image,
-    		'content' => $content,
-	    	'date' => $date
+	    		'title' => $title,
+	    		'content' => $content,
+		    	'date' => $date
 	    	];
 	    	$id = News::insertGetId($arr);
-	    	//$news = News::all()->last();
 	    	$news = News::findOrFail($id);
+	    	if($request->hasFile('image')) {//neu co file anh thi validate
+	    		$image = $request->file('image')->getClientOriginalName();
+	    		$validate = Validator::make(
+		    		$request->all(),
+		    		[
+		    			'image' => 'image|max:20000',
+		    		],
+		    		[
+		    			'image' => 'không đúng định dạng',
+		    			'max' => 'kích thước quá cho phép',
+		    		]
+	    		);
+	    		if(!$validate->fails()) {//neu k loi thi update image tu null sang image
+		    		$news->update([
+		    			'image' => $image
+		    		]);
+		    	}
+		    	else{//neu loi thi return
+		    		return response()->json([
+		    			'code' => 404,
+		    			'msg' => 'ảnh k đúng định dạng'
+		    		]);
+		    	}
+	    	}
+	    	//tao ban ghi cat_news
   			foreach ($categories_id as $category_id) {
 				Cat_News::insert([
 					'category_id' => $category_id,
@@ -101,19 +99,16 @@ class AdminController extends Controller
 					'news_title' => $news->title
 				]);		
   			}
+  			//tao ban ghi news_tag
   			foreach($tags as $tag) {
-  				$kt = 0;
-
-  				foreach (Tag::all() as $iteam) {// ki mtra xem tag da co trong db chưa
-  					if($iteam->id == $tag){//neu co thi k them
-  						$tag_id = $tag;
-  						$kt = 1; break;
-  					}
+  				$kt = Tag::where('id', $tag)->first(); // kiem tra xem tag da co trong db chưa
+  				if($kt == null){// nếu chưa
+  					$tag_id = Tag::insertGetId([//thi them vao db
+  						'name' => $tag
+  					]);
   				}
-  				if($kt == 0)
-  				$tag_id = Tag::insertGetId([//chưa co thi them vao db
-  					'name' => $tag
-  				]);
+  				else $tag_id = $tag;
+  				
   				if( $tag_id > 0) {
   					News_Tag::insert([
 	  					'news_id' => $news->id,
@@ -132,8 +127,7 @@ class AdminController extends Controller
     			'code' => 404,
     			'msg' => 'không thành công'
     		]);
-    	}
-    	
+    	}    	
     }
 
     public function getData(Request $request) {
@@ -224,6 +218,7 @@ class AdminController extends Controller
 				    	]);
 			    	}
     			}
+    			die('1');
 		    	Cat_News::where('news_id', $news->id)->delete();
 
 		    	foreach ($categories_id as $category_id) {
