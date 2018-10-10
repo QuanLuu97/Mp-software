@@ -43,7 +43,7 @@ class AdminController extends Controller
     	$categories_id = explode(",", $request->input('categories_id'));
     	// lay ra cac mang tag
     	$tags = explode(",", $request->input('tag'));
-    	
+
     	$content = $request->input('content');
     	$date = $request->input('date');
 	
@@ -90,8 +90,9 @@ class AdminController extends Controller
     		'content' => $content,
 	    	'date' => $date
 	    	];
-	    	News::insert($arr);
-	    	$news = News::all()->last();
+	    	$id = News::insertGetId($arr);
+	    	//$news = News::all()->last();
+	    	$news = News::findOrFail($id);
   			foreach ($categories_id as $category_id) {
 				Cat_News::insert([
 					'category_id' => $category_id,
@@ -101,8 +102,16 @@ class AdminController extends Controller
 				]);		
   			}
   			foreach($tags as $tag) {
-  				
-  				$tag_id = Tag::insertGetId([
+  				$kt = 0;
+
+  				foreach (Tag::all() as $iteam) {// ki mtra xem tag da co trong db chưa
+  					if($iteam->id == $tag){//neu co thi k them
+  						$tag_id = $tag;
+  						$kt = 1; break;
+  					}
+  				}
+  				if($kt == 0)
+  				$tag_id = Tag::insertGetId([//chưa co thi them vao db
   					'name' => $tag
   				]);
   				if( $tag_id > 0) {
@@ -148,10 +157,13 @@ class AdminController extends Controller
     
     public function edit($id) {
     	$news = News::findOrFail($id);
-    	$cat_news = Cat_News::where('news_id', $news->id)->get();
+    	$cat_news = $news->cat_news;
+    	//$news_tags = News_Tag::where('news_id', $news->id)->get();
+		$news_tags = $news->news_tag;
     	$categories = Category::all();
+    	$tags = Tag::all();
 
-    	return view('news.edit', compact('news', 'categories', 'cat_news'));
+    	return view('news.edit', compact('news', 'categories', 'cat_news', 'tags', 'news_tags'));
     }
 
     public function update(Request $request, $id) {
@@ -159,92 +171,59 @@ class AdminController extends Controller
     	$news = News::findOrFail($id);
     	$content = $request->input('content');
     	$categories_id = explode(",", $request->input('categories_id')); // lay ra mang cac categories của news
+    	$tags = explode(",", $request->input('tag'));
     	$date = $request->input('date');
     	$title = $request->input('title');
+    	$validate = Validator::make(
+    		$request->all(),
+    		[
+    			'title' => 'required|min:5',
+    			'content' => 'required|min:5',
+    			'date' => 'required|date'
+    		],
+    		[
+    			'required' => 'không được để trống',
+    			'title.min' => '5 kí tự trở lên',
+    			'date' => 'sai định dạng ngày'
+    		]
+    	);
+    	if($validate->fails()) {
 
-    	if($request->hasFile('image')){
-    		$image = $request->file('image')->getClientOriginalName();
-
-    		$validate = Validator::make(
-	    		$request->all(),
-	    		[
-	    			'title' => 'required|min:5',
-	    			'image' => 'image|max:1048576',
-	    			'content' => 'required|min:5',
-	    			'date' => 'required|date'
-	    		],
-	    		[
-	    			'required' => 'không được để trống',
-	    			'title.min' => '5 kí tự trở lên',
-	    			'image' => 'không đúng định dạng',
-	    			'max' => 'kích thước quá cho phép',
-	    			'date' => 'sai định dạng ngày'
-	    		]
-	    	);
-
-	    	if($validate->fails()) {
-	    		
-	    		return response()->json([
-	    			'code' => 404,
-	    			'msg' => 'không thành công'
-	    		]);
-
-	    	}
-	    	else {
-	    		
-		    	$news->update([
-		    		'title' => $title,
-		    		'image' => $image,
-		    		'content' => $content,
-			    	'date' => $date
-		    	]);
-		    	Cat_News::where('news_id', $news->id)->delete();
-
-		    	foreach ($categories_id as $category_id) {
-					Cat_News::insert([
-						'category_id' => $category_id,
-						'category_name' => Category::findOrFail($category_id)->name,
-						'news_id' => $news->id,
-						'news_title' => $news->title
-					]);	
-
-	  			}
-		    	
-		    	return response()->json([
-		    		'code' => 202,
-		    		'msg' => 'thành công'
-		    	]);
-    		}
+    		return response()->json([
+    			'code' => 404,
+    			'msg' => 'không thành công'
+    		]);
     	}
-    	else {
-    		$validate = Validator::make(
-	    		$request->all(),
-	    		[
-	    			'title' => 'required|min:5',
-	    			'content' => 'required|min:5',
-	    			'date' => 'required|date'
-	    		],
-	    		[
-	    			'required' => 'không được để trống',
-	    			'title.min' => '5 kí tự trở lên',
-	    			'date' => 'sai định dạng ngày'
-	    		]
-	    	);
-	    	if($validate->fails()) {
-	    		
-	    		return response()->json([
-	    			'code' => 404,
-	    			'msg' => 'không thành công'
-	    		]);
-
-	    	}
-	    	else {
-	    		
+    	else {    		
 		    	$news->update([
 		    		'title' => $title,
 		    		'content' => $content,
 			    	'date' => $date
-		    	]);  
+		    	]);
+		    	if($request->hasFile('image')){
+    				$image = $request->file('image')->getClientOriginalName();  
+    				$validate = Validator::make(
+			    		$request->all(),
+			    		[	    			
+			    			'image' => 'image|max:1048576',
+			    		],
+			    		[
+			    			'image' => 'không đúng định dạng',
+			    			'max' => 'kích thước quá cho phép',
+			    		]
+			    	);
+			    	if($validate->fails()) {		
+			    		return response()->json([
+			    			'code' => 404,
+			    			'msg' => $validate->errors()->first()
+			    		]);
+			    	}
+			    	else {
+			    		$news->update([
+				    		'image' => $image,
+				    	]);
+			    	}
+    			}
 		    	Cat_News::where('news_id', $news->id)->delete();
 
 		    	foreach ($categories_id as $category_id) {
@@ -254,13 +233,145 @@ class AdminController extends Controller
 						'news_id' => $news->id,
 						'news_title' => $news->title
 					]);	
+					
 	  			}
+	  			News_Tag::where('news_id', $news->id)->delete();	  		
+		    	foreach ($tags as $tag) {
+		    		$kt = News_Tag::where('tag_id',$tag)->first(); //kiem tra xem da co tag trong db chưa
+	  				if(!$kt)
+	  				$tag_id = Tag::insertGetId([//chưa co thi them vao db
+	  					'name' => $tag
+	  				]);
+	  				if( $tag_id > 0) {
+	  					News_Tag::insert([
+		  					'news_id' => $news->id,
+		  					'tag_id' => $tag_id
+		  				]);
+	  				}
+	  			}
+
 		    	return response()->json([
 		    		'code' => 200,
 		    		'msg' => 'thành công'
 		    	]);
     		}
-    	}
+
+
+    	// if($request->hasFile('image')){
+    	// 	$image = $request->file('image')->getClientOriginalName();
+
+    	// 	$validate = Validator::make(
+	    // 		$request->all(),
+	    // 		[
+	    // 			'title' => 'required|min:5',
+	    // 			'image' => 'image|max:1048576',
+	    // 			'content' => 'required|min:5',
+	    // 			'date' => 'required|date'
+	    // 		],
+	    // 		[
+	    // 			'required' => 'không được để trống',
+	    // 			'title.min' => '5 kí tự trở lên',
+	    // 			'image' => 'không đúng định dạng',
+	    // 			'max' => 'kích thước quá cho phép',
+	    // 			'date' => 'sai định dạng ngày'
+	    // 		]
+	    // 	);
+
+	    // 	if($validate->fails()) {
+	    		
+	    // 		return response()->json([
+	    // 			'code' => 404,
+	    // 			'msg' => 'không thành công'
+	    // 		]);
+
+	    // 	}
+	    // 	else {
+	    		
+		   //  	$news->update([
+		   //  		'title' => $title,
+		   //  		'image' => $image,
+		   //  		'content' => $content,
+			  //   	'date' => $date
+		   //  	]);
+		   //  	Cat_News::where('news_id', $news->id)->delete();
+
+		   //  	foreach ($categories_id as $category_id) {
+					// Cat_News::insert([
+					// 	'category_id' => $category_id,
+					// 	'category_name' => Category::findOrFail($category_id)->name,
+					// 	'news_id' => $news->id,
+					// 	'news_title' => $news->title
+					// ]);	
+
+	  		// 	}
+	  		// 	News_Tag::where('news_id', $news->id)->delete();
+	  		
+		   //  	foreach ($tags as $tag) {
+		   //  		$kt = News_Tag::where('tag_id',$tag)->first();
+	  		// 		if(!$kt)
+	  		// 		$tag_id = Tag::insertGetId([//chưa co thi them vao db
+	  		// 			'name' => $tag
+	  		// 		]);
+	  		// 		if( $tag_id > 0) {
+	  		// 			News_Tag::insert([
+		  	// 				'news_id' => $news->id,
+		  	// 				'tag_id' => $tag_id
+		  	// 			]);
+	  		// 		}
+	  		// 	}
+		    	
+		   //  	return response()->json([
+		   //  		'code' => 202,
+		   //  		'msg' => 'thành công'
+		   //  	]);
+    	// 	}
+    	// }
+    	// else {
+    	// 	$validate = Validator::make(
+	    // 		$request->all(),
+	    // 		[
+	    // 			'title' => 'required|min:5',
+	    // 			'content' => 'required|min:5',
+	    // 			'date' => 'required|date'
+	    // 		],
+	    // 		[
+	    // 			'required' => 'không được để trống',
+	    // 			'title.min' => '5 kí tự trở lên',
+	    // 			'date' => 'sai định dạng ngày'
+	    // 		]
+	    // 	);
+	    // 	if($validate->fails()) {
+	    		
+	    // 		return response()->json([
+	    // 			'code' => 404,
+	    // 			'msg' => 'không thành công'
+	    // 		]);
+
+	    // 	}
+	    // 	else {
+	    		
+		   //  	$news->update([
+		   //  		'title' => $title,
+		   //  		'content' => $content,
+			  //   	'date' => $date
+		   //  	]);  
+		   //  	Cat_News::where('news_id', $news->id)->delete();
+
+		   //  	foreach ($categories_id as $category_id) {
+					// Cat_News::insert([
+					// 	'category_id' => $category_id,
+					// 	'category_name' => Category::findOrFail($category_id)->name,
+					// 	'news_id' => $news->id,
+					// 	'news_title' => $news->title
+					// ]);	
+					
+	  		// 	}
+		   //  	return response()->json([
+		   //  		'code' => 200,
+		   //  		'msg' => 'thành công'
+		   //  	]);
+    	// 	}
+    	// }
     }
 
     public function delete ($id) {

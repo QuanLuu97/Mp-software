@@ -42,41 +42,38 @@
 														
 				</div>
 				<div class="form-group ">
-		             <label for="categories_id">categories_id</label>
-		      <select id="categories_id" class="form-control select" name="categories_id" multiple="multiple">
+		            <label for="categories_id">categories_id</label>
+		     		<select id="categories_id" class="form-control select" name="categories_id" multiple="multiple">
 
-		          <option value="0"></option>
-		          <?php 
-					function showCategories($categories, $cat_news, $parent_id = 0, $char = '') {
-						foreach ($categories as $key => $category) {
-							$i = 0;
-							if($category['parent_id'] == $parent_id) {
-								foreach ($cat_news as $key1 => $item) {
-									if($category['id'] == $item['category_id']) {
-										echo '<option value="' . $category['id'] . '" selected = "selected">';
-										echo $char . ' ' . $category['name'];
-										echo '</option>';
-										unset($categories[$key1]);
-										showCategories($categories, $cat_news, $category->id, $char.'- - - ');
-										$i = 1; break;
+			          	<option value="0"></option>
+			         	<?php 
+							function showCategories($categories, $cat_news, $parent_id = 0, $char = '') {
+								foreach ($categories as $key => $category) {
+									$i = 0;
+									if($category['parent_id'] == $parent_id) {
+										foreach ($cat_news as $key1 => $item) {
+											if($category['id'] == $item['category_id']) {
+												echo '<option value="' . $category['id'] . '" selected = "selected">';
+												echo $char . ' ' . $category['name'];
+												echo '</option>';
+												unset($categories[$key1]);
+												showCategories($categories, $cat_news, $category->id, $char.'- - - ');
+												$i = 1; break;
+											}
+										}
+										if( $i == 0) {
+											echo '<option value="' . $category['id'] . '">';
+											echo $char . ' ' . $category['name'];
+											echo '</option>';
+											unset($categories[$key]);
+											showCategories($categories, $cat_news, $category->id, $char.'- - - ');
+										}								
 									}
 								}
-								if( $i == 0) {
-									echo '<option value="' . $category['id'] . '">';
-									echo $char . ' ' . $category['name'];
-									echo '</option>';
-									unset($categories[$key]);
-									showCategories($categories, $cat_news, $category->id, $char.'- - - ');
-								}								
 							}
-						}
-					}
-		            showCategories($categories, $cat_news);
-
-		          ?>    
-		                           
-		      </select>
-		            
+			            	showCategories($categories, $cat_news);
+			            ?>    		                           
+			     	 </select>		            
 		        </div>
 				<div class="form-group ">
 					<label for="image">Image Input</label>
@@ -91,9 +88,29 @@
 					<label for="date">Date input</label>
 					<input type="date" class="form-control" name="date" id="date" value="{{ $news->date }}">
 				</div>
+				<div class="form-group">
+					<label for="tag">Tags</label>
+					<select id="tag" class="form-control select" multiple="multiple">
+						<?php 
+							foreach($tags as $tag){
+								$x = 1;
+								foreach($news_tags as $news_tag){
+									if($tag->id == $news_tag->tag_id){
+										echo'<option value="'. $tag->id .' "selected="selected">'. $tag->name .'</option>';
+										$x = 0; break;
+									}
+								}
+								if($x == 1){
+									echo'<option value="'. $tag->id .'">'. $tag->name .'</option>';
+								}								
+							}
+						?>
+					</select>
+				</div>
 				<input type="hidden" id="post_id" value="{{ $news->id }}" />
 				<span id="save" class="btn btn-primary">Save changes</span>	
 				<a href="{{ route('indexNews') }}" class="btn btn-default">Cancel</a>
+
 				<div class="form-group form-md-line-input ">
 					<span id="mess"></span>
 				</div>				

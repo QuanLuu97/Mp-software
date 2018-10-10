@@ -126,8 +126,7 @@
             </div>
         </div>
 		</tbody>
-		</table>
-		
+		</table>		
 	</div>
 </div>
 <a href="{{ route('addCat') }}" class="btn btn-success">ADD</a>

@@ -30,65 +30,67 @@
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="fa fa-globe"></i>List News
+
 		</div>
 		
 	</div>
 	<div class="col-md-12 portlet-body">
+		<a href="{{ route('addNews') }}" class="btn btn-success">ADD</a>
 		<table class="table table-striped table-bordered table-hover" id="sample_2">
-		<thead>
-		<tr>
-			<th class="col-md-2 text-center">
-				Title
-			</th >
-			<th class="col-md-1 text-center">
-				Category
-			</th >
-			<th class="col-md-3 text-center">
-				Image
-			</th>
-			<th class="col-md-4 text-center">
-				Content
-			</th>
-			<th class="col-md-1 text-center">
-				Date
-			</th>
-			<th class="col-md-1 text-center" colspan="2">
+			<thead>
+				<tr>
+					<th class="col-md-2 text-center">
+						Title
+					</th >
+					<th class="col-md-1 text-center">
+						Category
+					</th >
+					<th class="col-md-3 text-center">
+						Image
+					</th>
+					<th class="col-md-4 text-center">
+						Content
+					</th>
+					<th class="col-md-1 text-center">
+						Date
+					</th>
+					<th class="col-md-1 text-center" colspan="2">
+						
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			@foreach($newss as $news)
+				<tr>
+					<td class="text-center">{{ $news->title }}</td>
+					<td class="text-center"></td>
+					<td class="text-center"><img src="{{ asset('image/'.$news->image) }}" width="200px" height="200px"></td>
+					<td class="text-center more" id="more" >
+	                    <div  class="content hideContent">
+	                        {!! $news->content !!}
+	                    </div>
+	                   <!--  <div class="show-more">
+	                        <a href="#">Show More</a>
+	                    </div> -->
+	                </td>
+					<td class="text-center" >{{ $news->date }}</td>
+					<td>
+						<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $news->id; ?>)'" >&#xe020;</a>
+					</td>
+	               <!--  goi route -->
+	                <td>
+	                    <a href="{{ route('editNews', $news->id) }}" class="glyphicon btn btn-primary">&#x270f;</a>
+	                </td>
+	                
+	                <!-- goi modal -->
+					<!-- <td>				
+						<button class="glyphicon btn btn-primary" data-toggle="modal" data-target="#edit" onclick='getRecord(<?php echo $news->id; ?>)'>&#x270f;</button>			
+					</td> -->
+				</tr>
 				
-			</th>
-		</tr>
-		</thead>
-		<tbody>
-		@foreach($newss as $news)
-			<tr>
-				<td class="text-center">{{ $news->title }}</td>
-				<td class="text-center"></td>
-				<td class="text-center"><img src="{{ asset('image/'.$news->image) }}" width="200px" height="200px"></td>
-				<td class="text-center more" id="more" >
-                    <div  class="content hideContent">
-                        {!! $news->content !!}
-                    </div>
-                   <!--  <div class="show-more">
-                        <a href="#">Show More</a>
-                    </div> -->
-                </td>
-				<td class="text-center" >{{ $news->date }}</td>
-				<td>
-					<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $news->id; ?>)'" >&#xe020;</a>
-				</td>
-               <!--  goi route -->
-                <td>
-                    <a href="{{ route('editNews', $news->id) }}" class="glyphicon btn btn-primary">&#x270f;</a>
-                </td>
-                
-                <!-- goi modal -->
-				<!-- <td>				
-					<button class="glyphicon btn btn-primary" data-toggle="modal" data-target="#edit" onclick='getRecord(<?php echo $news->id; ?>)'>&#x270f;</button>			
-				</td> -->
-			</tr>
-			
-		@endforeach   
+			@endforeach   
 
-		</tbody>
+			</tbody>
 		</table>
 
 		<div id="edit"  class="modal fade"  role="dialog">
@@ -157,6 +159,8 @@
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 	</div>
+</div>
+<a href="{{ route('addNews') }}" class="btn btn-success">ADD</a>
 <script type="text/javascript">
 
 	//get data by ajax -- k dung (dung cho modal)
@@ -346,6 +350,5 @@
         readURL(this);
     });
 </script>
-</div>
-<a href="{{ route('addNews') }}" class="btn btn-success">ADD</a>
+
 @endsection
