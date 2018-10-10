@@ -144,7 +144,7 @@
 								<span id="save" class="btn btn-primary">Save changes</span>	
 								<div class="form-group form-md-line-input ">
 									<span id="mess"></span>
-								</div>				
+								</div>
 							</div>
 							{{ csrf_field() }}
 						</form>
@@ -157,24 +157,9 @@
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 	</div>
-<script src="../node_modules/readmore-js/readmore.min.js"></script>
 <script type="text/javascript">
-    // $("a").on("click", function() {
-    //     var $this = $(this); 
-    //     var $content = $this.parent().prev("div.content");
-    //     var linkText = $this.text().toUpperCase();    
-        
-    //     if(linkText === "SHOW MORE"){
-    //         linkText = "Show less";
-    //         $content.switchClass("hideContent", "showContent", 10);
-    //     } else {
-    //         linkText = "Show more";
-    //         $content.switchClass("showContent", "hideContent", 10);
-    //     };
 
-    //     $this.text(linkText);
-    // });
-	//get data by ajax
+	//get data by ajax -- k dung (dung cho modal)
 	function getRecord(id) {
 		
 		if (id > 0) {
@@ -250,12 +235,7 @@
 			
 	};
 	$(document).ready(function(){
-		//validate
-		  // $("#edit").on("show.bs.modal",function(){
-    //         $("#categories_id").select2({
-    //             dropdownParent: $('.dropdownParent')
-    //         });    
-    //     })
+
 		jQuery.validator.addMethod("isImage", function(value){
 
 		 	var file = $('#image')[0].files[0];

@@ -18,6 +18,6 @@ class Category extends Model
         return $this->belongsTo('App\Category', 'parent_id', 'id');
     }
     public function Cat_News() {
-    	return $this->belongsTo('App\Cat_News','category_id','id');
+    	return $this->hasMany('App\Cat_News','category_id','id');
     }
 }

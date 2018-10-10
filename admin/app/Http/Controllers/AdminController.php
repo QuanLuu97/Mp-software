@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\News;
+use App\Tag;
+use App\News_Tag;
 use Validator;
 use Confirm;
 use App\Category;
@@ -16,10 +18,9 @@ class AdminController extends Controller
 	}
 
     public function index(){
-		
-		
     	$newss = News::where('is_deleted',0)->get();
     	$categories = Category::all();
+    	
     	//var_dump($newss);
     	return view('news.index', compact('newss','categories'));
     	// $cat = Cat_News::select('category_id')->where('news_id',35)->get();
@@ -32,15 +33,17 @@ class AdminController extends Controller
 
     public function add() {
     	$categories = Category::all();
-    	return view('news.add', compact('categories'));
+    	$tags = Tag::all();
+    	return view('news.add', compact('categories', 'tags'));
     }
 
     public function store(Request $request) {
     	$title = $request->input('title');
     	// lay ra mang các id của categories
-    	//$categories_id = explode(",", $request->input('categories_id'));
-    	$categories_id = $request->input('categories_id');
-    	var_dump($categories_id); die;
+    	$categories_id = explode(",", $request->input('categories_id'));
+    	// lay ra cac mang tag
+    	$tags = explode(",", $request->input('tag'));
+    	
     	$content = $request->input('content');
     	$date = $request->input('date');
 	
@@ -96,6 +99,19 @@ class AdminController extends Controller
 					'news_id' => $news->id,
 					'news_title' => $news->title
 				]);		
+  			}
+  			foreach($tags as $tag) {
+  				
+  				$tag_id = Tag::insertGetId([
+  					'name' => $tag
+  				]);
+  				if( $tag_id > 0) {
+  					News_Tag::insert([
+	  					'news_id' => $news->id,
+	  					'tag_id' => $tag_id
+	  				]);
+  				}
+  				
   			}
     		return response()->json([
     			'code' => 200,

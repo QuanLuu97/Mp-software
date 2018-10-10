@@ -78,7 +78,16 @@
 						<label for="date">Date input</label>
 						<input type="date" class="form-control" name="date" id="date">
 						
-					</div>				
+					</div>	
+                     <div class="form-group ">
+                        <label for="tag">Tags</label>
+                        <select id="tag" class="form-control select" name="tag" multiple="multiple">
+                            @foreach($tags as $tag)
+                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                            @endforeach                    
+                        </select>
+                        
+                    </div>			
 				</div>
 				<div class="form-actions noborder">
 					<button id="add" class="btn blue" type="button">Submit</button>
@@ -126,7 +135,7 @@
     		rules: {
     			title: {
     				required:true,
-    				minlength:5
+    				minlength:3
     			},
     			image: {
     				isImage:true
@@ -148,7 +157,7 @@
     		messages: {
     			title: {
     				required: "không được để trống",
-    				minlength: "5 kí tự trở lên"
+    				minlength: "3 kí tự trở lên"
     			},
     			image: {
     				isImage:"image phải đúng định dạng file và nhỏ hơn 2MB"
@@ -166,12 +175,12 @@
     	//add
     	$('#add').click(function(){
             var categories_id = $('#categories_id').val();
-            
     		var check = $('#form-add').valid();
     		if(check) {
     			var formData = new FormData();
 				formData.append('title', $('#title').val());
                 formData.append('categories_id', categories_id);
+                formData.append('tag', $('#tag').val());
 				formData.append('content', CKEDITOR.instances.content.getData());
 				formData.append('date', $('#date').val());
 				formData.append('image', $('#image')[0].files[0]);
@@ -199,12 +208,15 @@
     					}
     				},
     				error: function(err) {
-    					console.log(err);
+    					alert('sai');
     				}
     			});
     		}
     	});
-        $('.select').select2();
+        $('.select').select2({ 
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
     });
     
 </script>

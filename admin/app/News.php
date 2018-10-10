@@ -16,7 +16,11 @@ class News extends Model
         
     ];
 
-    public function Cat_News() {
-        return $this->belongsTo('App\Cat_News','news_id','id');
+    public function cat_news() {
+        return $this->hasMany('App\Cat_News','news_id','id');
+    }
+
+    public function news_tag() {
+        return $this->hasMany('App\News_Tag', 'news_id', 'id');
     }
 }
