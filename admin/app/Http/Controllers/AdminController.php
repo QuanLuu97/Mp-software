@@ -238,10 +238,11 @@ class AdminController extends Controller
 	  			News_Tag::where('news_id', $news->id)->delete();	  		
 		    	foreach ($tags as $tag) {
 		    		$kt = News_Tag::where('tag_id',$tag)->first(); //kiem tra xem da co tag trong db chưa
-	  				if(!$kt)
-	  				$tag_id = Tag::insertGetId([//chưa co thi them vao db
-	  					'name' => $tag
-	  				]);
+	  				if($kt != null){
+		  				$tag_id = Tag::insertGetId([//chưa co thi them vao db
+		  					'name' => $tag
+		  				]);
+		  			}
 	  				if( $tag_id > 0) {
 	  					News_Tag::insert([
 		  					'news_id' => $news->id,

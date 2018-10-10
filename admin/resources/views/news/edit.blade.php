@@ -125,7 +125,10 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		//validate
-		$(".select").select2();
+		$(".select").select2({
+			tags: true,
+            tokenSeparators: [',', ' ']
+		});
 		jQuery.validator.addMethod("isImage", function(value){
 
 		 	var file = $('#image')[0].files[0];
@@ -193,6 +196,7 @@
 				var formData = new FormData();
 				formData.append('title', $('#title').val());
 				formData.append('categories_id', categories_id);
+				formData.append('tag', $('#tag').val());
 				formData.append('content', CKEDITOR.instances.content.getData());
 				formData.append('date', $('#date').val());
 				formData.append('image', $('#image')[0].files[0]);
