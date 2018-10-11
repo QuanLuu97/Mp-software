@@ -9,7 +9,7 @@ use Validator;
 class CategoryController extends Controller
 {
     public function index () {
-    	$categories = Category::all();
+    	$categories = Category::where('is_deleted', '0')->get();
     	
     	return view('categories.index', compact('categories')); 
     } 
@@ -124,7 +124,9 @@ class CategoryController extends Controller
     			$cat->parent_id = $catalog->id;
     			$cat->save();
     		}
-    		$category->delete();
+    		$category->update([
+                'is_deleted' => 1
+            ]);
 
     		return response()->json([
     			'code' => 200,
