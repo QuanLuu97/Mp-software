@@ -44,7 +44,6 @@
 				<div class="form-group ">
 		            <label for="categories_id">categories_id</label>
 		     		<select id="categories_id" class="form-control select" name="categories_id" multiple="multiple">
-
 			          	<option value="0"></option>
 			         	<?php 
 							function showCategories($categories, $cat_news, $parent_id = 0, $char = '') {
@@ -81,6 +80,10 @@
 					<img src="{{ asset('/image/'. $news->image) }}" id="image_tag" width="200px">
 				</div>
 				<div class="form-group ">
+					<label for="description">Description input</label>
+					<textarea class="form-control ckeditor" name="description" id="description">{{ $news->description }}</textarea>
+				</div>
+				<div class="form-group ">
 					<label for="content">Content input</label>
 					<textarea class="form-control ckeditor" name="content" id="content">{{ $news->content }}</textarea>
 				</div>
@@ -109,11 +112,7 @@
 				</div>
 				<input type="hidden" id="post_id" value="{{ $news->id }}" />
 				<span id="save" class="btn btn-primary">Save changes</span>	
-				<a href="{{ route('indexNews') }}" class="btn btn-default">Cancel</a>
-
-				<div class="form-group form-md-line-input ">
-					<span id="mess"></span>
-				</div>				
+				<a href="{{ route('indexNews') }}" class="btn btn-default">Cancel</a>			
 			</div>
 			{{ csrf_field() }}
 		</form>
@@ -146,13 +145,22 @@
 		 	}
 			
 		 });
-		$("#form-edit").validate({
-			ignore: [],
+		var validator = $("#form-edit").validate({
+			ignore: [], // cho content
 			rules:{
 				title: {
 					required:true,
 					minlength:5
 				},
+				categories_id: {
+					required:true
+				},
+				description: {
+                     required: function() 
+                    {
+                    CKEDITOR.instances.description.updateElement();
+                    }
+                },
 				content: {
 					 required: function() 
 					{
@@ -173,6 +181,12 @@
 					required: "không được để trống",
 					minlength: "độ dài lớn hơn 5 kí tự"
 				},
+				categories_id: {
+					required: "chưa chọn danh mục"
+				},
+				description: {
+                    required:"không được để trống"
+                },
 				content: {
 					required: "không được để trống",
 					minlength: "độ dài lớn hơn 5 kí tự"
@@ -189,6 +203,7 @@
 	
 		// edit
 		$('#save').click(function(){
+			
 			var check = $('#form-edit').valid();
 			var categories_id = $('#categories_id').val();
 			if(check){
@@ -209,16 +224,33 @@
 					processData: false,
 					success: function(res) {
 						if(res.code == 200) {
-							$('#mess').html(res.msg);
-							$('#mess').addClass('alert alert-success');
+							swal({
+								type: "success",
+								title: "update success!!",
+								text: res.msg,
+								showCancelButton:true,
+								cancelButtonText: "Trang Chủ",
+								cancelButtonColor: "green",
+								confirmButtonText: "Edit"
+							}).then((result) => {
+								if(!result.value) {
+									location.href="{{ route('indexNews') }}"; 
+								}
+							});
 						}
 						if(res.code == 404) {
-							$('#mess').html(res.msg);
-							$('#mess').addClass('alert alert-danger');
+							swal({
+								type: "error",
+								title: "update not success!!",
+								text: res.msg
+							});
 						}
 					}	
 				});
 			}
+			else {
+                validator.focusInvalid();
+            }
 			
 		});
 

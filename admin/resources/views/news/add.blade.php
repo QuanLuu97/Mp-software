@@ -70,6 +70,10 @@
 						<img src="" id="image_tag" width="200px">
 
 					</div>
+                    <div class="form-group ">
+                        <label for="description">Description input</label>
+                        <textarea class="form-control ckeditor" name="description" id="description"></textarea>
+                    </div>
 					<div class="form-group  ">
 						<label for="content">Content input</label>
 						<textarea class="form-control ckeditor" name="content"></textarea>
@@ -128,7 +132,7 @@
 	    	}
 	    	return true;	    
 	    });
-    	$('#form-add').validate({
+    	var validator = $('#form-add').validate({
     		//dieu kien de validate content ckedirtor
     		ignore: [],
     		debug: false,
@@ -137,10 +141,19 @@
     				required:true,
     				minlength:3
     			},
+                categories_id: {
+                    required:true
+                },
     			image: {
     				isImage:true
     			},
     			//validate content ckeditor
+                description: {
+                     required: function() 
+                    {
+                    CKEDITOR.instances.description.updateElement();
+                    }
+                },
     			content: {
     				 required: function() 
 					{
@@ -159,9 +172,15 @@
     				required: "không được để trống",
     				minlength: "3 kí tự trở lên"
     			},
+                categories_id: {
+                    required: "chưa chọn danh mục"
+                },
     			image: {
     				isImage:"image phải đúng định dạng file và nhỏ hơn 2MB"
     			},
+                description: {
+                    required:"không được để trống"
+                },
     			content: {
     				required:"không được để trống",
     				minlength: "5 kí tự trở lên"
@@ -182,6 +201,7 @@
                 formData.append('categories_id', categories_id);
                 formData.append('tag', $('#tag').val());
 				formData.append('content', CKEDITOR.instances.content.getData());
+                formData.append('description', CKEDITOR.instances.description.getData());
 				formData.append('date', $('#date').val());
 				formData.append('image', $('#image')[0].files[0]);
 				formData.append('_token', "{{ csrf_token() }}");
@@ -215,7 +235,9 @@
     					alert('sai');
     				}
     			});
-    		}
+    		} else {
+                validator.focusInvalid();
+            }
     	});
         $('.select').select2({ 
             tags: true,

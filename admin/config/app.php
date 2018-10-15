@@ -146,7 +146,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+        Tightenco\Ziggy\ZiggyServiceProvider::class,
         /*
          * Package Service Providers...
          */

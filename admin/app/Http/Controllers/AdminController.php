@@ -44,11 +44,13 @@ class AdminController extends Controller
     	// lay ra cac mang tag
     	$tags = explode(",", $request->input('tag'));
     	$content = $request->input('content');
+    	$description = $request->input('description');
     	$date = $request->input('date');		
     	$validate = Validator::make( //validate cac truong khac image
     		$request->all(),
     		[
     			'title' => 'required|min:5',
+    			'description' => 'required',
     			'content' => 'required',
     			'date' => 'required|date'
     		],
@@ -61,6 +63,7 @@ class AdminController extends Controller
     	if(!$validate->fails()) { //neu k loi thi tao ban ghi voi image = null
     		$arr = [
 	    		'title' => $title,
+	    		'description' => $description,
 	    		'content' => $content,
 		    	'date' => $date
 	    	];
@@ -161,9 +164,9 @@ class AdminController extends Controller
     }
 
     public function update(Request $request, $id) {
-
     	$news = News::findOrFail($id);
     	$content = $request->input('content');
+    	$description = $request->input('description');
     	$categories_id = explode(",", $request->input('categories_id')); // lay ra mang cac categories của news
     	$tags = explode(",", $request->input('tag'));
     	$date = $request->input('date');
@@ -173,6 +176,7 @@ class AdminController extends Controller
     		[
     			'title' => 'required|min:5',
     			'content' => 'required|min:5',
+    			'description' => 'required',
     			'date' => 'required|date'
     		],
     		[
@@ -182,15 +186,17 @@ class AdminController extends Controller
     		]
     	);
     	if($validate->fails()) {
-
+    		
     		return response()->json([
     			'code' => 404,
-    			'msg' => 'không thành công'
+    			'msg' => $validate->errors()->first()
     		]);
     	}
-    	else {    		
+    	else { 
+    	  		
 		    	$news->update([
 		    		'title' => $title,
+		    		'description' => $description,
 		    		'content' => $content,
 			    	'date' => $date
 		    	]);
@@ -228,33 +234,33 @@ class AdminController extends Controller
 					]);	
 					
 	  			}
-	  			//print_r($tags); die;
+	  			
 	  			News_Tag::where('news_id', $news->id)->delete();
+	  			if($tags[0] != 'null') {
+			    	foreach ($tags as $tag) {
 
-		    	foreach ($tags as $tag) {
-
-		    		$kt = Tag::where('id', $tag)->first(); //kiem tra xem da co tag trong db chưa
-	  				if($kt == null){
-	  					
-		  				$tag_id = Tag::insertGetId([//chưa co thi them vao db
-		  					'name' => $tag
-		  				]);
+			    		$kt = Tag::where('id', $tag)->first(); //kiem tra xem da co tag trong db chưa
+		  				if($kt == null){
+		  					
+			  				$tag_id = Tag::insertGetId([//chưa co thi them vao db
+			  					'name' => $tag
+			  				]);
+			  			}
+			  			else {
+			  				
+			  				$tag_id = $tag;
+			  			}
+		  				if( $tag_id > 0) {
+		  					News_Tag::insert([
+			  					'news_id' => $news->id,
+			  					'tag_id' => $tag_id
+			  				]);
+		  				}
 		  			}
-		  			else {
-		  				
-		  				$tag_id = $tag;
-		  			}
-	  				if( $tag_id > 0) {
-	  					News_Tag::insert([
-		  					'news_id' => $news->id,
-		  					'tag_id' => $tag_id
-		  				]);
-	  				}
-	  			}
-
+		  		}
 		    	return response()->json([
 		    		'code' => 200,
-		    		'msg' => 'thành công'
+		    		'msg' => "thành công"
 		    	]);
     		}
     }
