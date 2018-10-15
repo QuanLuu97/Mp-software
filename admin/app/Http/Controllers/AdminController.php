@@ -180,7 +180,7 @@ class AdminController extends Controller
     			'date' => 'required|date'
     		],
     		[
-    			'required' => 'không được để trống',
+    			'description.required' => 'không được để trống',
     			'title.min' => '5 kí tự trở lên',
     			'date' => 'sai định dạng ngày'
     		]

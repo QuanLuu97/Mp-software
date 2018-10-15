@@ -213,6 +213,7 @@
 				formData.append('categories_id', categories_id);
 				formData.append('tag', $('#tag').val());
 				formData.append('content', CKEDITOR.instances.content.getData());
+				formData.append('description', CKEDITOR.instances.description.getData());
 				formData.append('date', $('#date').val());
 				formData.append('image', $('#image')[0].files[0]);
 				formData.append('_token', "{{ csrf_token() }}");

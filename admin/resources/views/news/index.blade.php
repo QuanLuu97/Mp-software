@@ -49,7 +49,7 @@
 						Image
 					</th>
 					<th class="col-md-4 text-center">
-						Content
+						Description
 					</th>
 					<th class="col-md-1 text-center">
 						Date
@@ -65,14 +65,7 @@
 					<td class="text-center">{{ $news->title }}</td>
 					<td class="text-center"></td>
 					<td class="text-center"><img src="{{ asset('image/'.$news->image) }}" width="200px" height="200px"></td>
-					<td class="text-center more" id="more" >
-	                    <div  class="content hideContent">
-	                        {!! $news->content !!}
-	                    </div>
-	                   <!--  <div class="show-more">
-	                        <a href="#">Show More</a>
-	                    </div> -->
-	                </td>
+					<td class="text-center">{!! $news->description !!}</td>
 					<td class="text-center" >{{ $news->date }}</td>
 					<td>
 						<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $news->id; ?>)'" >&#xe020;</a>
