@@ -45,32 +45,33 @@ class AdminController extends Controller
     	$tags = explode(",", $request->input('tag'));
     	$content = $request->input('content');
     	$description = $request->input('description');
-    	$date = $request->input('date');		
+    	// $date = $request->input('date');		
     	$validate = Validator::make( //validate cac truong khac image
     		$request->all(),
     		[
     			'title' => 'required|min:5',
     			'description' => 'required',
-    			'content' => 'required',
-    			'date' => 'required|date'
+    			'content' => 'required'
+    			// 'date' => 'required|date'
     		],
     		[
     			'required' => 'không được để trống',
-    			'min' => '5 kí tự trở lên',
-    			'date' => 'sai định dạng ngày'
+    			'min' => '5 kí tự trở lên'
+    			// 'date' => 'sai định dạng ngày'
     		]
 		);
     	if(!$validate->fails()) { //neu k loi thi tao ban ghi voi image = null
+
     		$arr = [
 	    		'title' => $title,
 	    		'description' => $description,
-	    		'content' => $content,
-		    	'date' => $date
+	    		'content' => $content
+		    	// 'date' => $date
 	    	];
 	    	$id = News::insertGetId($arr);
 	    	$news = News::findOrFail($id);
 	    	if($request->hasFile('image')) {//neu co file anh thi validate
-	    		$image = $request->file('image')->getClientOriginalName();
+	    		$image = $request->file('image');
 	    		$validate = Validator::make(
 		    		$request->all(),
 		    		[
@@ -82,8 +83,9 @@ class AdminController extends Controller
 		    		]
 	    		);
 	    		if(!$validate->fails()) {//neu k loi thi update image tu null sang image
+	    			$image->move('image',$file->getClientOriginalName());
 		    		$news->update([
-		    			'image' => $image
+		    			'image' => $image->getClientOriginalName()
 		    		]);
 		    	}
 		    	else{//neu loi thi return
@@ -104,6 +106,7 @@ class AdminController extends Controller
   			}
   			//tao ban ghi news_tag
   			foreach($tags as $tag) {
+  				if($tag == 'null') break;
   				$kt = Tag::where('id', $tag)->first(); // kiem tra xem tag da co trong db chưa
   				if($kt == null){// nếu chưa
   					$tag_id = Tag::insertGetId([//thi them vao db
@@ -169,20 +172,20 @@ class AdminController extends Controller
     	$description = $request->input('description');
     	$categories_id = explode(",", $request->input('categories_id')); // lay ra mang cac categories của news
     	$tags = explode(",", $request->input('tag'));
-    	$date = $request->input('date');
+    	// $date = $request->input('date');
     	$title = $request->input('title');
     	$validate = Validator::make(
     		$request->all(),
     		[
     			'title' => 'required|min:5',
     			'content' => 'required|min:5',
-    			'description' => 'required',
-    			'date' => 'required|date'
+    			'description' => 'required'
+    			// 'date' => 'required|date'
     		],
     		[
     			'description.required' => 'không được để trống',
-    			'title.min' => '5 kí tự trở lên',
-    			'date' => 'sai định dạng ngày'
+    			'title.min' => '5 kí tự trở lên'
+    			// 'date' => 'sai định dạng ngày'
     		]
     	);
     	if($validate->fails()) {
@@ -193,13 +196,14 @@ class AdminController extends Controller
     		]);
     	}
     	else { 
-    	  		
+    	  		// update ban ghi
 		    	$news->update([
 		    		'title' => $title,
 		    		'description' => $description,
-		    		'content' => $content,
-			    	'date' => $date
+		    		'content' => $content
+			    	// 'date' => $date
 		    	]);
+
 		    	if($request->hasFile('image')){
     				$image = $request->file('image')->getClientOriginalName();  
     				$validate = Validator::make(

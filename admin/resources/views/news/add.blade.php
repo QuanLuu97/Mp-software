@@ -54,7 +54,7 @@
                                             echo $char . ' ' . $category['name'];
                                             echo '</option>';
                                             unset($categories[$key]);
-                                            showCategories($categories, $category->id, $char.'- - - ');
+                                            showCategories($categories, $category->id, $char.'- ');
                                         }                                    
                                     }
                                 }
@@ -72,20 +72,20 @@
 					</div>
                     <div class="form-group ">
                         <label for="description">Description input</label>
-                        <textarea class="form-control ckeditor" name="description" id="description"></textarea>
+                        <textarea class="form-control " name="description" id="description"></textarea>
                     </div>
 					<div class="form-group  ">
 						<label for="content">Content input</label>
-						<textarea class="form-control ckeditor" name="content"></textarea>
+						<textarea class="form-control " name="content"></textarea>
 					</div>
-					<div class="form-group ">
+					<!-- <div class="form-group ">
 						<label for="date">Date input</label>
 						<input type="date" class="form-control" name="date" id="date">
 						
-					</div>	
+					</div> -->	
                      <div class="form-group ">
                         <label for="tag">Tags</label>
-                        <select id="tag" class="form-control select" name="tag" multiple="multiple">
+                        <select id="tag" class="form-control " name="tag" multiple="multiple">
                             @foreach($tags as $tag)
                                 <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                             @endforeach                    
@@ -101,7 +101,7 @@
 			</form>
 		</div>
 	</div>
-
+<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
     
 	//preview image
@@ -239,11 +239,20 @@
                 validator.focusInvalid();
             }
     	});
-        $('.select').select2({ 
+        $('.select').select2();
+        $('#tag').select2({ 
             tags: true,
             tokenSeparators: [',', ' ']
         });
     });
-    
+    //xóa icon image ckeditor
+    CKEDITOR.replace('description', {
+        removePlugins: 'image'
+    } );
 </script>
+
+
 @endsection
+
+<!-- $chuoicanxoa='Xóa ?,\Ký, tự Đặc Biệt!';
+$ketqua=preg_replace('/([^\pL\.\ ]+)/u', '', strip_tags($chuoicanxoa)); -->

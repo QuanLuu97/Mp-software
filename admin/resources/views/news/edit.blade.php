@@ -87,10 +87,10 @@
 					<label for="content">Content input</label>
 					<textarea class="form-control ckeditor" name="content" id="content">{{ $news->content }}</textarea>
 				</div>
-				<div class="form-group  ">
+				<!-- <div class="form-group  ">
 					<label for="date">Date input</label>
 					<input type="date" class="form-control" name="date" id="date" value="{{ $news->date }}">
-				</div>
+				</div> -->
 				<div class="form-group">
 					<label for="tag">Tags</label>
 					<select id="tag" class="form-control select" multiple="multiple">
@@ -170,11 +170,11 @@
 				},
 				image: {
 					isImage:true
-				},
-				date: {
-					required:true,
-					date:true
 				}
+				// date: {
+				// 	required:true,
+				// 	date:true
+				// }
 			},
 			messages:{
 				title: {
@@ -193,11 +193,11 @@
 				},
 				image:{
 					isImage: "image phải đúng định dạng và kích cỡ dưới 1MB"
-				},
-				date: {
-					required: "không được để trống",
-					date: "sai định sạng ngày"
 				}
+				// date: {
+				// 	required: "không được để trống",
+				// 	date: "sai định sạng ngày"
+				// }
 			}
 		});
 	
@@ -214,7 +214,7 @@
 				formData.append('tag', $('#tag').val());
 				formData.append('content', CKEDITOR.instances.content.getData());
 				formData.append('description', CKEDITOR.instances.description.getData());
-				formData.append('date', $('#date').val());
+				// formData.append('date', $('#date').val());
 				formData.append('image', $('#image')[0].files[0]);
 				formData.append('_token', "{{ csrf_token() }}");
 				$.ajax({

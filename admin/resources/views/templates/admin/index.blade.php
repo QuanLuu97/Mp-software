@@ -19,7 +19,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 <head>
 <meta charset="utf-8"/>
-@routes()
+<!-- @routes() -->
 <title>Metronic | Dashboard</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
@@ -1389,6 +1389,10 @@ License: You must have a valid license purchased only from themeforest(the above
         filebrowserFlashUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
         } ); 
 </script>
+<!-- <script> CKEDITOR.replace('description', {
+		removePlugins: 'image'
+        } ); 
+</script> -->
 <script src="{{asset('dist/sweetalert2.min.js') }}"></script>
 
 <script src="{{ asset('assets/global/plugins/jquery-migrate.min.js') }}" type="text/javascript"></script>

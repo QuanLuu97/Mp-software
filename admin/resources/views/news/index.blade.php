@@ -51,9 +51,9 @@
 					<th class="col-md-4 text-center">
 						Description
 					</th>
-					<th class="col-md-1 text-center">
+					<!-- <th class="col-md-1 text-center">
 						Date
-					</th>
+					</th> -->
 					<th class="col-md-1 text-center" colspan="2">
 						
 					</th>
@@ -64,9 +64,16 @@
 				<tr>
 					<td class="text-center">{{ $news->title }}</td>
 					<td class="text-center"></td>
-					<td class="text-center"><img src="{{ asset('image/'.$news->image) }}" width="200px" height="200px"></td>
+					<td class="text-center">
+						@if($news->image == null)
+							<img src="" width="200px" height="200px" alt="null">
+						@endif
+						@if($news->image != null)
+							<img src="{{ asset('image/'.$news->image) }}" width="200px" height="200px">
+						@endif
+					</td>
 					<td class="text-center">{!! $news->description !!}</td>
-					<td class="text-center" >{{ $news->date }}</td>
+					<!-- <td class="text-center" >{{ $news->date }}</td> -->
 					<td>
 						<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $news->id; ?>)'" >&#xe020;</a>
 					</td>
@@ -131,10 +138,10 @@
 									<label for="content">Content input</label>
 									<textarea class="form-control ckeditor" name="content" id="content"></textarea>
 								</div>
-								<div class="form-group  ">
+								<!-- <div class="form-group  ">
 									<label for="date">Date input</label>
 									<input type="date" class="form-control" name="date" id="date">
-								</div>
+								</div> -->
 								<input type="hidden" id="post_id" value="" />
 								<span id="save" class="btn btn-primary">Save changes</span>	
 								<div class="form-group form-md-line-input ">
@@ -180,7 +187,7 @@
                         
 						$('#image_tag').attr({'src': '../image/'+res.data.image});
 						CKEDITOR.instances.content.setData(res.data.content); 
-						$('#date').val(res.data.date);
+						// $('#date').val(res.data.date);
 					}
 				}
 			});
@@ -266,11 +273,11 @@
 				},
 				image: {
 					isImage:true
-				},
-				date: {
-					required:true,
-					date:true
 				}
+				// date: {
+				// 	required:true,
+				// 	date:true
+				// }
 			},
 			messages:{
 				title: {
@@ -283,11 +290,11 @@
 				},
 				image:{
 					isImage: "image phải đúng định dạng và kích cỡ dưới 1MB"
-				},
-				date: {
-					required: "không được để trống",
-					date: "sai định sạng ngày"
 				}
+				// date: {
+				// 	required: "không được để trống",
+				// 	date: "sai định sạng ngày"
+				// }
 			}
 		});
 	
@@ -300,7 +307,7 @@
 				var formData = new FormData();
 				formData.append('title', $('#title').val());
 				formData.append('content', CKEDITOR.instances.content.getData());
-				formData.append('date', $('#date').val());
+				// formData.append('date', $('#date').val());
 				formData.append('image', $('#image')[0].files[0]);
 				formData.append('_token', "{{ csrf_token() }}");
 				$.ajax({
