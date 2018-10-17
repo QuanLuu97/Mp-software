@@ -45,7 +45,14 @@ class AdminController extends Controller
     	$tags = explode(",", $request->input('tag'));
     	$content = $request->input('content');
     	$description = $request->input('description');
-    	// $date = $request->input('date');		
+    	// $status = $request->input('status');
+    	// print_r($status); die;
+    	if($request->input('status') == 'false'){
+			$status = 0;
+		}
+		else{
+			$status = 1;
+		}
     	$validate = Validator::make( //validate cac truong khac image
     		$request->all(),
     		[
@@ -65,13 +72,18 @@ class AdminController extends Controller
     		$arr = [
 	    		'title' => $title,
 	    		'description' => $description,
-	    		'content' => $content
+	    		'content' => $content,
+	    		'status' => $status
 		    	// 'date' => $date
 	    	];
-	    	$id = News::insertGetId($arr);
+	    	$id = News::insertGetId($arr);	    	
 	    	$news = News::findOrFail($id);
+	    	$news->update([
+	    		'slug' => str_replace(' ', '-', $title) . '-' . $news->id
+	    	]);
 	    	if($request->hasFile('image')) {//neu co file anh thi validate
 	    		$image = $request->file('image');
+    			$imageName = str_random(10) . '_' . $image->getClientOriginalName(); 	    		
 	    		$validate = Validator::make(
 		    		$request->all(),
 		    		[
@@ -83,9 +95,9 @@ class AdminController extends Controller
 		    		]
 	    		);
 	    		if(!$validate->fails()) {//neu k loi thi update image tu null sang image
-	    			$image->move('image',$file->getClientOriginalName());
+	    			$image->move('image',$imageName); // luu anh vao image thu muc public
 		    		$news->update([
-		    			'image' => $image->getClientOriginalName()
+		    			'image' => $imageName
 		    		]);
 		    	}
 		    	else{//neu loi thi return
@@ -172,6 +184,13 @@ class AdminController extends Controller
     	$description = $request->input('description');
     	$categories_id = explode(",", $request->input('categories_id')); // lay ra mang cac categories của news
     	$tags = explode(",", $request->input('tag'));
+    	$st = $request->input('status');
+    	if($request->input('status') == 'false'){
+			$status = 0;
+		}
+		else{
+			$status = 1;
+		}
     	// $date = $request->input('date');
     	$title = $request->input('title');
     	$validate = Validator::make(
@@ -197,15 +216,19 @@ class AdminController extends Controller
     	}
     	else { 
     	  		// update ban ghi
+    	  		
 		    	$news->update([
 		    		'title' => $title,
 		    		'description' => $description,
-		    		'content' => $content
+		    		'content' => $content,
+		    		'slug' => str_replace(' ', '-', $title) . '-' . $news->id,
+		    		'status' => $status
 			    	// 'date' => $date
 		    	]);
 
 		    	if($request->hasFile('image')){
-    				$image = $request->file('image')->getClientOriginalName();  
+    				$image = $request->file('image');
+    				$imageName = str_random(10) . '_' . $image->getClientOriginalName();  
     				$validate = Validator::make(
 			    		$request->all(),
 			    		[	    			
@@ -223,9 +246,14 @@ class AdminController extends Controller
 			    		]);
 			    	}
 			    	else {
+			    		if (file_exists('image/'.$news->image) && $news->image != null){
+			    			unlink('image/'.$news->image);
+			    		}			    		
+			    		$image->move('image', $imageName);
 			    		$news->update([
-				    		'image' => $image,
+				    		'image' => $imageName
 				    	]);
+
 			    	}
     			}			
 		    	Cat_News::where('news_id', $news->id)->delete();
@@ -275,6 +303,10 @@ class AdminController extends Controller
     		$news->delete();
     		News_Tag::where('news_id', $id)->delete();
     		Cat_News::where('news_id', $id)->delete(); 
+    		// xoa file ảnh
+    		if (file_exists('image/'.$news->image) && $news->image != null){
+    			unlink('image/'.$news->image);
+    		}
 			return response()->json([
 	    		'code' => 200,
 	    		'msg'  => 'đã xóa bản ghi'

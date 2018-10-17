@@ -81,11 +81,11 @@
 				</div>
 				<div class="form-group ">
 					<label for="description">Description input</label>
-					<textarea class="form-control ckeditor" name="description" id="description">{{ $news->description }}</textarea>
+					<textarea class="form-control " name="description" id="description">{{ $news->description }}</textarea>
 				</div>
 				<div class="form-group ">
 					<label for="content">Content input</label>
-					<textarea class="form-control ckeditor" name="content" id="content">{{ $news->content }}</textarea>
+					<textarea class="form-control " name="content" id="content">{{ $news->content }}</textarea>
 				</div>
 				<!-- <div class="form-group  ">
 					<label for="date">Date input</label>
@@ -110,6 +110,17 @@
 						?>
 					</select>
 				</div>
+				 <div class="form-group">
+                   
+                    <input type="radio" checked="checked" name="radio">
+                    <input type="radio" checked="checked" name="radio">
+                    <input type="radio" checked="checked" name="radio">
+
+			        <div>
+			            <input type="radio" id="disa" value="0" />
+			            <label for="">khóa</label>
+			        </div>
+                </div>
 				<input type="hidden" id="post_id" value="{{ $news->id }}" />
 				<span id="save" class="btn btn-primary">Save changes</span>	
 				<a href="{{ route('indexNews') }}" class="btn btn-default">Cancel</a>			
@@ -121,8 +132,10 @@
 
 </div>
 <div class="clearfix" style="clear:both;"></div>
+<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
+
 		//validate
 		$(".select").select2({
 			tags: true,
@@ -203,7 +216,7 @@
 	
 		// edit
 		$('#save').click(function(){
-			
+			// console.log($('#checkbox').prop('checked'));
 			var check = $('#form-edit').valid();
 			var categories_id = $('#categories_id').val();
 			if(check){
@@ -213,6 +226,7 @@
 				formData.append('categories_id', categories_id);
 				formData.append('tag', $('#tag').val());
 				formData.append('content', CKEDITOR.instances.content.getData());
+				formData.append('status', $('#checkbox').prop('checked'));
 				formData.append('description', CKEDITOR.instances.description.getData());
 				// formData.append('date', $('#date').val());
 				formData.append('image', $('#image')[0].files[0]);
@@ -270,5 +284,9 @@
     $("#image").change(function(){
         readURL(this);
     });
+    //xóa icon image ckeditor
+    CKEDITOR.replace('description', {
+        removePlugins: 'image'
+    } );
 </script>
 @endsection

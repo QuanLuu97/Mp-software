@@ -91,7 +91,14 @@
                             @endforeach                    
                         </select>
                         
-                    </div>			
+                    </div>	
+                    <div class="form-group">
+                        <label for="">
+                            status 
+                            <input type="checkbox"  id="checkbox" checked data-toggle="toggle" value="off" >
+                        </label>
+                        
+                    </div>		
 				</div>
 				<div class="form-actions noborder">
 					<button id="add" class="btn blue" type="button">Submit</button>
@@ -193,6 +200,7 @@
     	});
     	//add
     	$('#add').click(function(){
+            // 
             var categories_id = $('#categories_id').val();
     		var check = $('#form-add').valid();
     		if(check) {
@@ -202,7 +210,7 @@
                 formData.append('tag', $('#tag').val());
 				formData.append('content', CKEDITOR.instances.content.getData());
                 formData.append('description', CKEDITOR.instances.description.getData());
-				formData.append('date', $('#date').val());
+				formData.append('status', $('#checkbox').prop('checked'));
 				formData.append('image', $('#image')[0].files[0]);
 				formData.append('_token', "{{ csrf_token() }}");
     			$.ajax({

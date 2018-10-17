@@ -53,7 +53,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <script src="{{ asset('assets/global/plugins/jquery.min.js') }}" type="text/javascript"></script>
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico"/>
+<!-- <link rel="shortcut icon" href="favicon.ico"/> -->
 <style type="text/css">
 	.error{
 		color:red;

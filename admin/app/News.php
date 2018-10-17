@@ -13,8 +13,9 @@ class News extends Model
         'image',
         'content',
         'date',
-        'description'
-        
+        'description',
+        'slug',
+        'status'
     ];
 
     public function cat_news() {
