@@ -111,15 +111,9 @@
 					</select>
 				</div>
 				 <div class="form-group">
-                   
-                    <input type="radio" checked="checked" name="radio">
-                    <input type="radio" checked="checked" name="radio">
-                    <input type="radio" checked="checked" name="radio">
-
-			        <div>
-			            <input type="radio" id="disa" value="0" />
-			            <label for="">khóa</label>
-			        </div>
+				 	<label>status</label>
+			        
+			        <input type="checkbox" <?php if ($news->status == 1): ?> checked <?php endif; ?> id="checkbox"  data-toggle="toggle"/>
                 </div>
 				<input type="hidden" id="post_id" value="{{ $news->id }}" />
 				<span id="save" class="btn btn-primary">Save changes</span>	
@@ -134,8 +128,9 @@
 <div class="clearfix" style="clear:both;"></div>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
 
+
+	$(document).ready(function(){
 		//validate
 		$(".select").select2({
 			tags: true,

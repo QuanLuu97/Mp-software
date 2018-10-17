@@ -66,7 +66,7 @@
                 </td>
                 <td>{{ $category->status }}</td> 
 				<td>
-					<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $category->id; ?>)'" >&#xe020;</a>
+					<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $category->id; ?>)' >&#xe020;</a>
 				</td>
 				<td>				
 					<button class="glyphicon btn btn-primary" data-toggle="modal" data-target="#edit" onclick='getRecord(<?php echo $category->id; ?>)'>&#x270f;</button>			
