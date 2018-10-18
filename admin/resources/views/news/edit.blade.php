@@ -111,8 +111,7 @@
 					</select>
 				</div>
 				 <div class="form-group">
-				 	<label>status</label>
-			        
+				 	<label>status</label>			        
 			        <input type="checkbox" <?php if ($news->status == 1): ?> checked <?php endif; ?> id="checkbox"  data-toggle="toggle"/>
                 </div>
 				<input type="hidden" id="post_id" value="{{ $news->id }}" />
@@ -123,7 +122,6 @@
 		</form>
 	</div>
 	</div>
-
 </div>
 <div class="clearfix" style="clear:both;"></div>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
