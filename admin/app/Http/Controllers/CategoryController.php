@@ -39,18 +39,24 @@ class CategoryController extends Controller
     		]);
     	}
     	else {
-
+            if(Category::where('name', $request->input('name'))->first() !=null ){
+                return response()->json([
+                    'code' => 403,
+                    'msg' => 'name không được trùng!'
+                ]);
+            }
     		if($request->input('status') == 'false'){
     			$status = 0;
     		}
     		else{
     			$status = 1;
     		}
+            $slug = preg_replace('/[!@#$%^&*()]/', '', $request->input('name'));
     		Category::insert([
     			'name' => $request->input('name'),
     			'parent_id' => $request->input('parent_id'),
     			'status' => $status,
-                'slug' => str_replace(' ', '-', $name)
+                'slug' => str_replace(' ', '-', $slug)
 
     		]);
     		return response()->json([
@@ -76,7 +82,6 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id) {
     	$category = Category::findOrFail($id);
-
     	$validate = Validator::make(
     		$request->all(),
     		[
@@ -90,22 +95,29 @@ class CategoryController extends Controller
     	if($validate->fails()){
     		return response()->json([
     			'code' => 404,
-    			'msg' => 'không thành công'
+    			'msg' => $validate->errors()->first()
     		]);
     	}
     	else {
-
+            //kiểm tra xem name có bị trùng với các bản ghi khac hay  chưa
+            if(Category::where([ ['name', $request->input('name') ], ['id', '<>', $id] ])->first() !=null ){
+                return response()->json([
+                    'code' => 403,
+                    'msg' => 'name không được trùng!'
+                ]);
+            }
     		if($request->input('status') == 'false'){
     			$status = 0;
     		}
     		else{
     			$status = 1;
     		}
+            $slug = preg_replace('/[!@#$%^&*()]/', '', $request->input('name')); // loai bo tat ca cac ki tu dac biet trừ kí tự '-'
     		$category->update([
     			'name' => $request->input('name'),
     			'parent_id' => $request->input('parent_id'),
     			'status' => $status,
-                'slug' => str_replace(' ', '-', $name)
+                'slug' => str_replace(' ', '-', $slug)
 
     		]);
     		return response()->json([

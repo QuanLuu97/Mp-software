@@ -83,8 +83,9 @@ class AdminController extends Controller
 	    	$id = News::insertGetId($arr);
 
 	    	$news = News::findOrFail($id);
+            $slug = preg_replace('/[!@#$%^&*()]/', '', $title);
 	    	$news->update([
-	    		'slug' => str_replace(' ', '-', $title)
+	    		'slug' => str_replace(' ', '-', $slug)
 	    	]);
 	    	if($request->hasFile('image')) {//neu co file anh thi validate
 	    		$image = $request->file('image');
@@ -229,7 +230,7 @@ class AdminController extends Controller
 		    	}
 		    	
     	  		// update ban ghi
-    	  		$slug = preg_replace('/([^\pL\.\ ]+)/u', '', strip_tags($title));
+    	  		$slug = preg_replace('/[!@#$%^&*()]/', '', $title);
     	  		
 		    	$news->update([
 		    		'title' => $title,

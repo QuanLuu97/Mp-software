@@ -131,6 +131,18 @@
                                 text:res.msg
                             });
                         }
+                        if(res.code == 403) {
+                            swal({
+                                type: "warning",
+                                title: "Warning!",
+                                text: res.msg
+                            }).then((result) =>{
+                                if(result.value){
+                                    $('#name').focus();
+                                }
+                            });
+
+                        }
                     }
                 });
 

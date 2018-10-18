@@ -86,6 +86,7 @@
                             <div class="form-group">
                                 <label for="name">name</label>
                                 <input type="text" id="name" name="name" class="form-control">
+                                <label id="name-error" class="error" for="name"></label>
                             </div>
                             <div class="form-group">
                                 <label for="parent_id">parent_category</label>
@@ -223,12 +224,24 @@
                     },
                     success:function(res) {
                         if(res.code == 200) {
-                            $('#mess').html(res.msg);
-                            $('#mess').addClass("alert alert-success");
+                            $('#edit').modal('hide')
+                            swal({
+                                type: 'success',
+                                title: 'Success!!',
+                                text: res.msg
+                            });
                         }
                         if(res.code == 404) {
-                            $('#mess').html(res.msg);
-                            $('#mess').addClass("alert alert-danger");
+                            $('#edit').modal('hide');
+                            swal({
+                                type: 'error',
+                                title: 'Error!!',
+                                text: res.msg
+                            });
+                        }
+                        if(res.code == 403) {
+                            $('#name-error').html(res.msg);
+                            $('#name').focus();
                         }
                     }
                 });
