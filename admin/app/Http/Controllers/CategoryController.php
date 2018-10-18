@@ -49,7 +49,8 @@ class CategoryController extends Controller
     		Category::insert([
     			'name' => $request->input('name'),
     			'parent_id' => $request->input('parent_id'),
-    			'status' => $status
+    			'status' => $status,
+                'slug' => str_replace(' ', '-', $name)
 
     		]);
     		return response()->json([
@@ -103,7 +104,8 @@ class CategoryController extends Controller
     		$category->update([
     			'name' => $request->input('name'),
     			'parent_id' => $request->input('parent_id'),
-    			'status' => $status
+    			'status' => $status,
+                'slug' => str_replace(' ', '-', $name)
 
     		]);
     		return response()->json([
