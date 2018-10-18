@@ -111,8 +111,14 @@
 					</select>
 				</div>
 				 <div class="form-group">
+<<<<<<< HEAD
 					<label>Status</label>
 					<input type="checkbox" name="status" id="status" data-toggle = "toggle" <?php if($news->status == 1): ?> checked <?php endif ?>>
+=======
+				 	<label>status</label>
+			        
+			        <input type="checkbox" <?php if ($news->status == 1): ?> checked <?php endif; ?> id="checkbox"  data-toggle="toggle"/>
+>>>>>>> de8fc48590240d0815519ce0705468004eafd663
                 </div>
 				<input type="hidden" id="post_id" value="{{ $news->id }}" />
 				<span id="save" class="btn btn-primary">Save changes</span>	
@@ -127,8 +133,9 @@
 <div class="clearfix" style="clear:both;"></div>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
 
+
+	$(document).ready(function(){
 		//validate
 		$(".select").select2({
 			tags: true,
