@@ -18,13 +18,13 @@ class AdminController extends Controller
 	}
 
     public function index(){
+    	// $str = 'luu-xuan?quan vu?, %thi le^&';
+    	// $result = str_replace('', ' ', $str); echo $result; die;
+
     	$newss = News::all();
     	$categories = Category::all();
-    	
-    	//var_dump($newss);
     	return view('news.index', compact('newss','categories'));
-    	// $cat = Cat_News::select('category_id')->where('news_id',35)->get();
-    	
+    	// $cat = Cat_News::select('category_id')->where('news_id',2)->get();  	
     	// $categories = Category::whereIn('id',$cat)->get();
     	// foreach ($categories as $category) {
     	// 	echo $category->name.'<br>';
@@ -42,11 +42,9 @@ class AdminController extends Controller
     	// lay ra mang các id của categories
     	$categories_id = explode(",", $request->input('categories_id'));
     	// lay ra cac mang tag
-    	$tags = explode(",", $request->input('tag'));
+    	$listTags = explode(",", $request->input('tag'));
     	$content = $request->input('content');
     	$description = $request->input('description');
-    	// $status = $request->input('status');
-    	// print_r($status); die;
     	if($request->input('status') == 'false'){
 			$status = 0;
 		}
@@ -68,7 +66,13 @@ class AdminController extends Controller
     		]
 		);
     	if(!$validate->fails()) { //neu k loi thi tao ban ghi voi image = null
-
+    		//kiem tra title co bi lap
+    		if(News::where('title', $title)->first() != null){
+    			return response()->json([
+    				'code' => 403,
+    				'msg' => 'title bị trùng lặp! Mời nhập title mới'
+    			]);
+	    	}
     		$arr = [
 	    		'title' => $title,
 	    		'description' => $description,
@@ -76,10 +80,11 @@ class AdminController extends Controller
 	    		'status' => $status
 		    	// 'date' => $date
 	    	];
-	    	$id = News::insertGetId($arr);	    	
+	    	$id = News::insertGetId($arr);
+
 	    	$news = News::findOrFail($id);
 	    	$news->update([
-	    		'slug' => str_replace(' ', '-', $title) . '-' . $news->id
+	    		'slug' => str_replace(' ', '-', $title)
 	    	]);
 	    	if($request->hasFile('image')) {//neu co file anh thi validate
 	    		$image = $request->file('image');
@@ -117,20 +122,21 @@ class AdminController extends Controller
 				]);		
   			}
   			//tao ban ghi news_tag
-  			foreach($tags as $tag) {
-  				if($tag == 'null') break;
-  				$kt = Tag::where('id', $tag)->first(); // kiem tra xem tag da co trong db chưa
-  				if($kt == null){// nếu chưa
+  			foreach($listTags as $item) {
+  				if($item == 'null') break;
+  				$tag = Tag::where('id', $item)->first(); // kiem tra xem tag da co trong db chưa
+  				if($tag == null){// nếu chưa
   					$tag_id = Tag::insertGetId([//thi them vao db
-  						'name' => $tag
+  						'name' => $item
   					]);
-  				}
-  				else $tag_id = $tag;
-  				
-  				if( $tag_id > 0) {
+  					$tag = Tag::findOrFail($tag_id);
+  				}	
+  				if( $tag->id > 0) {
   					News_Tag::insert([
 	  					'news_id' => $news->id,
-	  					'tag_id' => $tag_id
+	  					'tag_id' => $tag->id,
+	  					'news_title' => $news->title,
+	  					'tag_name' => $tag->name
 	  				]);
   				}
   				
@@ -183,7 +189,7 @@ class AdminController extends Controller
     	$content = $request->input('content');
     	$description = $request->input('description');
     	$categories_id = explode(",", $request->input('categories_id')); // lay ra mang cac categories của news
-    	$tags = explode(",", $request->input('tag'));
+    	$listTags = explode(",", $request->input('tag'));
     	$st = $request->input('status');
     	if($request->input('status') == 'false'){
 			$status = 0;
@@ -214,14 +220,22 @@ class AdminController extends Controller
     			'msg' => $validate->errors()->first()
     		]);
     	}
-    	else { 
+    	else { 	
+    			if(News::where([ ['title', $title], ['id', '<>', $id] ])->first() != null){
+	    			return response()->json([
+	    				'code' => 403,
+	    				'msg' => 'title bị trùng lặp! Mời nhập title mới'
+	    			]);
+		    	}
+		    	
     	  		// update ban ghi
+    	  		$slug = preg_replace('/([^\pL\.\ ]+)/u', '', strip_tags($title));
     	  		
 		    	$news->update([
 		    		'title' => $title,
 		    		'description' => $description,
 		    		'content' => $content,
-		    		'slug' => str_replace(' ', '-', $title) . '-' . $news->id,
+		    		'slug' => str_replace(' ', '-', $slug),
 		    		'status' => $status
 			    	// 'date' => $date
 		    	]);
@@ -268,24 +282,24 @@ class AdminController extends Controller
 	  			}
 	  			
 	  			News_Tag::where('news_id', $news->id)->delete();
-	  			if($tags[0] != 'null') {
-			    	foreach ($tags as $tag) {
+	  			if($listTags[0] != 'null') {
+			    	foreach ($listTags as $item) {
 
-			    		$kt = Tag::where('id', $tag)->first(); //kiem tra xem da co tag trong db chưa
-		  				if($kt == null){
+			    		$tag = Tag::where('id', $item)->first(); //kiem tra xem da co tag trong db chưa
+		  				if($tag == null){
 		  					
-			  				$tag_id = Tag::insertGetId([//chưa co thi them vao db
-			  					'name' => $tag
+			  				$tag_id = Tag::insert([
+			  					'name' => $item
 			  				]);
+			  				$tag = Tag::findOrFail($tag_id);
 			  			}
-			  			else {
-			  				
-			  				$tag_id = $tag;
-			  			}
-		  				if( $tag_id > 0) {
+			  			
+		  				if( $tag->id > 0) {
 		  					News_Tag::insert([
 			  					'news_id' => $news->id,
-			  					'tag_id' => $tag_id
+			  					'tag_id' => $tag->id,
+			  					'news_title' => $news->title,
+			  					'tag_name' => $tag->name
 			  				]);
 		  				}
 		  			}
@@ -303,6 +317,7 @@ class AdminController extends Controller
     		$news->delete();
     		News_Tag::where('news_id', $id)->delete();
     		Cat_News::where('news_id', $id)->delete(); 
+    		News_Tag::where('news_id', $id)->delete();
     		// xoa file ảnh
     		if (file_exists('image/'.$news->image) && $news->image != null){
     			unlink('image/'.$news->image);

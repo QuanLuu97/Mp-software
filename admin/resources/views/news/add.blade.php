@@ -95,7 +95,7 @@
                     <div class="form-group">
                         <label for="">
                             status 
-                            <input type="checkbox"  id="checkbox" checked data-toggle="toggle" value="off" >
+                            <input type="checkbox"  id="checkbox" checked data-toggle="toggle" value="0" data-on="Enabled" data-off="Disabled">
                         </label>
                         
                     </div>		
@@ -238,6 +238,18 @@
     							text: res.msg
     						});
     					}
+                        if(res.code == 403) {
+                            swal({
+                                type: "warning",
+                                title: "Warning!",
+                                text: res.msg
+                            }).then((result) =>{
+                                if(result.value){
+                                    $('#title').focus();
+                                }
+                            });
+
+                        }
     				},
     				error: function(err) {
     					alert('sai');

@@ -65,7 +65,7 @@
 											echo $char . ' ' . $category['name'];
 											echo '</option>';
 											unset($categories[$key]);
-											showCategories($categories, $cat_news, $category->id, $char.'- - - ');
+											showCategories($categories, $cat_news, $category->id, $char.'- ');
 										}								
 									}
 								}
@@ -111,8 +111,18 @@
 					</select>
 				</div>
 				 <div class="form-group">
+<<<<<<< HEAD
 				 	<label>status</label>			        
+=======
+<<<<<<< HEAD
+					<label>Status</label>
+					<input type="checkbox" name="status" id="status" data-toggle = "toggle" <?php if($news->status == 1): ?> checked <?php endif ?>>
+=======
+				 	<label>status</label>
+			        
+>>>>>>> 003a5bc2b19b91f4cdebd6ed6837bdb6d8aa1e9b
 			        <input type="checkbox" <?php if ($news->status == 1): ?> checked <?php endif; ?> id="checkbox"  data-toggle="toggle"/>
+>>>>>>> de8fc48590240d0815519ce0705468004eafd663
                 </div>
 				<input type="hidden" id="post_id" value="{{ $news->id }}" />
 				<span id="save" class="btn btn-primary">Save changes</span>	
@@ -244,6 +254,9 @@
 								if(!result.value) {
 									location.href="{{ route('indexNews') }}"; 
 								}
+								else{
+									location.reload();
+								}
 							});
 						}
 						if(res.code == 404) {
@@ -252,6 +265,18 @@
 								title: "update not success!!",
 								text: res.msg
 							});
+						}
+						if(res.code == 403) {
+							swal({
+								type: "warning",
+								title: "Warning!",
+								text: res.msg
+							}).then((result) =>{
+								if(result.value){
+									$('#title').focus();
+								}
+							});
+
 						}
 					}	
 				});

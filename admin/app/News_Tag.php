@@ -7,7 +7,7 @@ use App\News;
 
 class News_Tag extends Model
 {
-    protected $table = 'news_tag';
+    protected $table = 'tags_object_news';
     public $timestamps = false;
 
     public function news() {
