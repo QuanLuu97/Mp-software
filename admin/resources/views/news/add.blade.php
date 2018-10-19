@@ -14,7 +14,6 @@
         </li>
         <li>
             <a href="{{ route('indexNews') }}">News</a>
-
         </li>
     </ul>
     <div class="page-toolbar">
@@ -25,8 +24,6 @@
         </div>
     </div>
 </div>
-
-
 	<div class="portlet light bordered">
 		<div class="portlet-title">
 			<div class="caption font-red-sunglo">
@@ -36,10 +33,9 @@
 		</div>
 		<div class="portlet-body form">
 			<form id="form-add"  enctype="multipart/form-data" method="post" accept="image/*">
-				<div class="form-body">
-                    
+				<div class="form-body">              
 					<div class="form-group ">
-						<label for="title">Title input</label>
+						<label for="title">Title</label>
 						<input type="text" class="form-control" name="title" id="title" placeholder="title" >
                     </div>
                     <div class="form-group ">
@@ -60,37 +56,28 @@
                                 }
                                 showCategories($categories);
                             ?>                       
-                        </select>
-                        
-                    </div>
-					
+                        </select>                        
+                    </div>				
 					<div class="form-group ">
-						<label for="image">Image Input</label>
+						<label for="image">Image</label>
 						<input type="file" class="form-control" name="image" id="image" >
 						<img src="" id="image_tag" width="200px">
-
 					</div>
                     <div class="form-group ">
-                        <label for="description">Description input</label>
+                        <label for="description">Description</label>
                         <textarea class="form-control " name="description" id="description"></textarea>
                     </div>
 					<div class="form-group  ">
-						<label for="content">Content input</label>
+						<label for="content">Content</label>
 						<textarea class="form-control " name="content"></textarea>
 					</div>
-					<!-- <div class="form-group ">
-						<label for="date">Date input</label>
-						<input type="date" class="form-control" name="date" id="date">
-						
-					</div> -->	
                      <div class="form-group ">
                         <label for="tag">Tags</label>
                         <select id="tag" class="form-control " name="tag" multiple="multiple">
                             @foreach($tags as $tag)
                                 <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                             @endforeach                    
-                        </select>
-                        
+                        </select>               
                     </div>	
                     <div class="form-group">
                         <label for="">
@@ -109,8 +96,7 @@
 		</div>
 	</div>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-<script type="text/javascript">
-    
+<script type="text/javascript">  
 	//preview image
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -156,22 +142,14 @@
     			},
     			//validate content ckeditor
                 description: {
-                     required: function() 
-                    {
-                    CKEDITOR.instances.description.updateElement();
+                    required: function() {
+                         CKEDITOR.instances.description.updateElement();
                     }
                 },
     			content: {
-    				 required: function() 
-					{
-					CKEDITOR.instances.content.updateElement();
-					},
-
-					minlength:10
-    			},
-    			date: {
-    				required:true,
-    				date:true
+    				required: function() {
+					   CKEDITOR.instances.content.updateElement();
+					}
     			}
     		},
     		messages: {
@@ -189,18 +167,12 @@
                     required:"không được để trống"
                 },
     			content: {
-    				required:"không được để trống",
-    				minlength: "5 kí tự trở lên"
-    			},
-    			date: {
-    				required:"không được để trống",
-    				date:"không đúng định dạng ngày"
+    				required:"không được để trống"
     			}
     		}
     	});
     	//add
     	$('#add').click(function(){
-            // 
             var categories_id = $('#categories_id').val();
     		var check = $('#form-add').valid();
     		if(check) {
@@ -239,16 +211,12 @@
     						});
     					}
                         if(res.code == 403) {
+                            $('#title').focus();
                             swal({
                                 type: "warning",
                                 title: "Warning!",
                                 text: res.msg
-                            }).then((result) =>{
-                                if(result.value){
-                                    $('#title').focus();
-                                }
                             });
-
                         }
     				},
     				error: function(err) {
@@ -269,10 +237,13 @@
     CKEDITOR.replace('description', {
         removePlugins: 'image'
     } );
+    CKEDITOR.replace('content', {
+        filebrowserBrowseUrl: '{{ asset('ckfinder/ckfinder.html') }}',
+        filebrowserImageBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Images') }}',
+        filebrowserFlashBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Flash') }}',
+        filebrowserUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}',
+        filebrowserImageUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images') }}',
+        filebrowserFlashUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
+    } ); 
 </script>
-
-
 @endsection
-
-<!-- $chuoicanxoa='Xóa ?,\Ký, tự Đặc Biệt!';
-$ketqua=preg_replace('/([^\pL\.\ ]+)/u', '', strip_tags($chuoicanxoa)); -->

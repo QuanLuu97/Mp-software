@@ -18,9 +18,6 @@ class AdminController extends Controller
 	}
 
     public function index(){
-    	// $str = 'luu-xuan?quan vu?, %thi le^&';
-    	// $result = str_replace('', ' ', $str); echo $result; die;
-
     	$newss = News::all();
     	$categories = Category::all();
     	return view('news.index', compact('newss','categories'));
@@ -83,7 +80,7 @@ class AdminController extends Controller
 	    	$id = News::insertGetId($arr);
 
 	    	$news = News::findOrFail($id);
-            $slug = preg_replace('/[!@#$%^&*()]/', '', $title);
+            $slug = preg_replace('/[!@#$%^&*()?]/', '', $title);
 	    	$news->update([
 	    		'slug' => str_replace(' ', '-', $slug)
 	    	]);
@@ -230,7 +227,7 @@ class AdminController extends Controller
 		    	}
 		    	
     	  		// update ban ghi
-    	  		$slug = preg_replace('/[!@#$%^&*()]/', '', $title);
+    	  		$slug = preg_replace('/[!@#$%^&*()?]/', '', $title);
     	  		
 		    	$news->update([
 		    		'title' => $title,
@@ -289,7 +286,7 @@ class AdminController extends Controller
 			    		$tag = Tag::where('id', $item)->first(); //kiem tra xem da co tag trong db chưa
 		  				if($tag == null){
 		  					
-			  				$tag_id = Tag::insert([
+			  				$tag_id = Tag::insertGetId([
 			  					'name' => $item
 			  				]);
 			  				$tag = Tag::findOrFail($tag_id);

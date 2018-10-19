@@ -13,7 +13,6 @@
         </li>
         <li>
             <a href="{{ route('indexCat') }}">Categories</a>
-
         </li>
     </ul>
     <div class="page-toolbar">
@@ -24,7 +23,6 @@
         </div>
     </div>
 </div>
-
 <div class="col-md-8 col-md-offset-2">
 	<div class="portlet light bordered">
 		<div class="portlet-title">
@@ -34,122 +32,112 @@
 			</div>	
 		</div>
 		<div class="portlet-body form">	
-		<form id="form-edit" >
-			<div class="form-body">							
-				<div class="form-group ">
-					<label for="title">Title input</label>
-					<input type="text" class="form-control" name="title" id="title" placeholder="title" value="{{ $news->title }}">
-														
-				</div>
-				<div class="form-group ">
-		            <label for="categories_id">categories_id</label>
-		     		<select id="categories_id" class="form-control select" name="categories_id" multiple="multiple">
-			          	<option value="0"></option>
-			         	<?php 
-							function showCategories($categories, $cat_news, $parent_id = 0, $char = '') {
-								foreach ($categories as $key => $category) {
-									$i = 0;
-									if($category['parent_id'] == $parent_id) {
-										foreach ($cat_news as $key1 => $item) {
-											if($category['id'] == $item['category_id']) {
-												echo '<option value="' . $category['id'] . '" selected = "selected">';
+			<form id="form-edit" >
+				<div class="form-body">							
+					<div class="form-group ">
+						<label for="title">Title input</label>
+						<input type="text" class="form-control" name="title" id="title" placeholder="title" value="{{ $news->title }}">
+					</div>
+					<div class="form-group ">
+			            <label for="categories_id">categories_id</label>
+			     		<select id="categories_id" class="form-control select" name="categories_id" multiple="multiple">
+				          	<option value="0"></option>
+				         	<?php 
+								function showCategories($categories, $cat_news, $parent_id = 0, $char = '') {
+									foreach ($categories as $key => $category) {
+										$i = 0;
+										if($category['parent_id'] == $parent_id) {
+											foreach ($cat_news as $key1 => $item) {
+												if($category['id'] == $item['category_id']) {
+													echo '<option value="' . $category['id'] . '" selected = "selected">';
+													echo $char . ' ' . $category['name'];
+													echo '</option>';
+													unset($categories[$key1]);
+													showCategories($categories, $cat_news, $category->id, $char.'- - - ');
+													$i = 1; break;
+												}
+											}
+											if( $i == 0) {
+												echo '<option value="' . $category['id'] . '">';
 												echo $char . ' ' . $category['name'];
 												echo '</option>';
-												unset($categories[$key1]);
-												showCategories($categories, $cat_news, $category->id, $char.'- - - ');
-												$i = 1; break;
-											}
+												unset($categories[$key]);
+												showCategories($categories, $cat_news, $category->id, $char.'- ');
+											}								
 										}
-										if( $i == 0) {
-											echo '<option value="' . $category['id'] . '">';
-											echo $char . ' ' . $category['name'];
-											echo '</option>';
-											unset($categories[$key]);
-											showCategories($categories, $cat_news, $category->id, $char.'- ');
-										}								
 									}
 								}
-							}
-			            	showCategories($categories, $cat_news);
-			            ?>    		                           
-			     	 </select>		            
-		        </div>
-				<div class="form-group ">
-					<label for="image">Image Input</label>
-					<input type="file" class="form-control" name="image" id="image"   >
-					<img src="{{ asset('/image/'. $news->image) }}" id="image_tag" width="200px">
-				</div>
-				<div class="form-group ">
-					<label for="description">Description input</label>
-					<textarea class="form-control " name="description" id="description">{{ $news->description }}</textarea>
-				</div>
-				<div class="form-group ">
-					<label for="content">Content input</label>
-					<textarea class="form-control " name="content" id="content">{{ $news->content }}</textarea>
-				</div>
-				<!-- <div class="form-group  ">
-					<label for="date">Date input</label>
-					<input type="date" class="form-control" name="date" id="date" value="{{ $news->date }}">
-				</div> -->
-				<div class="form-group">
-					<label for="tag">Tags</label>
-					<select id="tag" class="form-control select" multiple="multiple">
-						<?php 
-							foreach($tags as $tag){
-								$x = 1;
-								foreach($news_tags as $news_tag){
-									if($tag->id == $news_tag->tag_id){
-										echo'<option value="'. $tag->id .' "selected="selected">'. $tag->name .'</option>';
-										$x = 0; break;
+				            	showCategories($categories, $cat_news);
+				            ?>    		                           
+				     	 </select>		            
+			        </div>
+					<div class="form-group ">
+						<label for="image">Image Input</label>
+						<input type="file" class="form-control" name="image" id="image"   >
+						<img src="{{ asset('/image/'. $news->image) }}" id="image_tag" width="200px">
+					</div>
+					<div class="form-group ">
+						<label for="description">Description input</label>
+						<textarea class="form-control " name="description" id="description">{{ $news->description }}</textarea>
+					</div>
+					<div class="form-group ">
+						<label for="content">Content input</label>
+						<textarea class="form-control " name="content" id="content">{{ $news->content }}</textarea>
+					</div>
+					<div class="form-group">
+						<label for="tag">Tags</label>
+						<select id="tag" class="form-control select" multiple="multiple">
+							<?php 
+								foreach($tags as $tag){
+									$x = 1;
+									foreach($news_tags as $news_tag){
+										if($tag->id == $news_tag->tag_id){
+											echo'<option value="'. $tag->id .' "selected="selected">'. $tag->name .'</option>';
+											$x = 0; break;
+										}
 									}
+									if($x == 1){
+										echo'<option value="'. $tag->id .'">'. $tag->name .'</option>';
+									}								
 								}
-								if($x == 1){
-									echo'<option value="'. $tag->id .'">'. $tag->name .'</option>';
-								}								
-							}
-						?>
-					</select>
+							?>
+						</select>
+					</div>
+					 <div class="form-group">
+						<label>Status</label>
+						<input type="checkbox" name="status" id="status" data-toggle = "toggle" <?php if($news->status == 1): ?> checked <?php endif ?>>
+	                </div>
+					<input type="hidden" id="post_id" value="{{ $news->id }}" />
+					<span id="save" class="btn btn-primary">Save changes</span>	
+					<a href="{{ route('indexNews') }}" class="btn btn-default">Cancel</a>			
 				</div>
-				 <div class="form-group">
-					<label>Status</label>
-					<input type="checkbox" name="status" id="status" data-toggle = "toggle" <?php if($news->status == 1): ?> checked <?php endif ?>>
-                </div>
-				<input type="hidden" id="post_id" value="{{ $news->id }}" />
-				<span id="save" class="btn btn-primary">Save changes</span>	
-				<a href="{{ route('indexNews') }}" class="btn btn-default">Cancel</a>			
-			</div>
-			{{ csrf_field() }}
-		</form>
+				{{ csrf_field() }}
+			</form>
+		</div>
 	</div>
-	</div>
-
 </div>
 <div class="clearfix" style="clear:both;"></div>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-
 		//validate
 		$(".select").select2({
 			tags: true,
             tokenSeparators: [',', ' ']
 		});
 		jQuery.validator.addMethod("isImage", function(value){
-
 		 	var file = $('#image')[0].files[0];
 		 	if(file){
 		 		var fileType = file.type;
-
 				var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
-				if($.inArray(fileType, ValidImageTypes) < 0 || file.size >1048576) {
+				if($.inArray(fileType, ValidImageTypes) < 0 || file.size > 1048576) {
 					return false;
 				}
 				return true;
 		 	} 
 		 	else {
 		 		return true;
-		 	}
-			
+		 	}			
 		 });
 		var validator = $("#form-edit").validate({
 			ignore: [], // cho content
@@ -171,16 +159,11 @@
 					 required: function() 
 					{
 					CKEDITOR.instances.content.updateElement();
-					},
-					minlength:5
+					}
 				},
 				image: {
 					isImage:true
 				}
-				// date: {
-				// 	required:true,
-				// 	date:true
-				// }
 			},
 			messages:{
 				title: {
@@ -194,22 +177,15 @@
                     required:"không được để trống"
                 },
 				content: {
-					required: "không được để trống",
-					minlength: "độ dài lớn hơn 5 kí tự"
+					required: "không được để trống"
 				},
 				image:{
 					isImage: "image phải đúng định dạng và kích cỡ dưới 1MB"
 				}
-				// date: {
-				// 	required: "không được để trống",
-				// 	date: "sai định sạng ngày"
-				// }
 			}
-		});
-	
+		});	
 		// edit
 		$('#save').click(function(){
-			// console.log($('#checkbox').prop('checked'));
 			var check = $('#form-edit').valid();
 			var categories_id = $('#categories_id').val();
 			if(check){
@@ -221,7 +197,6 @@
 				formData.append('content', CKEDITOR.instances.content.getData());
 				formData.append('status', $('#checkbox').prop('checked'));
 				formData.append('description', CKEDITOR.instances.description.getData());
-				// formData.append('date', $('#date').val());
 				formData.append('image', $('#image')[0].files[0]);
 				formData.append('_token', "{{ csrf_token() }}");
 				$.ajax({
@@ -266,23 +241,19 @@
 									$('#title').focus();
 								}
 							});
-
 						}
 					}	
 				});
 			}
 			else {
                 validator.focusInvalid();
-            }
-			
+            }		
 		});
-
 	});
 	
     function readURL(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            
+            var reader = new FileReader();      
             reader.onload = function (e) {
                 $('#image_tag').attr('src', e.target.result);
             }
@@ -296,5 +267,13 @@
     CKEDITOR.replace('description', {
         removePlugins: 'image'
     } );
+    CKEDITOR.replace('content', {
+        filebrowserBrowseUrl: '{{ asset('ckfinder/ckfinder.html') }}',
+        filebrowserImageBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Images') }}',
+        filebrowserFlashBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Flash') }}',
+        filebrowserUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}',
+        filebrowserImageUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images') }}',
+        filebrowserFlashUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
+    } ); 
 </script>
 @endsection

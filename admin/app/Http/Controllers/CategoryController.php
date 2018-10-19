@@ -79,7 +79,11 @@ class CategoryController extends Controller
     		'msg' => 'thất bại'
     	]);
     }
-
+    public function edit($id) {
+        $category = Category::findOrFail($id);
+        $categories = Category::all();
+        return view('categories.edit', compact('category', 'categories'));
+    }
     public function update(Request $request, $id) {
     	$category = Category::findOrFail($id);
     	$validate = Validator::make(
@@ -130,12 +134,12 @@ class CategoryController extends Controller
     	try {
     		$category = Category::findOrFail($id);
     		// lay catalog la cha cua category
-    		$catalog = $category->catalog;
+    		//$catalog = $category->catalog;
     		// lay categories la con cua category
     		$categories = $category->categories;
     		
     		foreach ($categories as $cat) {
-    			$cat->parent_id = $catalog->id;
+    			$cat->is_deleted = 1 ;
     			$cat->save();
     		}
     		$category->update([

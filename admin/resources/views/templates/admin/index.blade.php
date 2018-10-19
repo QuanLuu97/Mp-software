@@ -1379,7 +1379,7 @@ License: You must have a valid license purchased only from themeforest(the above
   		base: '{{url('')}}'
   	});
   </script>
-<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+<!-- <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script> CKEDITOR.replace('content', {
         filebrowserBrowseUrl: '{{ asset('ckfinder/ckfinder.html') }}',
         filebrowserImageBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Images') }}',
@@ -1388,11 +1388,8 @@ License: You must have a valid license purchased only from themeforest(the above
         filebrowserImageUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images') }}',
         filebrowserFlashUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
         } ); 
-</script>
-<!-- <script> CKEDITOR.replace('description', {
-		removePlugins: 'image'
-        } ); 
 </script> -->
+
 <script src="{{asset('dist/sweetalert2.min.js') }}"></script>
 
 <script src="{{ asset('assets/global/plugins/jquery-migrate.min.js') }}" type="text/javascript"></script>

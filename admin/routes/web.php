@@ -30,5 +30,6 @@ route::get('categories/index', ['as' => 'indexCat', 'uses' => 'CategoryControlle
 Route::get('categories/add', ['as' => 'addCat', 'uses' => 'CategoryController@add']);
 Route::post('categories/store', ['as' => 'storeCat', 'uses' => 'CategoryController@store']);
 Route::post('categories/getData', ['as' => 'getDataCat', 'uses' => 'CategoryController@getDataCat']);
+Route::get('categories/edit/{id}', ['as' => 'editCat', 'uses' =>'CategoryController@edit']);
 Route::post('categories/update/{id}', ['as' => 'updateCat', 'uses' =>'CategoryController@update']);
 Route::get('categories/delete/{id}', ['as' => 'deleteCat', 'uses' => 'CategoryController@delete']);

@@ -51,9 +51,6 @@
 					<th class="col-md-4 text-center">
 						Description
 					</th>
-					<!-- <th class="col-md-1 text-center">
-						Date
-					</th> -->
 					<th class="col-md-1 text-center" colspan="2">
 						
 					</th>
@@ -73,7 +70,6 @@
 						@endif
 					</td>
 					<td class="text-center">{!! $news->description !!}</td>
-					<!-- <td class="text-center" >{{ $news->date }}</td> -->
 					<td>
 						<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $news->id; ?>)'" >&#xe020;</a>
 					</td>
@@ -81,118 +77,16 @@
 	                <td>
 	                    <a href="{{ route('editNews', $news->id) }}" class="glyphicon btn btn-primary">&#x270f;</a>
 	                </td>
-	                
-	                <!-- goi modal -->
-					<!-- <td>				
-						<button class="glyphicon btn btn-primary" data-toggle="modal" data-target="#edit" onclick='getRecord(<?php echo $news->id; ?>)'>&#x270f;</button>			
-					</td> -->
 				</tr>
 				
 			@endforeach   
 
 			</tbody>
 		</table>
-
-		<div id="edit"  class="modal fade"  role="dialog">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" >&times;</button>
-					<h4 class="modal-title">Edit</h4>
-					</div>
-					<div class="modal-body dropdownParent">
-						<form id="form-edit" >
-							<div class="form-body">							
-								<div class="form-group ">
-									<label for="title">Title input</label>
-									<input type="text" class="form-control" name="title" id="title" placeholder="title">
-																		
-								</div>
-								<div class="form-group ">
-			                         <label for="categories_id">categories_id</label>
-                              <select id="categories_id" class="form-control"  style="width: 400px;" name="categories_id" multiple="multiple">
-                                  <option value="0"></option>
-                                  <?php 
-                                      function showCategories($categories, $parent_id = 0, $char = '') {
-                                          foreach ($categories as $key => $category) {
-                                              if($category['parent_id'] == $parent_id) {
-                                                  echo '<option value="' . $category['id'] . '">';
-                                                  echo $char . ' ' . $category['name'];
-                                                  echo '</option>';
-                                                  unset($categories[$key]);
-                                                  showCategories($categories, $category->id, $char.'- - - ');
-                                              }
-                                          }
-                                      }
-                                      showCategories($categories);
-                                  ?>                       
-                              </select>
-			                        
-			                    </div>
-								<div class="form-group ">
-									<label for="image">Image Input</label>
-									<input type="file" class="form-control" name="image" id="image"   >
-									<img src="" id="image_tag" width="200px">
-								</div>
-								<div class="form-group ">
-									<label for="content">Content input</label>
-									<textarea class="form-control ckeditor" name="content" id="content"></textarea>
-								</div>
-								<!-- <div class="form-group  ">
-									<label for="date">Date input</label>
-									<input type="date" class="form-control" name="date" id="date">
-								</div> -->
-								<input type="hidden" id="post_id" value="" />
-								<span id="save" class="btn btn-primary">Save changes</span>	
-								<div class="form-group form-md-line-input ">
-									<span id="mess"></span>
-								</div>
-							</div>
-							{{ csrf_field() }}
-						</form>
-					</div>
-					<div class="modal-footer">
-						<a href="{{ route('indexNews') }}"  class="btn btn-default" >Close</a>						
-					</div>
-				</div><!-- /.modal-content -->
-
-			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
 	</div>
 </div>
 <a href="{{ route('addNews') }}" class="btn btn-success">ADD</a>
 <script type="text/javascript">
-
-	//get data by ajax -- k dung (dung cho modal)
-	function getRecord(id) {
-		
-		if (id > 0) {
-			$.ajax({
-				url: "{{ route('getData') }}",
-				type: 'post',
-				data: {
-					id : id,
-					_token: '{{ csrf_token() }}'
-				},
-				success: function(res) {
-					if(res.code == 202){
-						$('#title').val(res.data.title);					
-						$('#post_id').val(res.data.id);					
-						$('#title').val(res.data.title);
-                        console.log(res.data2[0]);
-                        $('categories_id').val(res.data2[0]);
-                        // $.each(res.data2, function (key, value){
-                        //     $("#categories_id option[value='" + value + "']").prop("selected", true);
-                        // });
-                        
-						$('#image_tag').attr({'src': '../image/'+res.data.image});
-						CKEDITOR.instances.content.setData(res.data.content); 
-						// $('#date').val(res.data.date);
-					}
-				}
-			});
-		}
-	}
 	// delete item with  swal
 	function deleteItem (id) {
 		swal({
@@ -238,100 +132,6 @@
 		});
 			
 	};
-	$(document).ready(function(){
-
-		jQuery.validator.addMethod("isImage", function(value){
-
-		 	var file = $('#image')[0].files[0];
-		 	if(file){
-		 		var fileType = file.type;
-
-				var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
-				if($.inArray(fileType, ValidImageTypes) < 0 || file.size >1048576) {
-					return false;
-				}
-				return true;
-		 	} 
-		 	else {
-		 		return true;
-		 	}
-			
-		 });
-		$("#form-edit").validate({
-			ignore: [],
-			rules:{
-				title: {
-					required:true,
-					minlength:5
-				},
-				content: {
-					 required: function() 
-					{
-					CKEDITOR.instances.content.updateElement();
-					},
-					minlength:5
-				},
-				image: {
-					isImage:true
-				}
-				// date: {
-				// 	required:true,
-				// 	date:true
-				// }
-			},
-			messages:{
-				title: {
-					required: "không được để trống",
-					minlength: "độ dài lớn hơn 5 kí tự"
-				},
-				content: {
-					required: "không được để trống",
-					minlength: "độ dài lớn hơn 5 kí tự"
-				},
-				image:{
-					isImage: "image phải đúng định dạng và kích cỡ dưới 1MB"
-				}
-				// date: {
-				// 	required: "không được để trống",
-				// 	date: "sai định sạng ngày"
-				// }
-			}
-		});
-	
-		// edit
-		$('#save').click(function(){
-			var check = $('#form-edit').valid();
-		
-			if(check){
-				var id = $('#post_id').val();			
-				var formData = new FormData();
-				formData.append('title', $('#title').val());
-				formData.append('content', CKEDITOR.instances.content.getData());
-				// formData.append('date', $('#date').val());
-				formData.append('image', $('#image')[0].files[0]);
-				formData.append('_token', "{{ csrf_token() }}");
-				$.ajax({
-				 	url: Laravel.data.base + "/news/update/" + id,
-					type: 'post',
-					data: formData,
-					contentType: false,
-					processData: false,
-					success: function(res) {
-						if(res.code == 202) {
-							$('#mess').html(res.msg);
-							$('#mess').addClass("alert alert-success");
-						}
-						if(res.code == 404) {
-							$('#mess').html(res.msg);
-							$('#mess').addClass("alert alert-danger");
-						}
-					}
-				});
-			}
-			
-		});
-
-	});
 
 </script>
 <script type="text/javascript">
