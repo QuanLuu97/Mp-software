@@ -112,11 +112,14 @@ class AdminController extends Controller
 	    	}
 	    	//tao ban ghi cat_news
   			foreach ($categories_id as $category_id) {
+                $slug_category = str_replace(' ', '-', preg_replace('/[!@#$%^&*()]/', '', Category::findOrFail($category_id)->name));
 				Cat_News::insert([
 					'category_id' => $category_id,
 					'category_name' => Category::findOrFail($category_id)->name,
+                    'category_slug' => $slug_category,
 					'news_id' => $news->id,
-					'news_title' => $news->title
+					'news_title' => $news->title,
+                    'news_slug' => $news->slug
 				]);		
   			}
   			//tao ban ghi news_tag
@@ -267,14 +270,18 @@ class AdminController extends Controller
 				    	]);
 
 			    	}
-    			}			
+    			}		
 		    	Cat_News::where('news_id', $news->id)->delete();
 		    	foreach ($categories_id as $category_id) {
+                    $slug_category = str_replace(' ', '-', preg_replace('/[!@#$%^&*()?]/', '', Category::findOrFail($category_id)->name));
+
 					Cat_News::insert([
 						'category_id' => $category_id,
 						'category_name' => Category::findOrFail($category_id)->name,
+                        'category_slug' => $slug_category,
 						'news_id' => $news->id,
-						'news_title' => $news->title
+						'news_title' => $news->title,
+                        'news_slug' => $news->slug
 					]);	
 					
 	  			}

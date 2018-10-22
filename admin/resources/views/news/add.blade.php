@@ -96,6 +96,7 @@
 		</div>
 	</div>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('js/multiselect.js') }}"></script>
 <script type="text/javascript">  
 	//preview image
     function readURL(input) {
@@ -110,6 +111,9 @@
     }
     $("#image").change(function(){
         readURL(this);
+    });
+    $('#categories_id').multiselect({
+        includeSelectAllOption: true
     });
     $(document).ready(function(){
     	//validate
@@ -227,7 +231,7 @@
                 validator.focusInvalid();
             }
     	});
-        $('.select').select2();
+        //$('.select').select2();
         $('#tag').select2({ 
             tags: true,
             tokenSeparators: [',', ' ']

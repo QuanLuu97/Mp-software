@@ -528,7 +528,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						
 					</ul>
 				</li>
-				<li>
+				<li class="active open">
 					<a href="javascript:;">
 					<i class="icon-basket"></i>
 					<span class="title">eCommerce</span>
