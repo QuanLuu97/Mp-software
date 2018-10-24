@@ -152,6 +152,11 @@ class CategoryController extends Controller
                     'msg' => 'không cập nhật được category'
                 ]);
             }
+            // update trong bang object category new
+            Cat_News::where('category_id', $id)->update([
+                'category_name' => $category->name,
+                'category_slug' => $category->slug
+            ]);
     		return response()->json([
     			'code' => 200,
     			'msg' => 'thành công'
