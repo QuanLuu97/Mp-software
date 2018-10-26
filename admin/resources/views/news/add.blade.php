@@ -112,9 +112,15 @@
     $("#image").change(function(){
         readURL(this);
     });
+<<<<<<< HEAD
     // $('#categories_id').multiselect({
     //     includeSelectAllOption: true
     // });
+=======
+    $('#categories_id').multiselect({
+        includeSelectAllOption: true
+    });
+>>>>>>> eb9daceca301262a236d153256c01a10892319b5
     $(document).ready(function(){
     	//validate
     	jQuery.validator.addMethod("isImage", function(elment){
@@ -231,7 +237,7 @@
                 validator.focusInvalid();
             }
     	});
-        $('.select').select2();
+        //$('.select').select2();
         $('#tag').select2({ 
             tags: true,
             tokenSeparators: [',', ' ']
