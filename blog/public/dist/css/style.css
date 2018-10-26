@@ -1872,7 +1872,7 @@ body {
     body .mpsw-new .new-left .cover-img {
       margin-top: 30px; }
       body .mpsw-new .new-left .cover-img img {
-        height: auto;
+        max-height: 391px;
         width: 100%; }
     body .mpsw-new .new-left p {
       margin-top: 25px;

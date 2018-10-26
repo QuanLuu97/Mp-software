@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class News extends Model
 {
     protected $table = 'news';
-    public $timestamps = false;
+    //public $timestamps = false;
     protected $fillable = [
         'title',
         'image',
@@ -15,7 +15,9 @@ class News extends Model
         'date',
         'description',
         'slug',
-        'status'
+        'status',
+        'created_at',
+        'updated_at'
     ];
 
     public function cat_news() {

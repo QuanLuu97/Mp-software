@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\form;
+use App\Models\form;
 
 class MPController extends Controller
 {
@@ -27,10 +27,10 @@ class MPController extends Controller
     	return view('MPsoftware.mpsw-new');
     }
 
-    // public function contact ()
-    // {
-    // 	return view('MPsoftware.mpsw-contact');
-    // }
+    public function contact ()
+    {
+    	return view('MPsoftware.mpsw-contact');
+    }
 
     public function case_studies ()
     {

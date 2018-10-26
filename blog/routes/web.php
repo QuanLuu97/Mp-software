@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 //demo MPsoftware
 Route::get('index',['as' => 'index', 'uses' => 'MPController@index']);
 Route::get('about',['as' => 'about', 'uses' => 'MPController@about']);
@@ -39,7 +37,12 @@ Route::post('products/store', ['as' => 'storeProduct', 'uses' => 'ProductControl
 Route::get('products/index',['as' => 'indexProduct', 'uses' => 'ProductController@index']);
 Route::post('products/index', ['as' => 'indexProduct', 'uses' => 'ProductController@index']);
 
-Route::get('news/index', ['as' => 'indexNews', 'uses' => 'NewsController@index']);
+Route::get('news/category/{slug}.html', ['as' => 'news/category', 'uses' => 'NewsController@index']);
+Route::get('news/tags/{tag}', ['as' => 'news/tags', 'uses' => 'NewsController@newsByTag']);
+//Route::get('news/test/{slug}', ['as' => 'news/test', 'uses' => 'NewsController@detailNews']);
+Route::get('news/{slug}.html', ['as' => 'news/', 'uses' => 'NewsController@detailNews']);
+Route::get('news/{cate_slug}/{slug}', ['as' => 'news/', 'uses' => 'NewsController@detail']);
+
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Form;
+use App\Models\Form;
 use Validator;
 
 class ContactController extends Controller

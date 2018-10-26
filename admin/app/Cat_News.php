@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cat_News extends Model
 {
 	protected $table = 'categories_object_news';
+	public $timestamps = false;
     public function categories() {
     	return $this->belongsTo('App\Category','category_id','id');
     }

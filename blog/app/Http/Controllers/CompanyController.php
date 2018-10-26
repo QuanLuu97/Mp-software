@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Company;
+use App\Models\Company;
 use App\Http\Requests\CompanyFormRequest;
 use App\Http\Controllers\Controller;
 

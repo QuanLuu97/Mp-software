@@ -10,6 +10,7 @@ use Validator;
 use Confirm;
 use App\Category;
 use App\Cat_News;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -74,7 +75,8 @@ class AdminController extends Controller
 	    		'title' => $title,
 	    		'description' => $description,
 	    		'content' => $content,
-	    		'status' => $status
+	    		'status' => $status,
+                'created_at' => Carbon::now()
 		    	// 'date' => $date
 	    	];
 	    	$id = News::insertGetId($arr);
@@ -112,11 +114,14 @@ class AdminController extends Controller
 	    	}
 	    	//tao ban ghi cat_news
   			foreach ($categories_id as $category_id) {
+                $slug_category = str_replace(' ', '-', preg_replace('/[!@#$%^&*()]/', '', Category::findOrFail($category_id)->name));
 				Cat_News::insert([
 					'category_id' => $category_id,
 					'category_name' => Category::findOrFail($category_id)->name,
+                    'category_slug' => $slug_category,
 					'news_id' => $news->id,
-					'news_title' => $news->title
+					'news_title' => $news->title,
+                    'news_slug' => $news->slug
 				]);		
   			}
   			//tao ban ghi news_tag
@@ -234,7 +239,8 @@ class AdminController extends Controller
 		    		'description' => $description,
 		    		'content' => $content,
 		    		'slug' => str_replace(' ', '-', $slug),
-		    		'status' => $status
+		    		'status' => $status,
+                    'updated_at' => Carbon::now()
 			    	// 'date' => $date
 		    	]);
 
@@ -267,14 +273,18 @@ class AdminController extends Controller
 				    	]);
 
 			    	}
-    			}			
+    			}		
 		    	Cat_News::where('news_id', $news->id)->delete();
 		    	foreach ($categories_id as $category_id) {
+                    $slug_category = str_replace(' ', '-', preg_replace('/[!@#$%^&*()?]/', '', Category::findOrFail($category_id)->name));
+
 					Cat_News::insert([
 						'category_id' => $category_id,
 						'category_name' => Category::findOrFail($category_id)->name,
+                        'category_slug' => $slug_category,
 						'news_id' => $news->id,
-						'news_title' => $news->title
+						'news_title' => $news->title,
+                        'news_slug' => $news->slug
 					]);	
 					
 	  			}

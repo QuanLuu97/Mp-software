@@ -96,6 +96,7 @@
 		</div>
 	</div>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('js/multiselect.js') }}"></script>
 <script type="text/javascript">  
 	//preview image
     function readURL(input) {
@@ -111,6 +112,9 @@
     $("#image").change(function(){
         readURL(this);
     });
+    // $('#categories_id').multiselect({
+    //     includeSelectAllOption: true
+    // });
     $(document).ready(function(){
     	//validate
     	jQuery.validator.addMethod("isImage", function(elment){
@@ -220,7 +224,7 @@
                         }
     				},
     				error: function(err) {
-    					alert('sai');
+    					alert(err);
     				}
     			});
     		} else {

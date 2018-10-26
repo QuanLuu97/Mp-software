@@ -38,10 +38,23 @@
             </ul>
           </li>
           <li><a href="{{ route('client') }}"> CLIENTS</a></li>
-          <li><a href="{{ route('news') }}">NEWS</a></li>
+          <li><a href="#">NEWS</a></li>
           <li><a href="{{ route('contact') }}"> CONTACT US </a></li>
         </ul>
       </div>
     </nav>
   </div>
 </header>
+<style type="text/css">
+  .pagination>li.active>span {
+    color: white !important;
+    margin-top:0px !important;
+    padding: 10px 20px !important;
+    background-color: #ff9801 !important;
+    border-color: #ff9801 !important;
+  }
+  body .mpsw-new .new-left span {
+    margin-top: 0px !important;
+    padding: 10px 20px !important;
+  }
+</style>

@@ -91,7 +91,7 @@
         }).then((result) => {
           if (result.value) {
                 $.ajax({
-                    url: './delete/' +id,
+                    url: Laravel.data.base + "/categories/delete/" +id,
                     type: 'get',
                     data: {
                         id:id

@@ -39,12 +39,12 @@
 		<table class="table table-striped table-bordered table-hover" id="sample_2">
 			<thead>
 				<tr>
+					<th class="col-md-1 text-center">
+						Id
+					</th >
 					<th class="col-md-2 text-center">
 						Title
-					</th >
-					<th class="col-md-1 text-center">
-						Category
-					</th >
+					</th >					
 					<th class="col-md-3 text-center">
 						Image
 					</th>
@@ -59,8 +59,9 @@
 			<tbody>
 			@foreach($newss as $news)
 				<tr>
+					<td class="text-center">{{ $news->id }}</td>
 					<td class="text-center">{{ $news->title }}</td>
-					<td class="text-center"></td>
+					
 					<td class="text-center">
 						@if($news->image == null)
 							<img src="" width="200px" height="200px" alt="null">
@@ -83,6 +84,7 @@
 
 			</tbody>
 		</table>
+		
 	</div>
 </div>
 <a href="{{ route('addNews') }}" class="btn btn-success">ADD</a>

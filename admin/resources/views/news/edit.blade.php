@@ -105,7 +105,7 @@
 					</div>
 					 <div class="form-group">
 						<label>Status</label>
-						<input type="checkbox" name="status" id="status" data-toggle = "toggle" <?php if($news->status == 1): ?> checked <?php endif ?>>
+						<input type="checkbox" name="status" id="status" data-toggle = "toggle" data-on="Enabled" data-off="Disabled"<?php if($news->status == 1): ?> checked <?php endif ?>>
 	                </div>
 					<input type="hidden" id="post_id" value="{{ $news->id }}" />
 					<span id="save" class="btn btn-primary">Save changes</span>	

@@ -12,11 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('templates/admin/index');
 });
 Route::get('admin', [ 'as' => 'home', 'uses' => 'AdminController@home' ]);
 
-Route::get('news/index', ['as' => 'indexNews', 'uses' => 'AdminController@index']);
+Route::get('news', ['as' => 'indexNews', 'uses' => 'AdminController@index']);
 Route::get('news/add', ['as' => 'addNews', 'uses' => 'AdminController@add']);
 Route::post('news/getData', ['as' => 'getData', 'uses' => 'AdminController@getData']);
 Route::post('news/store', ['as' => 'storeNews', 'uses' => 'AdminController@store']);
@@ -26,7 +26,7 @@ Route::get('news/edit/{id}', ['as' => 'editNews', 'uses' => 'AdminController@edi
 Route::post('news/update/{id}', ['as' => 'updateNews', 'uses' =>'AdminController@update']);
 Route::get('news/delete/{id}', ['as' => 'deleteNews', 'uses' => 'AdminController@delete']);
 
-route::get('categories/index', ['as' => 'indexCat', 'uses' => 'CategoryController@index']);
+route::get('categories', ['as' => 'indexCat', 'uses' => 'CategoryController@index']);
 Route::get('categories/add', ['as' => 'addCat', 'uses' => 'CategoryController@add']);
 Route::post('categories/store', ['as' => 'storeCat', 'uses' => 'CategoryController@store']);
 Route::post('categories/getData', ['as' => 'getDataCat', 'uses' => 'CategoryController@getDataCat']);

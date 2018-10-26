@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\Cat_News;
+use App\News;
 use Validator;
 
 class CategoryController extends Controller
 {
     public function index () {
-    	$categories = Category::where('is_deleted', '0')->get();
+    	$categories = Category::where('is_deleted', 0)->get();
     	
     	return view('categories.index', compact('categories')); 
     } 
 
     public function add() {
-		$categories = Category::all();
+		$categories = Category::where([ ['status', 1], ['is_deleted', 0] ])->get();
 
     	return view('categories.add', compact('categories'));
     }
@@ -81,7 +83,7 @@ class CategoryController extends Controller
     }
     public function edit($id) {
         $category = Category::findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::where([ ['status', 1], ['is_deleted', 0] ])->get();
         return view('categories.edit', compact('category', 'categories'));
     }
     public function update(Request $request, $id) {
@@ -111,19 +113,50 @@ class CategoryController extends Controller
                 ]);
             }
     		if($request->input('status') == 'false'){
-    			$status = 0;
+    			$status = 0;             
     		}
     		else{
     			$status = 1;
-    		}
+    		}           
+            //$arr_categories = array();
+            // lay ra cac categories con            
+            $listCategories = $category->categories;
+            foreach ($listCategories as $itemCategory) {
+                $itemCategory->status = $status;
+                $itemCategory->save();
+                //tao mang luu cac id categories con
+                //array_push($arr_categories,$itemCategory->id);
+            }
+            // unactive cac bai viet theo category
+
+            // array_push($arr_categories,$category->id);           
+            // $query_update_status = News::leftJoin('categories_object_news','categories_object_news.news_id','=','news.id')
+            // ->whereIn('categories_object_news.category_id',$arr_categories)->update(['news.status' => $status]);
+            // if (!$query_update_status) {
+            //     return response()->json([
+            //         'code' => 404,
+            //         'msg' => 'không cập nhật được trạng thái'
+            //     ]); 
+            // }
+
             $slug = preg_replace('/[!@#$%^&*()]/', '', $request->input('name')); // loai bo tat ca cac ki tu dac biet trừ kí tự '-'
-    		$category->update([
+    		$query_update_category = $category->update([
     			'name' => $request->input('name'),
     			'parent_id' => $request->input('parent_id'),
     			'status' => $status,
                 'slug' => str_replace(' ', '-', $slug)
-
     		]);
+            if (!$query_update_category) {
+                return response()->json([
+                    'code' => 404,
+                    'msg' => 'không cập nhật được category'
+                ]);
+            }
+            // update trong bang object category new
+            Cat_News::where('category_id', $id)->update([
+                'category_name' => $category->name,
+                'category_slug' => $category->slug
+            ]);
     		return response()->json([
     			'code' => 200,
     			'msg' => 'thành công'
