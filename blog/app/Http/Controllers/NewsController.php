@@ -13,7 +13,23 @@ use Cookie;
 
 class NewsController extends Controller
 {
-    public function index($slug) {
+	public function indexNews() {
+		$response = [];
+		$news = News::where([ ['status', 1], ['is_deleted', 0] ])->orderBy('created_at', 'DESC')->limit(5)->paginate(5);
+		$response['news'] = $news;
+		$response['news_popular'] = News::select('news.*','categories.slug AS cate_p_slug','categories_object_news.category_id', 'categories_object_news.news_id', 'categories_object_news.category_id')
+			->leftJoin('categories_object_news','categories_object_news.news_id','=','news.id')
+			->leftJoin('categories','categories_object_news.category_id','=','categories.id')
+			->where('categories.status',1)
+			->where('categories.is_deleted',0)
+	    	->where('news.is_deleted',0)
+	    	->where('news.status',1)
+	    	->groupBy('categories_object_news.news_id')
+	    	->limit(6)->orderBy('views_count','DESC')->get();
+	    $response['tags'] = Tags::all();	
+		return view('news.indexNews',$response);
+	}
+    public function newsByCategory($slug) {
     	$category = Categories::where('slug',$slug)->where('is_deleted',0)->where('status',1)->first();
 
     	if (!empty($category)) {
@@ -41,7 +57,7 @@ class NewsController extends Controller
     	} else return redirect('/');
 							    	// print_r($response['news_popular']);die;
 							    	
-    	return view('news.index',$response);
+    	return view('news.newsCategory',$response);
     }
     
     public function detail($cate_slug,$slug, Request $request) {

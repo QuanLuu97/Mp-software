@@ -38,7 +38,7 @@
             </ul>
           </li>
           <li><a href="{{ route('client') }}"> CLIENTS</a></li>
-          <li><a href="#">NEWS</a></li>
+          <li><a href="{{ route('news') }}">NEWS</a></li>
           <li><a href="{{ route('contact') }}"> CONTACT US </a></li>
         </ul>
       </div>

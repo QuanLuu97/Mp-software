@@ -5,7 +5,7 @@
   <div class="container">
     <div class="content-page-title">
       <p class="sub-title"><a href="http://blog.m/index">Home</a> / <a href="{{ route('news') }}">News</a></p>
-      <h1 class="page-title">{{ $tag->name }}</h1>
+      <h1 class="page-title"></h1>
     </div>
   </div>
 </div>
@@ -14,7 +14,7 @@
 <div class="mpsw-content">
   <div class="mpsw-new m-b-100">
     <div class="container">
-      <h1 class="mpsw-heading">{{ $tag->name }}</h1>
+      <h1 class="mpsw-heading">Bài Viết mới nhất</h1>
       <div class="sep sep-style2"></div>
       <div class="row">
         <div class="col-md-8 new-left">

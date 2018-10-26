@@ -18,7 +18,7 @@ Route::get('about',['as' => 'about', 'uses' => 'MPController@about']);
 Route::get('service', ['as' => 'service', 'uses' => 'MPController@service']);
 Route::get('case-studies',['as' => 'case_studies', 'uses' => 'MPController@case_studies']);
 Route::get('client',['as' => 'client', 'uses' => 'MPController@client']);
-Route::get('news',['as' => 'news', 'uses' => 'MPController@news']);
+// Route::get('news',['as' => 'news', 'uses' => 'MPController@news']);
 
 Route::get('contact',['as' =>'contact', 'uses' => 'ContactController@contact']);
 Route::post('contact', ['as' => 'add', 'uses' => 'ContactController@add']);
@@ -37,9 +37,12 @@ Route::post('products/store', ['as' => 'storeProduct', 'uses' => 'ProductControl
 Route::get('products/index',['as' => 'indexProduct', 'uses' => 'ProductController@index']);
 Route::post('products/index', ['as' => 'indexProduct', 'uses' => 'ProductController@index']);
 
-Route::get('news/category/{slug}.html', ['as' => 'news/category', 'uses' => 'NewsController@index']);
+Route::get('news',['as' => 'news', 'uses' => 'NewsController@indexNews']);
+// view ra cac bai viet thuoc category
+Route::get('news/category/{slug}.html', ['as' => 'news/category', 'uses' => 'NewsController@newsByCategory']); 
+// view ra các bài viết thuộc tag
 Route::get('news/tags/{tag}', ['as' => 'news/tags', 'uses' => 'NewsController@newsByTag']);
-//Route::get('news/test/{slug}', ['as' => 'news/test', 'uses' => 'NewsController@detailNews']);
+// view ra bài viết
 Route::get('news/{slug}.html', ['as' => 'news/', 'uses' => 'NewsController@detailNews']);
 Route::get('news/{cate_slug}/{slug}', ['as' => 'news/', 'uses' => 'NewsController@detail']);
 
