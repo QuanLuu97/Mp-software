@@ -52,7 +52,7 @@
             <ul class="new-list">
 
               @foreach($categories_new as $cat => $cate)
-                <li><?php echo $cate->category_name; ?></li>
+                <li><a href="/news/category/{{ $cate->slug }}"><?php echo $cate->category_name; ?></a></li>
               @endforeach
             </ul>
             @endif

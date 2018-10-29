@@ -43,7 +43,7 @@
             <button type="submit" class="btn btn-search-new"></button>
           </form>
           <!-- <h3>NEWS</h3> -->
-          <ul class="new-list">
+          <!-- <ul class="new-list">
             @if (isset($categories_same))
               @if (!empty($categories_same))
                 @foreach ($categories_same as $cate => $cate)
@@ -51,7 +51,7 @@
                 @endforeach
               @endif
             @endif
-          </ul>
+          </ul> -->
           <h3 class="m-t-45">POPULAR POSTS</h3>
           @if(isset($news_popular))
             @if (!empty($news_popular))

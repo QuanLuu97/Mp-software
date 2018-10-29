@@ -42,11 +42,11 @@
             <input type="text" placeholder="Enter Keywords" name="search">
             <button type="submit" class="btn btn-search-new"></button>
           </form>
-          <!-- <h3>NEWS</h3> -->
+          <h3>CATEGORIES</h3>
           <ul class="new-list">
             @if (isset($categories_same))
               @if (!empty($categories_same))
-                @foreach ($categories_same as $cate => $cate)
+                @foreach ($categories_same as $cate)
                   <a href="/news/category/{{$cate->slug}}.html"><li>{{$cate->name}}</li></a>
                 @endforeach
               @endif

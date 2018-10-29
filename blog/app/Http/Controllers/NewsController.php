@@ -27,14 +27,17 @@ class NewsController extends Controller
 	    	->groupBy('categories_object_news.news_id')
 	    	->limit(6)->orderBy('views_count','DESC')->get();
 	    $response['tags'] = Tags::all();	
+	    $response['categories_same'] = Categories::where([ ['parent_id', 0], ['status', 1], ['is_deleted', 0] ])->get();
 		return view('news.indexNews',$response);
 	}
     public function newsByCategory($slug) {
     	$category = Categories::where('slug',$slug)->where('is_deleted',0)->where('status',1)->first();
 
     	if (!empty($category)) {
+
     		$response['categories_same'] = Categories::where('parent_id',$category->id)
     										->where('is_deleted',0)->where('status',1)->get();
+
 	    	$news = CategoryObj::select('categories_object_news.news_id','news.image','categories_object_news.news_title','news.slug AS slug','news.description','news.created_at')
 	    	->leftJoin('news','categories_object_news.news_id','=','news.id')
 	    	->where('categories_object_news.category_id',$category->id)
@@ -54,6 +57,7 @@ class NewsController extends Controller
 	    	->groupBy('categories_object_news.news_id')
 	    	->limit(6)->orderBy('views_count','DESC')->get();
 								    	// print_r($response['news_popular']); die;
+								    	 
     	} else return redirect('/');
 							    	// print_r($response['news_popular']);die;
 							    	
@@ -198,7 +202,7 @@ class NewsController extends Controller
 					$cookie = Cookie::queue('view'.$id, 12321, 5);
 					$new->increment('views_count');
 				}
-				$categories_related = CategoryObj::select('categories_object_news.category_id AS category_id','categories_object_news.category_name AS category_name')
+				$categories_related = CategoryObj::select('categories_object_news.category_id AS category_id','categories_object_news.category_name AS category_name', 'categories.slug')
 					->leftJoin('categories','categories_object_news.category_id','=','categories.id')
 					->where('categories_object_news.news_id',$id)
 					->where('categories.is_deleted',0)

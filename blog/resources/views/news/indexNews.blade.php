@@ -5,7 +5,7 @@
   <div class="container">
     <div class="content-page-title">
       <p class="sub-title"><a href="http://blog.m/index">Home</a> / <a href="{{ route('news') }}">News</a></p>
-      <h1 class="page-title"></h1>
+      <h1 class="page-title">NEWS</h1>
     </div>
   </div>
 </div>
@@ -42,11 +42,11 @@
             <input type="text" placeholder="Enter Keywords" name="search">
             <button type="submit" class="btn btn-search-new"></button>
           </form>
-          <!-- <h3>NEWS</h3> -->
+          <h3>CATEGORIES</h3>
           <ul class="new-list">
             @if (isset($categories_same))
               @if (!empty($categories_same))
-                @foreach ($categories_same as $cate => $cate)
+                @foreach ($categories_same as $cate)
                   <a href="/news/category/{{$cate->slug}}.html"><li>{{$cate->name}}</li></a>
                 @endforeach
               @endif
