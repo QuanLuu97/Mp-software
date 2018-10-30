@@ -53,7 +53,7 @@
                                         echo $char . ' ' . $category['name'];
                                         echo '</option>';
                                         unset($categories[$key]);
-                                        showCategories($categories, $category->id, $char.'- - - ');
+                                        showCategories($categories, $category->id, $char.'- ');
                                     }                                    
                                 }
                             }
@@ -61,6 +61,25 @@
                         ?>
                         
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>type</label>
+                    <select id="type" name="type" class="form-control">
+                        <option value="news">news</option>
+                        <option value="menu">menu</option>
+                    </select>
+                </div>
+                <div class="form-group" id="div_des" style="display: none">
+                    <label>description</label>
+                    <textarea name="description" id="description" ></textarea>
+                </div>
+                <div class="form-group" id="div_cont" style="display: none">
+                    <label>content</label> 
+                    <textarea name="content"  id="content" ></textarea>
+                </div>
+                 <div class="form-group" id="div_stt" style="display: none">
+                    <label>stt</label> 
+                    <input type="number" name="stt" id="stt" class="form-control">
                 </div>
                  <div class="form-group">
                     <label for="">
@@ -80,7 +99,20 @@
 
 </div>
 <div class="clearfix" style="clear:both;"></div>
+<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
+    $('#type').change(function(){
+        if($('#type').val() == 'menu'){
+            $('#div_cont').css('display', 'block');
+            $('#div_des').css('display', 'block');
+            $('#div_stt').css('display', 'block');
+        }
+        if($('#type').val() == 'news'){
+            $('#div_cont').css('display', 'none');
+            $('#div_des').css('display', 'none');
+            $('#div_stt').css('display', 'none');
+        }
+    })
     $(document).ready(function (){        
         $('#checkbox').change(function (){
             console.log($(this).prop('checked'));
@@ -100,6 +132,7 @@
             }
         });
         $('#add').click(function() {
+           
             var check = $('#form-addCategory').valid();
             if(check) {
 
@@ -110,6 +143,10 @@
                         name: $('#name').val(),
                         parent_id: $('#parent_id').val(),
                         status: $('#checkbox').prop('checked'),
+                        content: CKEDITOR.instances.content.getData(),
+                        description: CKEDITOR.instances.description.getData(),
+                        type: $('#type').val(),
+                        stt: $('#stt').val(),
                         _token: '{{ csrf_token() }}'
                     },
                     success:function(res) {
@@ -148,6 +185,17 @@
 
             }
         });
+        CKEDITOR.replace('description', {
+            removePlugins: 'image'
+        } );
+        CKEDITOR.replace('content', {
+            filebrowserBrowseUrl: '{{ asset('ckfinder/ckfinder.html') }}',
+            filebrowserImageBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Images') }}',
+            filebrowserFlashBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Flash') }}',
+            filebrowserUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}',
+            filebrowserImageUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images') }}',
+            filebrowserFlashUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
+        } );
     })
 </script>
 @endsection

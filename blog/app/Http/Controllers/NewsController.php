@@ -22,20 +22,21 @@ class NewsController extends Controller
 			->leftJoin('categories','categories_object_news.category_id','=','categories.id')
 			->where('categories.status',1)
 			->where('categories.is_deleted',0)
+			->where('categories.type', 'news')
 	    	->where('news.is_deleted',0)
 	    	->where('news.status',1)
 	    	->groupBy('categories_object_news.news_id')
 	    	->limit(6)->orderBy('views_count','DESC')->get();
 	    $response['tags'] = Tags::all();	
-	    $response['categories_same'] = Categories::where([ ['parent_id', 0], ['status', 1], ['is_deleted', 0] ])->get();
+	    $response['categories_same'] = Categories::where([ ['parent_id', 0], ['status', 1], ['is_deleted', 0], ['type', 'news'] ])->get();
 		return view('news.indexNews',$response);
 	}
     public function newsByCategory($slug) {
-    	$category = Categories::where('slug',$slug)->where('is_deleted',0)->where('status',1)->first();
+    	$category = Categories::where('slug',$slug)->where('is_deleted',0)->where('status',1)->where('type', 'news')->first();
 
     	if (!empty($category)) {
 
-    		$response['categories_same'] = Categories::where('parent_id',$category->id)
+    		$response['categories_same'] = Categories::where('parent_id',$category->id)->where('type', 'news')
     										->where('is_deleted',0)->where('status',1)->get();
 
 	    	$news = CategoryObj::select('categories_object_news.news_id','news.image','categories_object_news.news_title','news.slug AS slug','news.description','news.created_at')
@@ -52,6 +53,7 @@ class NewsController extends Controller
 			->leftJoin('categories','categories_object_news.category_id','=','categories.id')
 			->where('categories.status',1)
 			->where('categories.is_deleted',0)
+			->where('categories.type', 'news')
 	    	->where('news.is_deleted',0)
 	    	->where('news.status',1)
 	    	->groupBy('categories_object_news.news_id')
@@ -71,7 +73,7 @@ class NewsController extends Controller
     	// die();
     	if ($slug != '') {
     		$new 	    = News::where('slug',$slug)->where('status',1)->where('is_deleted',0)->first();
-    		$category   = Categories::where('slug',$cate_slug)->where('status',1)->where('is_deleted',0)->first();
+    		$category   = Categories::where('slug',$cate_slug)->where('status',1)->where('is_deleted',0)->where('type', 'news')->first();
     		$response['category'] = $category;
     		if (!empty($new) && !empty($category)) {
     			$response['new']   = $new;
@@ -88,6 +90,7 @@ class NewsController extends Controller
 					->where('categories_object_news.news_id',$id)
 					->where('categories.is_deleted',0)
 					->where('categories.status',1)
+					->where('categories.type', 'news')
 					->groupBy('categories_object_news.category_id')->get();
 					if (!empty($categories_related)) {
 						$response['categories_new'] = $categories_related; 
@@ -100,6 +103,7 @@ class NewsController extends Controller
 			    			->leftJoin('categories','categories_object_news.category_id','=','categories.id')
 			    			->where('categories.status',1)
     						->where('categories.is_deleted',0)
+    						->where('categories.type', 'news')
 			    			->where('categories_object_news.news_id','!=',$id)
 			    			->where('news.status',1)
 			    			->where('news.is_deleted',0)
@@ -113,6 +117,7 @@ class NewsController extends Controller
 			    			->leftJoin('categories','categories_object_news.category_id','=','categories.id')
 			    			->where('categories.status',1)
     						->where('categories.is_deleted',0)
+    						->where('categories.type', 'news')
 			    			->where('news.status',1)
 			    			->where('news.is_deleted',0)
 			    			->whereIn('categories_object_news.category_id',$category->id)
@@ -139,6 +144,7 @@ class NewsController extends Controller
     								->leftJoin('categories','categories_object_news.category_id','=','categories.id')
     								->where('categories.status',1)
     								->where('categories.is_deleted',0)
+    								->where('categories.type', 'news')
 							    	->where('news.is_deleted',0)
 							    	->where('news.status',1)
 							    	->where('news.id','!=',$id)
@@ -173,6 +179,7 @@ class NewsController extends Controller
     		->leftJoin('categories', 'categories_object_news.category_id', '=', 'categories.id')
     		->where('categories.status',1)
 			->where('categories.is_deleted',0)
+			->where('categories.type', 'news')
 	    	->where('news.is_deleted',0)
 	    	->where('news.status',1)
 	    	->groupBy('categories_object_news.news_id')
@@ -207,6 +214,7 @@ class NewsController extends Controller
 					->where('categories_object_news.news_id',$id)
 					->where('categories.is_deleted',0)
 					->where('categories.status',1)
+					->where('categories.type', 'news')
 					->groupBy('categories_object_news.category_id')->get();
 					if (!empty($categories_related)) {
 						$response['categories_new'] = $categories_related;
@@ -218,6 +226,7 @@ class NewsController extends Controller
 			    			->leftJoin('categories','categories_object_news.category_id','=','categories.id')
 			    			->where('categories.status',1)
     						->where('categories.is_deleted',0)
+    						->where('categories.type', 'news')
 			    			->where('categories_object_news.news_id','!=',$id)
 			    			->where('news.status',1)
 			    			->where('news.is_deleted',0)
@@ -231,6 +240,7 @@ class NewsController extends Controller
 			    			->leftJoin('categories','categories_object_news.category_id','=','categories.id')
 			    			->where('categories.status',1)
     						->where('categories.is_deleted',0)
+    						->where('categories.type', 'news')
 			    			->where('news.status',1)
 			    			->where('news.is_deleted',0)
 			    			->whereIn('categories_object_news.category_id',$category->id)
@@ -243,6 +253,7 @@ class NewsController extends Controller
     								->leftJoin('categories','categories_object_news.category_id','=','categories.id')
     								->where('categories.status',1)
     								->where('categories.is_deleted',0)
+    								->where('categories.type', 'news')
 							    	->where('news.is_deleted',0)
 							    	->where('news.status',1)
 							    	->where('news.id','!=',$id)
