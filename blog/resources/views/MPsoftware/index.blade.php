@@ -251,7 +251,7 @@
         <div class="sep"></div>
         <div class="row">
           <div class="item-pro col-sm-6 col-md-4">
-            <a href="{{ router('news') }}">
+            <a href="#">
               <img src="dist/images/new1.jpg" alt="" class="thumbnail">
               <div class="new-body">
                 <small>Admin - June 14, 2018</small>
