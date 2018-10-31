@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\form;
+use App\Menu;
 
 class MPController extends Controller
 {
@@ -14,7 +14,15 @@ class MPController extends Controller
 
     public function about ()
     {
-    	return view('MPsoftware.mpsw_about');
+        // $menus = Menu::all();
+        // foreach ($menus as $menu) {
+        //     echo $menu->name.'<br>';
+        // }die;
+        $response['menu1'] = Menu::where([ ['id', 1], ['status', 1] ])->first();
+        $response['menu2'] = Menu::where([ ['id', 14], ['status', 1] ])->first();
+        $response['menu3'] = Menu::where([ ['id', 15], ['status', 1] ])->first();
+        $response['menu4'] = Menu::where([ ['id', 16], ['status', 1] ])->first();   
+        return view('MPsoftware.mpsw_about', $response);
     }
 
     public function client ()
@@ -37,10 +45,7 @@ class MPController extends Controller
     	return view('MPsoftware.mpsw_casestudy');
     }
 
-    public function service ()
-    {
-    	return view('MPsoftware.mpsw-service');
-    }
+    
     // public function form(Request $request) {
     //     form::create($request);
 

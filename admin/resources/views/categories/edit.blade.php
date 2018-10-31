@@ -67,6 +67,32 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label>type</label>
+                    <select id="type" name="type" class="form-control">
+                        @if($category->type == 'news')
+                            <option value="news" selected>news</option>
+                            <option value="menu" >menu</option>
+                        @endif 
+                        @if($category->type == 'menu')
+                            <option value="news" >news</option>
+                            <option value="menu" selected>menu</option>
+                        @endif    
+                        
+                    </select>
+                </div>
+                <div class="form-group" id="div_des" style="display: none">
+                    <label>description</label>
+                    <textarea name="description" id="description" >{{ $category->description }}</textarea>
+                </div>
+                <div class="form-group" id="div_cont" style="display: none">
+                    <label>content</label> 
+                    <textarea name="content"  id="content" >{{ $category->content }}</textarea>
+                </div>
+                 <div class="form-group" id="div_stt" style="display: none">
+                    <label>stt</label> 
+                    <input type="number" name="stt" id="stt" class="form-control" value="{{ $category->stt }}">
+                </div>
+                <div class="form-group">
                     <label>status</label>
                     <input type="checkbox"  id="checkbox" <?php if($category->status == 1): ?> checked <?php endif ?> data-toggle="toggle" data-on="Enabled" data-off="Disabled" data-width="100">
                 </div>
@@ -82,8 +108,31 @@
     </div>
 </div>
 <div class="clearfix" style="clear:both;"></div>
+<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
-    $(document).ready(function (){        
+    $('#type').change(function(){
+        if($('#type').val() == 'menu'){
+            $('#div_cont').css('display', 'block');
+            $('#div_des').css('display', 'block');
+            $('#div_stt').css('display', 'block');
+        }
+        if($('#type').val() == 'news'){
+            $('#div_cont').css('display', 'none');
+            $('#div_des').css('display', 'none');
+            $('#div_stt').css('display', 'none');
+        }
+    })
+    $(document).ready(function (){    
+        if($('#type').val() == 'news') {
+            $('#div_cont').css('display', 'none');
+            $('#div_des').css('display', 'none');
+            $('#div_stt').css('display', 'none');
+        }
+        if($('#type').val() == 'menu'){
+            $('#div_cont').css('display', 'block');
+            $('#div_des').css('display', 'block');
+            $('#div_stt').css('display', 'block');
+        }
         $('#form-edit').validate({
             rules: {
                 name: {
@@ -110,6 +159,10 @@
                         name: $('#name').val(),
                         parent_id: $('#parent_id').val(),
                         status: $('#checkbox').prop('checked'),
+                        content: CKEDITOR.instances.content.getData(),
+                        description: CKEDITOR.instances.description.getData(),
+                        type: $('#type').val(),
+                        stt: $('#stt').val(),
                         _token: '{{ csrf_token() }}'
                     },
                     success:function(res) {
@@ -148,6 +201,17 @@
 
             }
         });
+         CKEDITOR.replace('description', {
+            removePlugins: 'image'
+        } );
+        CKEDITOR.replace('content', {
+            filebrowserBrowseUrl: '{{ asset('ckfinder/ckfinder.html') }}',
+            filebrowserImageBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Images') }}',
+            filebrowserFlashBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Flash') }}',
+            filebrowserUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}',
+            filebrowserImageUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images') }}',
+            filebrowserFlashUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
+        } );
     })
 </script>    
 @endsection

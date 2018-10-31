@@ -13,14 +13,7 @@
       <div id="navbarCollapse" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
         <ul class="nav navbar-nav navbar-right navbar-main">
           <li><a href="{{ route('index') }}"> HOME</a></li>
-          <li class="has-child "><a href="{{ route('about') }}">ABOUT US<span class="btn-submenu"><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
-            <ul class="sub-menu">
-              <li><a href="#">Our company</a></li>
-              <li><a href="#"> Our people </a></li>
-              <li><a href="#"> Our business process</a></li>
-              <li><a href="#"> Our Activities</a></li>
-            </ul>
-          </li>
+          <li class="has-child "><a href="{{ route('about') }}">ABOUT US </a></li>
           <li class="has-child"><a href="{{ route('service') }}">SERVICES<span class="btn-submenu"><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
             <ul class="sub-menu">
               <li><a href="#">Our company</a></li>
