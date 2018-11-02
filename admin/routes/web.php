@@ -37,7 +37,9 @@ Route::get('categories/delete/{id}', ['as' => 'deleteCat', 'uses' => 'CategoryCo
 Route::get('menu', ['as' => 'indexMenu', 'uses' => 'MenuController@index']);
 Route::get('menu/add', ['as' => 'addMenu', 'uses' => 'MenuController@add']);
 Route::post('menu/add', ['as' => 'addMenu', 'uses' => 'MenuController@add']);
-Route::post('menu/store', ['as' => 'storeMenu', 'uses' => 'MenuController@store']);
 Route::get('menu/edit/{id}', ['as' => 'editMenu', 'uses' => 'MenuController@edit']);
 Route::post('menu/update/{id}', ['as' => 'updateMenu', 'uses' =>'MenuController@update']);
 Route::get('menu/delete/{id}', ['as' => 'deleteMenu', 'uses' => 'MenuController@delete']);
+
+Route::get('home/add', ['as' => 'addHome', 'uses' => 'HomeController@add']);
+Route::post('home/add', ['as' => 'addHome', 'uses' => 'HomeController@add']);

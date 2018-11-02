@@ -70,6 +70,10 @@
                     <label>content</label> 
                     <textarea name="content"  id="content" ></textarea>
                 </div>
+                <div class="form-group"  >
+                    <label>content2</label> 
+                    <textarea name="content2"  id="content2" ></textarea>
+                </div>
                  <div class="form-group">
                     <label>sort</label> 
                     <input type="number" name="sort" id="sort" class="form-control">
@@ -173,6 +177,14 @@
             removePlugins: 'image'
         } );
         CKEDITOR.replace('content', {
+            filebrowserBrowseUrl: '{{ asset('ckfinder/ckfinder.html') }}',
+            filebrowserImageBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Images') }}',
+            filebrowserFlashBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Flash') }}',
+            filebrowserUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}',
+            filebrowserImageUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images') }}',
+            filebrowserFlashUploadUrl: '{{ asset('ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
+        } );
+        CKEDITOR.replace('content2', {
             filebrowserBrowseUrl: '{{ asset('ckfinder/ckfinder.html') }}',
             filebrowserImageBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Images') }}',
             filebrowserFlashBrowseUrl: '{{ asset('ckfinder/ckfinder.html?type=Flash') }}',

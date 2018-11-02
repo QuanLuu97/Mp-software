@@ -77,6 +77,7 @@ class MenuController extends Controller
 				'status' => $status,
 	            'description' => $request->input('description'),
 	            'content' => $request->input('content'),
+	            'content2' => $request->input('content2'),
 	            'images' => $images,
 	            'sort' => $request->input('sort'),
 	            'slug' => str_replace(' ', '-', $slug)
@@ -96,6 +97,45 @@ class MenuController extends Controller
     }
 
     public function update(Request $request, $id) {
-    	
+    	$menu = Menu::findOrFail($id);
+
+    	$images = null;
+    	if ($request->hasFile('images')) {
+    		$arr_img = $request->file('images');
+    		$i = 0;
+    		if(!empty($arr_img)) {
+    			foreach ($arr_img as $key => $value) {
+	    			$file = $value;
+	    			$img[$i] = $value->getClientOriginalName();
+	    			$file->move('uploads/images', $img[$i]);
+	    			$i++;
+	    		}
+	    		$images = json_encode($img);
+    		}
+    		
+    		
+    	}
+    	$slug = preg_replace('/[!@#$%^&*()]/', '', $request->input('name'));
+	        //chuyen sang chu k co dau
+	        $slug = preg_replace('/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/', 'a', $slug);
+	        $slug = preg_replace('/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/', 'e', $slug);
+	        $slug = preg_replace('/(ì|í|ị|ỉ|ĩ|Ì|Í|Ị|Ỉ|Ĩ)/', 'i', $slug);
+	        $slug = preg_replace('/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/', 'o', $slug);
+	        $slug = preg_replace('/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/', 'u', $slug);
+	        $slug = preg_replace('/(ỳ|ý|ỵ|ỷ)/', 'y', $slug);
+	        $slug = preg_replace('/(đ)/', 'd', $slug);
+	        $slug = strtolower($slug); // chuyen sang chu thuong
+    	$menu->update([
+    		'name' => $request->input('name'),
+			'parent_id' => $request->input('parent_id'),
+			'status' => 1,
+            'description' => $request->input('description'),
+            'content' => $request->input('content'),
+            'content2' => $request->input('content2'),
+            'images' => $images,
+            'sort' => $request->input('sort'),
+            'slug' => str_replace(' ', '-', $slug)
+    	]);
+    	$menu->save();
     }
 }

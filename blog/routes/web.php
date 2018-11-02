@@ -18,6 +18,7 @@ Route::get('about',['as' => 'about', 'uses' => 'MPController@about']);
 
 Route::get('case-studies',['as' => 'case_studies', 'uses' => 'MPController@case_studies']);
 Route::get('client',['as' => 'client', 'uses' => 'MPController@client']);
+Route::get('service', ['as' => 'service', 'uses' => 'MPController@service']);
 // Route::get('news',['as' => 'news', 'uses' => 'MPController@news']);
 
 Route::get('contact',['as' =>'contact', 'uses' => 'ContactController@contact']);
@@ -46,7 +47,7 @@ Route::get('news/tags/{tag}', ['as' => 'news/tags', 'uses' => 'NewsController@ne
 Route::get('news/{slug}.html', ['as' => 'news/', 'uses' => 'NewsController@detailNews']);
 Route::get('news/{cate_slug}/{slug}', ['as' => 'news/', 'uses' => 'NewsController@detail']);
 
-Route::get('service', ['as' => 'service', 'uses' => 'ServiceController@indexService']);
+
 
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
