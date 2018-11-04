@@ -1,12 +1,12 @@
 @extends('template.master')
 
 @section('content')
-<div class="mpsw-page-title">
+<div class="mpsw-page-title" style="background-image: url(http://admin.m/uploads/images/{{ json_decode($home1->images)[0]  }}) !important;">
   <div class="container">
-    <div class="content-page-title">
-      <p class="sub-title">Hello, world.
+    <div class="content-page-title" >
+      <p class="sub-title">{{ $home1->title }}
       </p>
-        <h1 class="page-title">ARE YOU READY </br>  TO MAKE IT AWESOME </br>WITH US?</h1>
+        {!! $home1->description !!}
     </div>
   </div>
 </div>
@@ -17,25 +17,19 @@
     <div class="mpsw-jp-who m-b-100">
       <div class="container">
         <h1 class="mpsw-heading text-center">
-          Who are you?
+          {{ $home2->title }}
         </h1>
         <div class="sep"></div>
         <div class="box-common">
-          <div class="box-left"><img src="dist/images/whoareyou.jpg" alt=""></div>
-          <div class="box-right">
-            <p class="mission-description">
-              MP Software is a full-service software company based in Hanoi, Vietnam, having two branches in Da Nang and Ho Chi Minh cities, an overseas branch in Japan.
-              </p><br><p class="mission-description">We provide a wide range of outsourcing services from web solutions to software QA & Testing and Mobility. We deliver quality-centric, cost efficient and vigorous software development solutions with the help of inventive ideas integrated with coherent strategy, cutting edge technologies & user-friendly designs that facilitate the customers to renovate their business.
-              </p><br><p class="mission-description">
-              The most important matter for us is to do things in the best way, to build trust and exceed expectations.
-              We rely mainly on the people’s skills and the constant desire for improvement. Our team believes that devotion, collaboration and friendship are the key factors of our success. The success comes as natural result of the win-win relationships with our customers and employees.
-            </p>
+          <div class="box-left"><img src="http://admin.m/uploads/images/{{ json_decode($home2->images)[0] }}" alt=""></div>
+          <div class="box-right" style="color:white">
+            {!! $home2->content !!}
           </div>
         </div>
       </div>
     </div>
     <!--Service-->
-    <div class="mpsw-service">
+    <div class="mpsw-service" style="background-image: url(http://admin.m/uploads/images/{{ json_decode($home6->images)[0] }})!important;">
       <div class="container">
         <h1 class="have-bg mpsw-heading text-center">
          Services
@@ -186,12 +180,12 @@
     <div class="mpsw-jp-core">
       <div class="container">
         <h1 class="mpsw-heading text-center">
-          Core values
+          {{ $home3->title }}
         </h1>
         <div class="sep"></div>
         <div class="cover-txt">
-          <h1>“People - Process - Technology”</h1>
-          <p>MP Software is a full-service software company based in Hanoi, Vietnam, having two branches in Da Nang and Ho Chi Minh cities, an overseas branch in Japan. We provide a wide range of outsourcing services from web solutions to software QA & Testing and Mobility.  </p>
+          {!! $home3->description !!}
+          {!! $home3->content !!}
         </div>
       </div>
     </div>
@@ -222,20 +216,11 @@
           </div>
           <div class="content-left col-md-6 wow fadeInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
             <h1 class="mpsw-heading">
-              Case studies
+              {{ $home4->title }}
             </h1>
             <div class="sep sep-style2"></div>
             <div class="text-content">
-              <h2 class="title">
-                PROCUREMENT
-              </h2>
-              <p>
-                Procurement application is a mobile app which used to help businesses to make requests, approvals, and purchases from various internet-connected device, provide procurement information, selection plan for bidders and bid results
-              </p><p>
-                This application assist in supplier selection, the analysis of supplier performance, and the establishment of the terms of bid to balance cost, quality and risk
-            </p><p>
-                • Helps users on all requisitions,bid orders, and expenses. The bid order processing system is designed to offer a user experience similar to online shopping...
-              </p>
+              {!! $home4->content !!}
             </div>
           </div>
         </div>
@@ -246,39 +231,23 @@
     <div class="mpsw-jp-new">
       <div class="container">
         <h1 class="mpsw-heading text-center">
-          News
+          {{ $home5->title }}
         </h1>
         <div class="sep"></div>
         <div class="row">
-          <div class="item-pro col-sm-6 col-md-4">
-            <a href="#">
-              <img src="dist/images/new1.jpg" alt="" class="thumbnail">
-              <div class="new-body">
-                <small>Admin - June 14, 2018</small>
-                <h4>Travel of mp software - mounting members</h4>
-                <p>Procurement application is a mobile app which used to help businesses to make requests, approvals, and purchases from various internet-connected </p>
-              </div>
-            </a>
-          </div>
-          <div class="item-pro col-sm-6 col-md-4">
-            <a href="#">
-              <img src="dist/images/new2.jpg" alt="" class="thumbnail">
-              <div class="new-body">
-                <small>Admin - June 14, 2018</small>
-                <h4>Minh Phuc Software Announced official logo</h4>
-                <p>Procurement application is a mobile app which used to help businesses to make requests, approvals, and purchases from various internet-connected </p>
-              </div>
-            </a>
-          </div>
-          <div class="item-pro col-sm-6 col-md-4">
-            <a href="#">
-              <img src="dist/images/new3.jpg" alt="" class="thumbnail">
-              <div class="new-body">
-                <small>Admin - June 14, 2018</small>
-                <h4>MP announced solutions Cloud Contact Center</h4>
-                <p>Procurement application is a mobile app which used to help businesses to make requests, approvals, and purchases from various internet-connected </p>
-              </div>
-            </a>
+          @foreach($news as $news_item)
+            <div class="item-pro col-sm-6 col-md-4">
+              <a href="{{ route('detailNews', $news_item->slug) }}">
+                <img src="http://admin.m/image/{{ $news_item->image }}" style="width: 360px;height:240px " alt="" class="thumbnail">
+                <div class="new-body">
+                  <small>{{ $news_item->updated_at }}</small>
+                  <h4>{!! $news_item->description  !!}</h4>
+                  <!-- <p>{!! $news_item->content !!}</p> -->
+                </div>
+              </a>
+          </div> 
+          @endforeach
+          
           </div>
         </div>
       </div>

@@ -10,7 +10,15 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('categories', ['as' => 'indexCategory', 'uses' => 'CategoryController@index']);
+Route::get('categories/add', ['as' => 'addCategory', 'uses' => 'CategoryController@add']);
+Route::post('categories/store', ['as' => 'storeCategory', 'uses' => 'CategoryController@store']);
 
+Route::get('products/add', ['as' => 'addProduct', 'uses' => 'ProductController@add']);
+Route::post('products/show', ['as' => 'showProduct', 'uses' => 'ProductController@show']);
+Route::post('products/store', ['as' => 'storeProduct', 'uses' => 'ProductController@store']);
+Route::get('products/index',['as' => 'indexProduct', 'uses' => 'ProductController@index']);
+Route::post('products/index', ['as' => 'indexProduct', 'uses' => 'ProductController@index']);
 
 //demo MPsoftware
 Route::get('index',['as' => 'index', 'uses' => 'MPController@index']);
@@ -28,23 +36,13 @@ Route::get('contact/edit/{id}',['as' => 'edit', 'uses' => 'ContactController@edi
 Route::post('contact/update/{id}', ['as' => 'update', 'uses' => 'ContactController@update']);
 Route::get('contact/delete/{id}', ['as' => 'delete', 'uses' => 'ContactController@delete']);
 
-Route::get('categories', ['as' => 'indexCategory', 'uses' => 'CategoryController@index']);
-Route::get('categories/add', ['as' => 'addCategory', 'uses' => 'CategoryController@add']);
-Route::post('categories/store', ['as' => 'storeCategory', 'uses' => 'CategoryController@store']);
-
-Route::get('products/add', ['as' => 'addProduct', 'uses' => 'ProductController@add']);
-Route::post('products/show', ['as' => 'showProduct', 'uses' => 'ProductController@show']);
-Route::post('products/store', ['as' => 'storeProduct', 'uses' => 'ProductController@store']);
-Route::get('products/index',['as' => 'indexProduct', 'uses' => 'ProductController@index']);
-Route::post('products/index', ['as' => 'indexProduct', 'uses' => 'ProductController@index']);
-
 Route::get('news',['as' => 'news', 'uses' => 'NewsController@indexNews']);
 // view ra cac bai viet thuoc category
 Route::get('news/category/{slug}.html', ['as' => 'news/category', 'uses' => 'NewsController@newsByCategory']); 
 // view ra các bài viết thuộc tag
 Route::get('news/tags/{tag}', ['as' => 'news/tags', 'uses' => 'NewsController@newsByTag']);
 // view ra bài viết
-Route::get('news/{slug}.html', ['as' => 'news/', 'uses' => 'NewsController@detailNews']);
+Route::get('news/{slug}.html', ['as' => 'detailNews', 'uses' => 'NewsController@detailNews']);
 Route::get('news/{cate_slug}/{slug}', ['as' => 'news/', 'uses' => 'NewsController@detail']);
 
 

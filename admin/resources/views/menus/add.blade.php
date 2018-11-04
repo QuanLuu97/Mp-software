@@ -118,61 +118,7 @@
                 }
             }
         });
-        // $('#add').click(function() {
-           
-        //     var check = $('#form-addMenu').valid();
-
-        //     if(check) {
-
-        //         $.ajax({
-        //             url: "{{ route('storeMenu') }}",
-        //             type:'post',
-        //             data:{
-        //                 name: $('#name').val(),
-        //                 parent_id: $('#parent_id').val(),
-        //                 status: $('#checkbox').prop('checked'),
-        //                 images: $('#images').val(),
-        //                 content: CKEDITOR.instances.content.getData(),
-        //                 description: CKEDITOR.instances.description.getData(),
-        //                 sort: $('#sort').val(),
-        //                 _token: '{{ csrf_token() }}'
-        //             },
-        //             success:function(res) {
-        //                 if(res.code == 200) {
-        //                       swal({
-        //                         type:'success',
-        //                         title:'SUCCESS!',
-        //                         text:res.msg
-        //                     }).then((result)=>{
-        //                         if(result.value){
-        //                             location.reload();
-        //                         }
-        //                     });
-        //                 }
-        //                 if(res.code == 404) {
-        //                     swal({
-        //                         type:'error',
-        //                         title:'ERROR!',
-        //                         text:res.msg
-        //                     });
-        //                 }
-        //                 if(res.code == 403) {
-        //                     swal({
-        //                         type: "warning",
-        //                         title: "Warning!",
-        //                         text: res.msg
-        //                     }).then((result) =>{
-        //                         if(result.value){
-        //                             $('#name').focus();
-        //                         }
-        //                     });
-
-        //                 }
-        //             }
-        //         });
-
-        //     }
-        // });
+        
         CKEDITOR.replace('description', {
             removePlugins: 'image'
         } );

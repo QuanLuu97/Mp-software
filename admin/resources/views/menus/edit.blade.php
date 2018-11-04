@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group">
                     <label for="parent_id">parent_menu</label>
-                    <select class="form-control" id="parent_id">
+                    <select class="form-control" id="parent_id" name="parent_id">
                         <option value="0"></option>
                         <?php 
                             function showCategories($categories, $category, $parent_id = 0, $char = ''){
@@ -80,7 +80,7 @@
                 </div>
                  <div class="form-group">
                     <label>sort</label> 
-                    <input type="number" name="stt" id="stt" class="form-control" value="{{ $menu->sort }}">
+                    <input type="number" name="sort" id="sort" class="form-control" value="{{ $menu->sort }}">
                 </div>
                 <div class="form-group">
                     <label>status</label>

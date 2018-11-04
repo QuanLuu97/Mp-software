@@ -5,19 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Menu;
 use App\Home;
+use App\News;
 
 class MPController extends Controller
 {
     public function index ()
     {
         $home = Home::where('status', 1)->get();
-        $i = 1;
-        foreach ($home as $item) {
-            $response['home'.$i] = $item;
-            echo $item->title.'<br>';
-        }
-        echo $response['home2']->title; die;
-    	return view('MPsoftware.index');
+        $response['home1'] = Home::where([ ['id', 1], ['status', 1] ])->first();
+        $response['home2'] = Home::where([ ['id', 2], ['status', 1] ])->first();
+        $response['home3'] = Home::where([ ['id', 3], ['status', 1] ])->first();
+        $response['home4'] = Home::where([ ['id', 4], ['status', 1] ])->first();
+        $response['home5'] = Home::where([ ['id', 5], ['status', 1] ])->first();
+        $response['home6'] = Home::where([ ['id', 6], ['status', 1] ])->first();
+        $response['news'] = News::where([ ['status' , 1], ['is_deleted', 0] ])->orderBy('views_count', 'DESC')->limit(3)->get();
+        
+    	return view('MPsoftware.index', $response);
     }
 
     public function about ()
