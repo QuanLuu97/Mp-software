@@ -34,7 +34,7 @@
             </div>  
         </div>
         <div class="portlet-body form"> 
-            <form action="{{ route('updateMenu', $menu->id) }}" method="post" id="form-edit">
+            <form action="{{ route('updateMenu', $menu->id) }}" enctype="multipart/form-data" method="post" id="form-edit">
                 <div class="form-group">
                     <label for="name">name</label>
                     <input type="text" id="name" name="name" class="form-control" value="{{ $menu->name }}">
@@ -83,6 +83,10 @@
                     <input type="number" name="sort" id="sort" class="form-control" value="{{ $menu->sort }}">
                 </div>
                 <div class="form-group">
+                    <label>images</label> 
+                    <input type="file" name="images[]" id="images" multiple="multiple" class="form-control">
+                </div>
+                <div class="form-group">
                     <label>status</label>
                     <input type="checkbox"  id="checkbox" <?php if($menu->status == 1): ?> checked <?php endif ?> data-toggle="toggle" data-on="Enabled" data-off="Disabled" data-width="100">
                 </div>
@@ -115,60 +119,7 @@
                 }
             }
         });
-        // $('#save').click(function() {
-        //     var check = $('#form-edit').valid();
-        //     var  id = $('#id').val();
-        //     if(check) {
-
-        //         $.ajax({
-        //             url: "../update/"+id,
-        //             type:'post',
-        //             data:{                       
-        //                 name: $('#name').val(),
-        //                 parent_id: $('#parent_id').val(),
-        //                 status: $('#checkbox').prop('checked'),
-        //                 content: CKEDITOR.instances.content.getData(),
-        //                 description: CKEDITOR.instances.description.getData(),
-        //                 type: $('#type').val(),
-        //                 stt: $('#stt').val(),
-        //                 _token: '{{ csrf_token() }}'
-        //             },
-        //             success:function(res) {
-        //                 if(res.code == 200) {
-        //                     $('#edit').modal('hide')
-        //                     swal({
-        //                         type: 'success',
-        //                         title: 'Success!!',
-        //                         text: res.msg
-        //                     }).then((result) => {
-        //                         location.reload();
-        //                     });
-        //                 }
-        //                 if(res.code == 404) {
-        //                     $('#edit').modal('hide');
-        //                     swal({
-        //                         type: 'error',
-        //                         title: 'Error!!',
-        //                         text: res.msg
-        //                     });
-        //                 }
-        //                 if(res.code == 403) {
-        //                     swal({
-        //                         type: "warning",
-        //                         title: "Warning!",
-        //                         text: res.msg
-        //                     }).then((result) =>{
-        //                         if(result.value){
-        //                             $('#name').focus();
-        //                         }
-        //                     });
-
-        //                 }
-        //             }
-        //         });
-
-        //     }
-        // });
+          
          CKEDITOR.replace('description', {
             removePlugins: 'image'
         } );

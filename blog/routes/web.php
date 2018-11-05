@@ -27,6 +27,12 @@ Route::get('about',['as' => 'about', 'uses' => 'MPController@about']);
 Route::get('case-studies',['as' => 'case_studies', 'uses' => 'MPController@case_studies']);
 Route::get('client',['as' => 'client', 'uses' => 'MPController@client']);
 Route::get('service', ['as' => 'service', 'uses' => 'MPController@service']);
+Route::get('service/1/{slug}', ['as' => 'service/testing-and-qa-services', 'uses' => 'MPController@service_test']);
+Route::get('service/2/{slug}', ['as' => 'service/mobility', 'uses' => 'MPController@service_mobile']);
+Route::get('service/3/{slug}', ['as' => 'service/application-development', 'uses' => 'MPController@service_application']);
+Route::get('service/4/{slug}', ['as' => 'service/web-solutions', 'uses' => 'MPController@service_web']);
+Route::get('service/5/{slug}', ['as' => 'service/design', 'uses' => 'MPController@service_design']);
+Route::get('service/6/{slug}', ['as' => 'service/enterprise-solution', 'uses' => 'MPController@service_enterprise']);
 // Route::get('news',['as' => 'news', 'uses' => 'MPController@news']);
 
 Route::get('contact',['as' =>'contact', 'uses' => 'ContactController@contact']);

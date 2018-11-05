@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Form;
 use Validator;
+use App\Menu;
 
 class ContactController extends Controller
 {	
 	public function contact(){
-		return view('MPsoftware.mpsw-contact');
+		$service = Menu::findOrFail(18);
+        $response['services'] = $service->menus;
+		return view('MPsoftware.mpsw-contact', $response);
 	}
     public function add(request $request) 
     {

@@ -1,5 +1,4 @@
 @extends('template.master')
-
 @section('content')
 <div class="mpsw-about-title mpsw-jp-service bg-case-studies">
   <div class="container">
@@ -25,6 +24,7 @@
       <div class="content-left col-sm-12 col-md-6 wow slideInLeft" data-wow-delay="0" style="visibility: visible; animation-name: slideInLeft;">
         {!! $service->content !!}
       </div>
+      
       <div class="content-right col-sm-12 col-md-6 wow fadeIn" data-wow-delay="0" style="visibility: visible; animation-name: fadeIn;">
         <img src="dist/images/{{ json_decode($service->images)[0] }}" alt="Services">
       </div>
