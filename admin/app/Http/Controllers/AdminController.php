@@ -13,10 +13,10 @@ use App\Cat_News;
 use Carbon\Carbon;
 
 class AdminController extends Controller
-{
-	public function home() {
-		return view('index');
-	}
+{   
+    public function home() {
+        return view('index');
+    }
 
     public function index(){
     	$newss = News::all();

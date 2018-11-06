@@ -8,6 +8,7 @@ use App\Models\Tags;
 use App\Models\TagObj;
 use App\Models\CategoryObj;
 use App\Models\Categories;
+use App\Menu;
 use DB;
 use Cookie;
 
@@ -15,6 +16,13 @@ class NewsController extends Controller
 {
 	public function indexNews() {
 		$response = [];
+		// cac menu con cua service
+    	$service = Menu::findOrFail(18);
+		$response['services'] = $service->menus;
+		//menu con case-study
+        $case_study = Menu::findOrFail(27);
+        $response['case_studies'] = $case_study->menus;
+
 		$news = News::where([ ['status', 1], ['is_deleted', 0] ])->orderBy('created_at', 'DESC')->limit(5)->paginate(5);
 		$response['news'] = $news;
 		$response['news_popular'] = News::select('news.*','categories.slug AS cate_p_slug','categories_object_news.category_id', 'categories_object_news.news_id', 'categories_object_news.category_id')
@@ -32,6 +40,12 @@ class NewsController extends Controller
 		return view('news.indexNews',$response);
 	}
     public function newsByCategory($slug) {
+    	// cac menu con cua service
+    	$service = Menu::findOrFail(18);
+		$response['services'] = $service->menus;
+		//menu con case-study
+        $case_study = Menu::findOrFail(27);
+        $response['case_studies'] = $case_study->menus;
     	$category = Categories::where('slug',$slug)->where('is_deleted',0)->where('status',1)->where('type', 'news')->first();
 
     	if (!empty($category)) {
@@ -68,9 +82,13 @@ class NewsController extends Controller
     
     public function detail($cate_slug,$slug, Request $request) {
     	$response = [];
+    	// cac menu con cua service
+    	$service = Menu::findOrFail(18);
+		$response['services'] = $service->menus;
+		//menu con case-study
+        $case_study = Menu::findOrFail(27);
+        $response['case_studies'] = $case_study->menus;
     	$cookie = null;
-    	// dd($request->cookie('view7'));
-    	// die();
     	if ($slug != '') {
     		$new 	    = News::where('slug',$slug)->where('status',1)->where('is_deleted',0)->first();
     		$category   = Categories::where('slug',$cate_slug)->where('status',1)->where('is_deleted',0)->where('type', 'news')->first();
@@ -123,20 +141,6 @@ class NewsController extends Controller
 			    			->whereIn('categories_object_news.category_id',$category->id)
 			    			->groupBy('new_id')->orderBy('news.created_at','desc')->limit(5)->get();
 					}
-    			
-    			// $tags_id = TagObj::select('tag_id','tag_name')->where('news_id',$id)->groupBy('tag_id')->get();
-    			// foreach ($tags_id as $key => $tag) {
-    			// 	$tags[] = $tag->tag_id;
-    			// }
-    			// $new_same_tag  = TagObj::select('tags_object_news.tag_id','tags_object_news.news_id AS new_id','tags_object_news.tag_name','tags_object_news.news_title','news.slug AS slug_news_tag')
-    			// ->leftJoin('news','tags_object_news.news_id','=','news.id')
-    			// ->where('tags_object_news.news_id','!=',$id)
-    			// ->whereIn('tags_object_news.tag_id',$tags)
-    			// ->where('news.status',1)
-    			// ->where('news.is_deleted',0)
-    			// ->groupBy('new_id')->get();
-    			
-    			// $response['new_same_tag']   = $new_same_tag;
 				$response['new_same_cate']      = $news_same_cate;
     			$response['tags'] 				= TagObj::select('tag_id','tag_name')->where('news_id',$id)->groupBy('tag_id')->get();
     			$response['news_popular']   	= News::select('news.*','categories.slug AS cate_p_slug','categories_object_news.category_id')
@@ -161,6 +165,12 @@ class NewsController extends Controller
 
     public function newsByTag($tag) {
     	$response = [];
+    	// cac menu con cua service
+    	$service = Menu::findOrFail(18);
+    	//menu con case-study
+        $case_study = Menu::findOrFail(27);
+        $response['case_studies'] = $case_study->menus;
+		$response['services'] = $service->menus;
     	$tag = Tags::where('name', $tag)->first();
 
     	$response['tag'] = $tag;
@@ -191,13 +201,15 @@ class NewsController extends Controller
     }
     public function detailNews($slug, Request $request) {
     	$response = [];
+    	// cac menu con cua service
+    	$service = Menu::findOrFail(18);
+		$response['services'] = $service->menus;
+		//menu con case-study
+        $case_study = Menu::findOrFail(27);
+        $response['case_studies'] = $case_study->menus;
     	$cookie = null;
-    	// dd($request->cookie('view7'));
-    	// die();
     	if ($slug != '') {
     		$new 	    = News::where('slug',$slug)->where('status',1)->where('is_deleted',0)->first();
-    		//$category   = Categories::where('slug',$cate_slug)->where('status',1)->where('is_deleted',0)->first();
-    		//$response['category'] = $category;
     		if (!empty($new) ) {
     			$response['title'] = $new->title;
     			$response['new']   = $new;

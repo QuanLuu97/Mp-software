@@ -12,6 +12,9 @@ class ContactController extends Controller
 	public function contact(){
 		$service = Menu::findOrFail(18);
         $response['services'] = $service->menus;
+        //menu con case-study
+        $case_study = Menu::findOrFail(27);
+        $response['case_studies'] = $case_study->menus;
 		return view('MPsoftware.mpsw-contact', $response);
 	}
     public function add(request $request) 

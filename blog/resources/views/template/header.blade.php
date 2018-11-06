@@ -17,16 +17,15 @@
           <li class="has-child"><a href="{{ route('service') }}">SERVICES<span class="btn-submenu"><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
             <ul class="sub-menu">
               @foreach($services as $service)
-                 <li><a href="{{ route('service/'. $service->slug, $service->slug ) }}">{{ $service->name }}</a></li>
+                 <li><a href="{{ route('service/' . $service->slug, $service->slug ) }}">{{ $service->name }}</a></li>
               @endforeach 
             </ul>
           </li>
           <li class="has-child"><a href="{{ route('case_studies') }}">CASE STUDIES<span class="btn-submenu"><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
             <ul class="sub-menu">
-              <li><a href="#">Our company</a></li>
-              <li><a href="#"> Our people </a></li>
-              <li><a href="#"> Our business process</a></li>
-              <li><a href="#"> Our Activities</a></li>
+              @foreach( $case_studies as $case_study)
+                <li><a href="{{ route('case_studies/' . $case_study->slug, $case_study->slug) }}">{{ $case_study->name }}</a></li>
+              @endforeach
             </ul>
           </li>
           <li><a href="{{ route('client') }}"> CLIENTS</a></li>

@@ -25,7 +25,15 @@ Route::get('index',['as' => 'index', 'uses' => 'MPController@index']);
 Route::get('about',['as' => 'about', 'uses' => 'MPController@about']);
 
 Route::get('case-studies',['as' => 'case_studies', 'uses' => 'MPController@case_studies']);
+Route::get('case-studies/1/{slug}',['as' => 'case_studies/crm', 'uses' => 'MPController@case_studies_crm']);
+Route::get('case-studies/2/{slug}',['as' => 'case_studies/dream-home', 'uses' => 'MPController@case_studies_dream_home']);
+Route::get('case-studies/3/{slug}',['as' => 'case_studies/mpcc', 'uses' => 'MPController@case_studies_mpcc']);
+Route::get('case-studies/4/{slug}',['as' => 'case_studies/school-link', 'uses' => 'MPController@case_studies_school_link']);
+Route::get('case-studies/5/{slug}',['as' => 'case_studies/sv-jobs', 'uses' => 'MPController@case_studies_sv_jobs']);
+Route::get('case-studies/6/{slug}',['as' => 'case_studies/procurement', 'uses' => 'MPController@case_studies_procurement']);
+
 Route::get('client',['as' => 'client', 'uses' => 'MPController@client']);
+
 Route::get('service', ['as' => 'service', 'uses' => 'MPController@service']);
 Route::get('service/1/{slug}', ['as' => 'service/testing-and-qa-services', 'uses' => 'MPController@service_test']);
 Route::get('service/2/{slug}', ['as' => 'service/mobility', 'uses' => 'MPController@service_mobile']);
