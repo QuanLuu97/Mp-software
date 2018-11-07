@@ -4,7 +4,7 @@
 <div class="mpsw-about-title bg-case-studies">
   <div class="container">
     <div class="content-page-title">
-      <p class="sub-title"><a href="#">Home</a> / <a href="#">{{ $case_study->name }}</a></p>
+      <p class="sub-title"><a href="{{ route('index') }}">Home</a> / <a href="#">{{ $case_study->name }}</a></p>
       <h1 class="page-title">CASE STUDIES</h1>
     </div>
   </div>
@@ -33,7 +33,7 @@
                   </div>
                   <div class="content-img">
                     <a href="{{ route('case_studies/' . $case_study->slug, $case_study->slug) }}">
-                      <img src="http://admin.m/uploads/images/{{ json_decode($case_study->images)[0] }}" style="width: 360px; height: 222px;" alt="crm">
+                      <img src="/uploads/images/{{ json_decode($case_study->images)[0] }}" style="width: 360px; height: 222px;" alt="crm">
                     </a>
                   </div>
                   <div class="content-button">

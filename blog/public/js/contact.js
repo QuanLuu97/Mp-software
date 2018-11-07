@@ -50,6 +50,7 @@ $(document).ready(function(){
 	        var subject = $('#subject').val();
 	        var message = $('#message').val();
 	        var token = $('#token').val();
+
 	        $.ajax({
 	            url: "contact",
 	            type:'post',
@@ -64,9 +65,6 @@ $(document).ready(function(){
 	                if (res.code == 200) {
 	                    $('#result').html(res.msg);
 	                } else $('#result').html(res.msg);
-	            },
-	            error: function(err){
-	            	alert('lỗi cú pháp');
 	            }
 	        });
     	}

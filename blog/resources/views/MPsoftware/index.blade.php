@@ -1,7 +1,7 @@
 @extends('template.master')
 
 @section('content')
-<div class="mpsw-page-title" style="background-image: url(http://admin.m/uploads/images/{{ json_decode($home1->images)[0]  }}) !important;">
+<div class="mpsw-page-title" style="background-image: url(/uploads/images/{{ json_decode($home1->images)[0]  }}) !important;">
   <div class="container">
     <div class="content-page-title" >
       <p class="sub-title">{{ $home1->title }}
@@ -21,7 +21,7 @@
         </h1>
         <div class="sep"></div>
         <div class="box-common">
-          <div class="box-left"><img src="http://admin.m/uploads/images/{{ json_decode($home2->images)[0] }}" alt=""></div>
+          <div class="box-left"><img src="/uploads/images/{{ json_decode($home2->images)[0] }}" alt=""></div>
           <div class="box-right" style="color:white">
             {!! $home2->content !!}
           </div>
@@ -29,7 +29,7 @@
       </div>
     </div>
     <!--Service-->
-    <div class="mpsw-service" style="background-image: url(http://admin.m/uploads/images/{{ json_decode($home6->images)[0] }})!important;">
+    <div class="mpsw-service" style="background-image: url(/uploads/images/{{ json_decode($home6->images)[0] }})!important;">
       <div class="container">
         <h1 class="have-bg mpsw-heading text-center">
          Services
@@ -238,7 +238,7 @@
           @foreach($news as $news_item)
             <div class="item-pro col-sm-6 col-md-4">
               <a href="{{ route('detailNews', $news_item->slug) }}">
-                <img src="http://admin.m/image/{{ $news_item->image }}" style="width: 360px;height:240px " alt="" class="thumbnail">
+                <img src="/image/{{ $news_item->image }}" style="width: 360px;height:240px " alt="" class="thumbnail">
                 <div class="new-body">
                   <small>{{ $news_item->updated_at }}</small>
                   <h4>{!! $news_item->description  !!}</h4>

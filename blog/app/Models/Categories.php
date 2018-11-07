@@ -11,14 +11,14 @@ class Categories extends Model
     public $timestamps = false; 
 
     public function categories() {
-    	return $this->hasMany('App\Categories', 'categories_id', 'id');
+    	return $this->hasMany('App\Models\Categories', 'parent_id', 'id');
     }
 
     public function catalog() {
-    	return $this->belongsTo('App\Categories', 'categories_id', 'id');
+    	return $this->belongsTo('App\Models\Categories', 'parent_id', 'id');
     }
-
-    public function products() {
-    	return $this->hasMany('App\Products', 'categories_id', 'id');
+    public function cat_news() {
+        return $this->hasMany('App\Models\CategoryObj','category_id','id');
     }
 }
+

@@ -5,7 +5,7 @@
 <div class="mpsw-about-title mpsw-jp-service bg-case-studies">
   <div class="container">
     <div class="content-page-title">
-      <p class="sub-title"><a href="#">Home</a> / <a href="#">{{ $client->name }}</a></p>
+      <p class="sub-title"><a href="{{ route('index') }}">Home</a> / <a href="#">{{ $client->name }}</a></p>
       <h1 class="page-title">CLIENTS</h1>
     </div>
   </div>
@@ -29,7 +29,7 @@
         @foreach( json_decode($client->images) as $image )
         <li>
           <a href="#">
-            <img src="http://admin.m/uploads/images/{{ $image }}" style="width: 100px; height: 60px;"  alt="{{ $image }}">
+            <img src="/uploads/images/{{ $image }}" style="width: 100px; height: 60px;"  alt="{{ $image }}">
           </a>
         </li>
         @endforeach

@@ -49,7 +49,7 @@
                         <label for="">message</label>
                     </div>
                     <div class="row">
-                        <textarea name="message" class="form-control" id="editor1">{{ $response['formData']->mess }}</textarea>
+                        <textarea name="message" class="form-control" id="message">{{ $response['formData']->message }}</textarea>
                     </div>  
                 </div>
                 <div class="form-group">

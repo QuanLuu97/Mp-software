@@ -3,7 +3,7 @@
 <div class="mpsw-about-title mpsw-jp-service bg-case-studies">
   <div class="container">
     <div class="content-page-title">
-      <p class="sub-title"><a href="#">Home</a> / <a href="#">{{ $service->name }}</a></p>
+      <p class="sub-title"><a href="{{ route('index') }}">Home</a> / <a href="#">{{ $service->name }}</a></p>
       <h1 class="page-title">SERVICES</h1>
     </div>
   </div>
@@ -26,7 +26,7 @@
       </div>
       
       <div class="content-right col-sm-12 col-md-6 wow fadeIn" data-wow-delay="0" style="visibility: visible; animation-name: fadeIn;">
-        <img src="dist/images/{{ json_decode($service->images)[0] }}" alt="Services">
+        <img src="/uploads/images/{{ json_decode($service->images)[0] }}" alt="Services">
       </div>
 
     </div>

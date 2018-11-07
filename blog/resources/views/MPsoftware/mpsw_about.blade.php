@@ -4,7 +4,7 @@
 <div class="mpsw-about-title">
   <div class="container">
     <div class="content-page-title">
-      <p class="sub-title"><a href="#">Home</a> / <a href="#">About Us</a></p>
+      <p class="sub-title"><a href="{{ route('index') }}">Home</a> / <a href="{{ route('about') }}">About Us</a></p>
       <h1 class="page-title">{{ $menu1->name }}</h1>
     </div>
   </div>
@@ -20,8 +20,8 @@
         </h1>
         <div class="sep"></div>
         <div class="box-common">
-          <div class="box-left"><img src="dist/images/{{ json_decode($menu2->images)[0] }}" alt=""></div>
-          <div class="box-right">
+          <div class="box-left"><img src="/uploads/images/{{ json_decode($menu2->images)[0] }}" alt=""></div>
+          <div class="box-right" style="color: white">
             {!! $menu2->content !!}
           </div>
         </div>
@@ -35,9 +35,11 @@
               Our people
             </h1>
             <div class="sep sep-style2"></div>
-            <div class="text-content">
+            <div class="text-content" style="margin-bottom: 50px;">
               {!! $menu3->content !!}
+
             </div>
+
           </div>
         </div>
       </div>
@@ -53,7 +55,7 @@
     </div>
     <ul class="list-item-img">
       @foreach(json_decode($menu1->images) as $image)
-        <li><img src="dist/images/{{ $image }}" alt="{{ $image }}" /><div class="mark"></div></li>
+        <li><img src="/uploads/images/{{ $image }}" alt="{{ $image }}" /><div class="mark"></div></li>
       @endforeach
       
     </ul>
