@@ -56,7 +56,7 @@ class NewsController extends Controller
     		//result là id của tất cả các category là con của nó
     		$categories_id = []; //khoi tao mang
     		$i = 0;
-    		function list_id ($categories_id, $id, $i) {
+    		function list_id (&$categories_id, $id, $i) {
     			array_push($categories_id, $id);
     			$cates = Categories::where([ ['parent_id', $id], ['status', 1], ['is_deleted', 0] ])->get();
     			if (!empty($cates)) {
@@ -66,7 +66,7 @@ class NewsController extends Controller
     			}
     		}   		
     		list_id($categories_id, $category->id, $i);
-    		print_r($categories_id); die; // khi in ra mảng lại rỗng?????
+    		
 
     		$categories_same = Categories::where('parent_id',$category->id)->where('type', 'news')
     										->where('is_deleted',0)->where('status',1)->get();
@@ -78,6 +78,7 @@ class NewsController extends Controller
 	    	->whereIn('categories_object_news.category_id', $categories_id)
 	    	->where('news.is_deleted',0)
 	    	->where('status',1)
+	    	->distinct() // cac bản tin không trùng lặp nhau
 	    	->paginate(5);
 
 	    	$response['news'] = $news;
