@@ -1433,7 +1433,7 @@ License: You must have a valid license purchased only from themeforest(the above
 </script> -->
 
 <script src="{{asset('dist/sweetalert2.min.js') }}"></script>
-
+<script src="{{ asset('js/jquery.validate.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/global/plugins/jquery-migrate.min.js') }}" type="text/javascript"></script>
 <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 <script src="{{ asset('assets/global/plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
@@ -1470,7 +1470,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="{{ asset('assets/admin/layout/scripts/demo.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/admin/pages/scripts/index.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/admin/pages/scripts/tasks.js') }}" type="text/javascript"></script>
-<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>	
+	
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>	
 

@@ -22,7 +22,7 @@
         <h1 class="mpsw-heading text-center">
         Get in touch
         </h1>
-      <div class="sep"></div>     
+      <div class="sep"></div>
       <p class="txt-center">If you have any questions or comments, or would just like to say hello, please feel free to contact our company</p>
       <div class="col-md-10 col-md-offset-1">
           <p style="color: red" class="txt-center" id="result"></p>
@@ -56,10 +56,10 @@
               </div>
             </div>
             <div>
-              <span id="submit" name="submit" class="btn btn-send">SEND MESSAGE</span> 
+              <span id="submit" name="submit" class="btn btn-send">SEND MESSAGE</span>
             </div>
             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-           
+
           </form>
         </div>
       </div>
@@ -67,5 +67,5 @@
   </div>
 </div>
 
-  
+
 @endsection

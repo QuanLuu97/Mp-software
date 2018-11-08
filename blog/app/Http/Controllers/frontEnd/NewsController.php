@@ -15,6 +15,7 @@ use Cookie;
 
 class NewsController extends Controller
 {
+	//
 	public function indexNews() {
 		$response = [];
 		// cac menu con cua service
@@ -51,15 +52,34 @@ class NewsController extends Controller
 
     	if (!empty($category)) {
 
-    		$response['categories_same'] = Categories::where('parent_id',$category->id)->where('type', 'news')
-    										->where('is_deleted',0)->where('status',1)->get();
+    		//bai toán đầu vào là id của category cha
+    		//result là id của tất cả các category là con của nó
+    		$categories_id = []; //khoi tao mang
+    		$i = 0;
+    		function list_id ($categories_id, $id, $i) {
+    			array_push($categories_id, $id);
+    			$cates = Categories::where([ ['parent_id', $id], ['status', 1], ['is_deleted', 0] ])->get();
+    			if (!empty($cates)) {
+    				foreach ($cates as $cate) {
+    					list_id($categories_id, $cate->id, $i);
+    				}
+    			}
+    		}   		
+    		list_id($categories_id, $category->id, $i);
+    		print_r($categories_id); die; // khi in ra mảng lại rỗng?????
 
+    		$categories_same = Categories::where('parent_id',$category->id)->where('type', 'news')
+    										->where('is_deleted',0)->where('status',1)->get();
+    		$response['categories_same'] = $categories_same;
+    		
+    		
 	    	$news = CategoryObj::select('categories_object_news.news_id','news.image','categories_object_news.news_title','news.slug AS slug','news.description','news.created_at')
-	    	->leftJoin('news','categories_object_news.news_id','=','news.id')
-	    	->where('categories_object_news.category_id',$category->id)
+	    	->leftJoin('news','categories_object_news.news_id','=', 'news.id')
+	    	->whereIn('categories_object_news.category_id', $categories_id)
 	    	->where('news.is_deleted',0)
 	    	->where('status',1)
 	    	->paginate(5);
+
 	    	$response['news'] = $news;
 	    	$response['category'] = $category;
 	    	$response['tags'] = Tags::all();

@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="{{ asset('dist/css/style.css') }}">
   <!-- Responsive style -->
   <link rel="stylesheet" href="{{ asset('dist/css/responsive.css') }}">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+  <script src="{{ asset('dist/js/jquery-3.3.1.min.js') }}"></script>
 </head>
 <body>
   @include('template.header')
@@ -28,8 +28,7 @@
   @yield('content')
 
   @include('template.footer')
-
-<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script src="{{ asset('js/jquery.validate.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('dist/js/slick.js') }}" type="text/javascript"></script>
 <script src="{{ asset('dist/js/owl.carousel.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('dist/js/wow.min.js') }}" type="text/javascript"></script>
@@ -44,4 +43,4 @@
     });
 </script>
 </body>
-</html>
+</

@@ -33,8 +33,7 @@
             <div class="social-right text-right">
               <span>Chia sẻ:</span>
               <ul class="social-footer">
-
-                <li><span>1</span><a href="javascript:void(0);" onclick="openTabFb()"<i class="fa fa-facebook"></i></a> </li>
+                <li><span>1</span><a href="javscript:void(0);" onclick="openTabFb()"<i class="fa fa-facebook"></i></a> </li>
                 <li><span>0</span><a href="javscript:void(0);" onclick="openTabGg()"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><span>0</span><a href="javscript:void(0);" onclick="openTabTw()"><i class="fa fa-twitter"></i></a></li>
                 <li><span>0</span><a href="javscript:void(0);" onclick="openTab()">in</a></li>
