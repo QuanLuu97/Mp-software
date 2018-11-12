@@ -27,6 +27,7 @@ class HomeController extends Controller
 	    	$images = null;
 
 	    	if ($request->hasFile('images')) {
+	    		
 	    		$arr_img = $request->file('images');
 	    		$i = 0;
 	    		if(!empty($arr_img)) {

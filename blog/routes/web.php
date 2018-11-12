@@ -81,3 +81,5 @@ Route::get('news/{cate_slug}/{slug}', ['as' => 'news/', 'uses' => 'frontEnd\News
 
 Auth::routes();
 Route::get('/', 'LoginController@index')->name('login');
+Route::get('import', ['as' => 'importFile', 'uses' => 'ExcelController@importFile']);
+Route::post('postImport', ['as' => 'postImport', 'uses' => 'ExcelController@postImport']);
