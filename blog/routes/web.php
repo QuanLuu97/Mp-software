@@ -81,8 +81,9 @@ Route::get('news/{slug}.html', ['as' => 'detailNews', 'uses' => 'frontEnd\NewsCo
 Route::get('news/{cate_slug}/{slug}', ['as' => 'news/', 'uses' => 'frontEnd\NewsController@detail']);
 
 //excel
-route::get('export', 'ExController@Export');
-route::get('import', ['as' => 'importFile', 'uses' => 'ExController@importFile']);
+route::get('export', 'ExcelController@export');
+route::get('import', ['as' => 'importFile', 'uses' => 'ExcelController@importFile']);
+route::post('postImport', ['as' => 'postImport', 'uses' => 'ExcelController@postImport']);
 
 // đăng nhập 
 Auth::routes();
