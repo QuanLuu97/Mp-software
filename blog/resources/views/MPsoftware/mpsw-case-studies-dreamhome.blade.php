@@ -4,7 +4,7 @@
 <div class="mpsw-about-title bg-case-studies">
   <div class="container">
     <div class="content-page-title">
-      <p class="sub-title"><a href="{{ route('index') }}">Home</a> /<a href="#">Case studies</a>  /<a href="#">{{ $case_studies2->name }}</a> </p>
+      <p class="sub-title"><a href="#">Home</a> /<a href="#">Case studies</a>  /<a href="#">{{ $case_studies2->name }}</a> </p>
       <h1 class="page-title">CASE STUDIES</h1>
     </div>
   </div>

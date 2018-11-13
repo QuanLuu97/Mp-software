@@ -72,11 +72,11 @@
                 </div>
                 <div class="form-group">
                     <label>content</label> 
-                    <textarea name="content"  id="content" >{!! $menu->content !!}</textarea>
+                    <textarea name="content"  id="content" >{{ $menu->content }}</textarea>
                 </div>
                 <div class="form-group">
                     <label>content2</label> 
-                    <textarea name="content2"  id="content2" >{!! $menu->content2 !!}</textarea>
+                    <textarea name="content2"  id="content2" >{{ $menu->content2 }}</textarea>
                 </div>
                  <div class="form-group">
                     <label>sort</label> 

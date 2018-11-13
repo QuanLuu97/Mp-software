@@ -44,6 +44,6 @@ Route::get('menu/delete/{id}', ['as' => 'deleteMenu', 'uses' => 'MenuController@
 Route::get('home/add', ['as' => 'addHome', 'uses' => 'HomeController@add']);
 Route::post('home/add', ['as' => 'addHome', 'uses' => 'HomeController@add']);
 
-
-Route::get('import', ['as' => 'importFile', 'uses' => 'ExcalController@importFile']);
-Route::post('postImport', ['as' => 'postImport', 'uses' => 'ExcalController@postImport']);
+route::get('export', 'ExController@Export');
+route::get('upload', 'ExController@upload');
+route::post('import', 'ExController@import');

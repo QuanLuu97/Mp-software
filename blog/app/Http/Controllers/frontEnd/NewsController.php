@@ -15,7 +15,6 @@ use Cookie;
 
 class NewsController extends Controller
 {
-	//
 	public function indexNews() {
 		$response = [];
 		// cac menu con cua service
@@ -51,7 +50,6 @@ class NewsController extends Controller
     	$category = Categories::where('slug',$slug)->where('is_deleted',0)->where('status',1)->where('type', 'news')->first();
 
     	if (!empty($category)) {
-
     		//bai toán đầu vào là id của category cha
     		//result là id của tất cả các category là con của nó
     		$categories_id = []; //khoi tao mang
@@ -67,12 +65,10 @@ class NewsController extends Controller
     		}   		
     		list_id($categories_id, $category->id, $i);
     		
-
     		$categories_same = Categories::where('parent_id',$category->id)->where('type', 'news')
     										->where('is_deleted',0)->where('status',1)->get();
     		$response['categories_same'] = $categories_same;
-    		
-    		
+
 	    	$news = CategoryObj::select('categories_object_news.news_id','news.image','categories_object_news.news_title','news.slug AS slug','news.description','news.created_at')
 	    	->leftJoin('news','categories_object_news.news_id','=', 'news.id')
 	    	->whereIn('categories_object_news.category_id', $categories_id)
@@ -80,7 +76,6 @@ class NewsController extends Controller
 	    	->where('status',1)
 	    	->distinct() // cac bản tin không trùng lặp nhau
 	    	->paginate(5);
-
 	    	$response['news'] = $news;
 	    	$response['category'] = $category;
 	    	$response['tags'] = Tags::all();

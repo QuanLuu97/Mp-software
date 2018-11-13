@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>listcontacts</title>
+	<title>listForms</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="{{ asset('dist/js/jquery-3.3.1.min.js') }}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body> 
@@ -17,7 +17,7 @@
             @endif
         </div>
 		<div class="col-md-10 ">
-			<h1>List message Contact</h1>
+			<h1>List Forms</h1>
 			<table class="table">
 				<tr>
 					<th>name</th>
@@ -27,14 +27,14 @@
 					<th>edit</th>
 					<th>delete</th>
 				</tr>
-				@foreach($contacts as $contact)
+				@foreach($forms as $form)
 					<tr>
-						<td>{{ $contact->name }}</td>
-						<td>{{ $contact->email }}</td>
-						<td>{{ $contact->subject }}</td>
-						<td>{{ $contact->message }}</td>
-						<td><a href="{{ route('edit', $contact->id) }}">edit</a></td>
-						<td><a href="{{ route('delete', $contact->id) }}">delete</a></td>
+						<td>{{ $form->name }}</td>
+						<td>{{ $form->email }}</td>
+						<td>{{ $form->subject }}</td>
+						<td>{!! $form->mess !!}</td>
+						<td><a href="{{ route('edit', $form->id) }}">edit</a></td>
+						<td><a href="{{ route('delete', $form->id) }}">delete</a></td>
 					</tr>
 				@endforeach
 			</table>

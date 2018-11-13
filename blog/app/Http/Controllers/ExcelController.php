@@ -24,5 +24,14 @@ class ExcelController extends Controller
        		}
        		
        });
+       return 'thành công';
+    }
+
+    public function export() {
+    	Excel::create('importFile', function($excel) {
+    		$excel->sheet('import', function($sheet){			
+    				$sheet->fromArray(Person::all());	
+    		});
+    	})->export('xlsx');
     }
 }

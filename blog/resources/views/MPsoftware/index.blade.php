@@ -32,147 +32,11 @@
     <div class="mpsw-service" style="background-image: url(/uploads/images/{{ json_decode($home6->images)[0] }})!important;">
       <div class="container">
         <h1 class="have-bg mpsw-heading text-center">
-         Services
+        {{ $home6->title }}
         </h1>
         <div class="sep"></div>
         <div class="list-services row">
-          <div class="service-item col-sm-6 col-md-4 wow slideInLeft"  data-wow-delay="0">
-            <div class="service-content">
-              <div class="content-left">
-                <div class="icon-service"><img src="dist/images/i-service1.jpg" alt=""></div>
-              </div>
-              <div class="content-right">
-                <div class="service-text">
-                  <h2 class="servive-title">
-                    <a href="#">
-                      Testing and QA
-                    </a>
-                  </h2>
-                  <ul class="list-normal">
-                    <li>GUI testing</li>
-                    <li>Functional testing</li>
-                    <li>Performance testing</li>
-                    <li>Security testing</li>
-                    <li>Regression testing</li>
-                    <li>Localization</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="service-item col-sm-6 col-md-4 wow slideInUp"  data-wow-delay="0">
-            <div class="service-content">
-              <div class="content-left">
-                <div class="icon-service"><img src="dist/images/i-service2.jpg" alt=""></div>
-              </div>
-              <div class="content-right">
-                <div class="service-text">
-                  <h2 class="servive-title">
-                    <a href="#">
-                      Mobility
-                    </a>
-                  </h2>
-                  <ul class="list-normal">
-                    <li>Mobile Application Development</li>
-                    <li>Social APIs Integration</li>
-                    <li>Mobile Advertising</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="service-item col-sm-6 col-md-4 wow slideInRight"  data-wow-delay="0">
-            <div class="service-content">
-              <div class="content-left">
-                <div class="icon-service"><img src="dist/images/i-service3.jpg" alt=""></div>
-              </div>
-              <div class="content-right">
-                <div class="service-text">
-                  <h2 class="servive-title">
-                    <a href="#">
-                      Application Development
-                    </a>
-                  </h2>
-                  <ul class="list-normal">
-                    <li>Application Migration</li>
-                    <li>Application Maintenance</li>
-                    <li>Application Integration</li>
-                    <li>Migrate from legacy app to cloud</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="service-item col-sm-6 col-md-4 wow slideInLeft"  data-wow-delay="0">
-            <div class="service-content">
-              <div class="content-left">
-                <div class="icon-service"><img src="dist/images/i-service4.jpg" alt=""></div>
-              </div>
-              <div class="content-right">
-                <div class="service-text">
-                  <h2 class="servive-title">
-                    <a href="#">
-                      Web Solutions
-                    </a>
-                  </h2>
-                  <ul class="list-normal">
-                    <li>Web Development</li>
-                    <li>Web App Development</li>
-                    <li>Web Testing and Maintenance</li>
-                    <li>Web Diagnosis/ Operation</li>
-                    <li>CMS</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="service-item col-sm-6 col-md-4 wow slideInUp"  data-wow-delay="0">
-            <div class="service-content">
-              <div class="content-left">
-                <div class="icon-service"><img src="dist/images/i-service5.jpg" alt=""></div>
-              </div>
-              <div class="content-right">
-                <div class="service-text">
-                  <h2 class="servive-title">
-                    <a href="#">
-                      Design
-                    </a>
-                  </h2>
-                  <ul class="list-normal">
-                    <li>UX/UI Design</li>
-                    <li>Frontend Development</li>
-                    <li>Graphics Design</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="service-item col-sm-6 col-md-4 wow slideInRight"  data-wow-delay="0">
-            <div class="service-content">
-              <div class="content-left">
-                <div class="icon-service"><img src="dist/images/i-service6.jpg" alt=""></div>
-              </div>
-              <div class="content-right">
-                <div class="service-text">
-                  <h2 class="servive-title">
-                    <a href="#">
-                      Enterprise Solution
-                    </a>
-                  </h2>
-                  <ul class="list-normal">
-                    <li>SAP Business One</li>
-                    <li>ERP/ CRM</li>
-                    <li>DMS/ SCM</li>
-                    <li>Reporting/ Analytics</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          {!! $home6->content !!}
         </div>
       </div>
     </div>
@@ -189,19 +53,20 @@
         </div>
       </div>
     </div>
+    
     <!--slider-->
-    <div class="mpsw-jp-slider">
+    <div class="mpsw-jp-slider" style="background-color: gainsboro!important;">
       <div class="container">
         <div class="slider-jp-img">
-          <div class="cover-img"><img src="dist/images/i-slider1.png" alt=""></div>
-          <div class="cover-img"><img src="dist/images/i-slider2.png" alt=""></div>
-          <div class="cover-img"><img src="dist/images/i-slider3.png" alt=""></div>
-          <div class="cover-img"><img src="dist/images/i-slider4.png" alt=""></div>
-          <div class="cover-img"><img src="dist/images/i-slider5.png" alt=""></div>
-          <div class="cover-img"><img src="dist/images/i-slider6.png" alt=""></div>
-          <div class="cover-img"><img src="dist/images/i-slider4.png" alt=""></div>
-          <div class="cover-img"><img src="dist/images/i-slider5.png" alt=""></div>
-          <div class="cover-img"><img src="dist/images/i-slider6.png" alt=""></div>
+          <div class="cover-img"><img src="/dist/images/i-slider1.png" alt=""></div>
+          <div class="cover-img"><img src="/dist/images/i-slider2.png" alt=""></div>
+          <div class="cover-img"><img src="/dist/images/i-slider3.png" alt=""></div>
+          <div class="cover-img"><img src="/dist/images/i-slider4.png" alt=""></div>
+          <div class="cover-img"><img src="/dist/images/i-slider5.png" alt=""></div>
+          <div class="cover-img"><img src="/dist/images/i-slider6.png" alt=""></div>
+          <div class="cover-img"><img src="/dist/images/i-slider4.png" alt=""></div>
+          <div class="cover-img"><img src="/dist/images/i-slider5.png" alt=""></div>
+          <div class="cover-img"><img src="/dist/images/i-slider6.png" alt=""></div>
         </div>
       </div>
     </div>
@@ -211,7 +76,7 @@
         <div class="content-whowa row">
           <div class="content-right col-md-6 wow pulse" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: pulse;">
             <div class="cover-img">
-              <img src="dist/images/i-iphone.png" alt="">
+              <img src="/uploads/images/{{ json_decode($home4->images)[0] }}" alt="">
             </div>
           </div>
           <div class="content-left col-md-6 wow fadeInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
@@ -246,8 +111,7 @@
                 </div>
               </a>
           </div> 
-          @endforeach
-          
+          @endforeach         
           </div>
         </div>
       </div>

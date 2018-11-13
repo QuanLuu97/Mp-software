@@ -216,7 +216,7 @@
     						});
     					}
                         if(res.code == 403) {
-                            $('#title').focus();//---------------------------------------
+                            $('#title').focus();
                             swal({
                                 type: "warning",
                                 title: "Warning!",

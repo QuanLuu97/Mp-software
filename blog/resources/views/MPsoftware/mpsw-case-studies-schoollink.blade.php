@@ -4,7 +4,7 @@
 <div class="mpsw-about-title bg-case-studies">
   <div class="container">
     <div class="content-page-title">
-      <p class="sub-title"><a href="{{ route('index') }}">Home</a> / <a href="#">Case studies</a> / <a href="#">{{ $case_studies4->name }}</a></p>
+      <p class="sub-title"><a href="#">Home</a> / <a href="#">Case studies</a> / <a href="#">{{ $case_studies4->name }}</a></p>
       <h1 class="page-title">CASE STUDIES</h1>
     </div>
   </div>
@@ -25,7 +25,7 @@
               </div>
               <div class="col-md-6">
                 <div class="box-img-crm">
-                  <img src="/uploads/images/{{ json_decode($case_studies4->images)[0] }}">
+                  <img src="/uploads/images/{{ json_decode($case_studies4->images)[0] }}" >
                 </div>
               </div>
             </div>

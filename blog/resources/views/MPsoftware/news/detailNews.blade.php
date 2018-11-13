@@ -5,7 +5,7 @@
 <div class="mpsw-about-title mpsw-jp-service bg-case-studies">
   <div class="container">
     <div class="content-page-title">
-      <p class="sub-title"><a href="{{ route('index') }}">Home</a> / <a>News</a></p>
+      <p class="sub-title"><a>Home</a> / <a>News</a></p>
       <h1 class="page-title">NEWS</h1>
     </div>
   </div>

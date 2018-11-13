@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\frontEnd;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Contact;
+use App\Models\Form;
 use Validator;
 use App\Models\Menu;
 
@@ -17,7 +17,7 @@ class ContactController extends Controller
         $response['case_studies'] = $case_study->menus;
 		return view('MPsoftware.mpsw-contact', $response);
 	}
-    public function add(Request $request) 
+    public function add(request $request) 
     {
 
     		$name = $request->input('name');
@@ -25,57 +25,47 @@ class ContactController extends Controller
 	    	$subject = $request->input('subject');
 	    	$message = $request->input('message');
 	    	
-	    	$validate = Validator::make(
-	    		$request->all(),
-	    		[
-					'name' => 'required|min:5',
-					'email' => 'required|email',
-					'subject' => 'required',
-					'message' => 'required'	    			
-	    		],
-	    		[
-	    			'name.required' => 'name không được để trống',
-	    			'name.min' => 'name phải ít nhất 5 ksi tự',
-	    			'email.required' => 'email k được để trống',
-	    			'email.email' => 'nhập đúng định dạng email',
-	    			'subject.required' => 'subject không được để trống',
-	    			'message.required' => 'message không được để trống'
-	    		]
-	    	);
-
-	    	if(!$validate->fails()) {
-	    		Contact::insert([
+	    	$err = [];
+	    	if($name!= null && $email != null && $subject != null && $message != null) {
+	    		$arr = [
 	    			'name' => $name,
 	    			'email' => $email,
 	    			'subject' => $subject,
-	    			'message' => $message
-	    		]);
-
-	    		return response()->json([
-	    			'code' => 200,
-	    			'msg' => 'gửi thành công'
-	    		]);
-	    	}
-	    	else {
+	    			'mess' => $message
+	    		];
+	    		$query = Form::insertGetId($arr);
+	    		if($query > 0) {
+	    			return response()->json([
+				   		'code' => 200,
+				   		'msg'  => 'gửi thành công'
+				   	]);
+	    		}
+	    		else{
+	    			return response()->json([
+				   		'code' => 403,
+				   		'msg'  => 'dữ liệu gửi lên không đúng định dạng'
+				   	]);
+	    			
+	    		}
 	    		
-	    		return response()->json([
-	    			'code' => 404,
-	    			'msg' => $validate->errors()->first()
-	    		]);
 	    	}
+    		return response()->json([
+			   		'code' => 404,
+			   		'msg'  => 'mời nhập đủ thông tin'
+			   	]);
     }
 
     public function list(){
-    	$contacts = Contact::all();
+    	$forms = Form::all();
 
-    	return view('MPsoftware.listContact', compact('contacts'));
+    	return view('MPsoftware.listContact', compact('forms'));
     }
 
     public function edit($id) {
     	$response = [];
     	if($id > 0){
 
-    		$form = Contact::where('id', '=', $id)->first();
+    		$form = Form::where('id', '=', $id)->first();
     		if(!empty($form)) {
     			$response = ['formData' => $form];
     		}
@@ -86,7 +76,7 @@ class ContactController extends Controller
 
     public function update(Request $request, $id) {
 
-    		$form = Contact::findOrFail($id);
+    		$form = Form::findOrFail($id);
 	    	$name = $request->input('name');
 	    	$email = $request->input('email');
 	    	$subject = $request->input('subject');
@@ -98,7 +88,7 @@ class ContactController extends Controller
 		    			'name' => $name,
 		    			'email' => $email,
 		    			'subject' => $subject,
-		    			'message' => $message
+		    			'mess' => $message
 		    	];
 		    	$query = $form->update($arr);
 		    	$response = ['formData' => $form];
@@ -118,7 +108,7 @@ class ContactController extends Controller
    	}
 
    	public function delete($id) {
-   		$form = Contact::findOrFail($id);
+   		$form = Form::findOrFail($id);
    		$form->delete();
    		return redirect()->back()->with('status', 'Xoá thành công');
    	}

@@ -4,7 +4,7 @@
 <div class="mpsw-about-title">
   <div class="container">
     <div class="content-page-title">
-      <p class="sub-title"><a href="{{ route('index') }}">Home</a> / <a href="{{ route('about') }}">About Us</a></p>
+      <p class="sub-title"><a href="#">Home</a> / <a href="#">About Us</a></p>
       <h1 class="page-title">{{ $menu1->name }}</h1>
     </div>
   </div>
@@ -30,16 +30,14 @@
     <div class="mpsw-jp-people">
       <div class="container">
         <div class="content-whowa row">
-          <div class="content-left col-md-6 wow fadeInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
+          <div class="content-left col-md-6 wow fadeInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;margin-bottom: 25px;">
             <h1 class="mpsw-heading">
               Our people
             </h1>
             <div class="sep sep-style2"></div>
-            <div class="text-content" style="margin-bottom: 50px;">
+            <div class="text-content">
               {!! $menu3->content !!}
-
             </div>
-
           </div>
         </div>
       </div>

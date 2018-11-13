@@ -28,7 +28,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('index') }}">
+                    <a class="navbar-brand" href="{{ url('/login') }}">
                         MPsoftware
                     </a>
                 </div>

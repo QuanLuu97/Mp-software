@@ -4,7 +4,7 @@
 <div class="mpsw-about-title bg-case-studies">
   <div class="container">
     <div class="content-page-title">
-      <p class="sub-title"><a href="{{ route('index') }}">Home</a> / <a href="#">{{ $case_study->name }}</a></p>
+      <p class="sub-title"><a href="#">Home</a> / <a href="#">{{ $case_study->name }}</a></p>
       <h1 class="page-title">CASE STUDIES</h1>
     </div>
   </div>
@@ -27,17 +27,17 @@
                 <div class="cover-case">
                   <div class="content-text">
                     <h2 class="case-title">
-                      <a href="{{ route('case_studies/' . $case_study->slug, $case_study->slug) }}">{{ $case_study->name }}</a>
+                      <a href="{{ route('case_studies/item', $case_study->slug) }}">{{ $case_study->name }}</a>
                     </h2>
                     {!! $case_study->description !!}
                   </div>
                   <div class="content-img">
-                    <a href="{{ route('case_studies/' . $case_study->slug, $case_study->slug) }}">
+                    <a href="{{ route('case_studies/item', $case_study->slug) }}">
                       <img src="/uploads/images/{{ json_decode($case_study->images)[0] }}" style="width: 360px; height: 222px;" alt="crm">
                     </a>
                   </div>
                   <div class="content-button">
-                    <a href="{{ route('case_studies/' . $case_study->slug, $case_study->slug) }}" class="read-more">
+                    <a href="{{ route('case_studies/item', $case_study->slug) }}" class="read-more">
                       Read more
                     </a>
                   </div>

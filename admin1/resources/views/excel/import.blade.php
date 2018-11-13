@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>importFile</title>
+	<meta charset="utf-8">
+	<title>import</title>
 </head>
 <body>
-	<form action="postImport" method="post" enctype="mutilpart/form-dât">
-		<label for="importFile">Upload File</label>
-		<input type="file" name="importFile">
-		<input type="submit" value="UpLoad">
-		{{ csrf_field() }}
-	</form>
+	<h1>List table from Excel</h1>
+	<table>
+		@foreach($results as $result) 
+			<tr>
+				<td>{{ $result->a }}</td>
+				<td>{{ $result->b }}</td>
+				<td>{{ $result->c }}</td>
+				<td>{{ $result->d }}</td>
+			</tr>
+		@endforeach 
+	</table>
 </body>
 </html>

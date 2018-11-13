@@ -19,8 +19,20 @@
       </h1>
       <div class="sep"></div>
       <div class="content-crm">
-        <div class="row"> 
+        <div class="row">
+          @if ($case_study_item->slug != 'mpcc')
+          <div class="col-md-6 col-sm-6">
             {!! $case_study_item->content !!}
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <div class="box-img-crm">
+              <img src="/uploads/images/{{ json_decode($case_study_item->images)[0] }}">
+            </div>
+          </div>
+          @endif
+          @if($case_study_item->slug == 'mpcc')  
+            {!! $case_study_item->content !!}
+          @endif
         </div>
       </div>
     </div>

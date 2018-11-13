@@ -55,70 +55,17 @@ class MPController extends Controller
 
         return view('MPsoftware.mpsw-service', $response);
     }
-    public function service_test($slug) {
-        $response['service1'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
+
+    public function service_item($slug) {
         $service = Menu::findOrFail(18);
-        //menu con case-study
         $case_study = Menu::findOrFail(27);
         $response['case_studies'] = $case_study->menus;
-
         $response['services'] = $service->menus;
+        $response['service_item'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
 
-        return view('MPsoftware.mpsw-service-testing-qa', $response);
+        return view('MPsoftware.mpsw-service-item', $response);
     }
-    public function service_mobile($slug) {
-        $response['service2'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-        $service = Menu::findOrFail(18);
-        $response['services'] = $service->menus;
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
 
-        return view('MPsoftware.mpsw-service-mobitity', $response);
-    }
-    public function service_application($slug) {
-        $response['service3'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-        $service = Menu::findOrFail(18);
-        $response['services'] = $service->menus;
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
-
-        return view('MPsoftware.mpsw-service-application-develop', $response);
-    }
-    public function service_web($slug) {
-        $response['service4'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-        $service = Menu::findOrFail(18);
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
-
-        $response['services'] = $service->menus;
-
-         return view('MPsoftware.mpsw-service-web-solution', $response);
-    }
-    public function service_design($slug) {
-        $response['service5'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-        $service = Menu::findOrFail(18);
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
-
-        $response['services'] = $service->menus;
-
-        return view('MPsoftware.mpsw-service-design', $response);
-    }
-    public function service_enterprise($slug) {
-        $response['service6'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-        $service = Menu::findOrFail(18);
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
-
-        $response['services'] = $service->menus;
-
-        return view('MPsoftware.mpsw-service-enterprise-solution', $response);
-    }
     public function client ()
     {
         $response['client']  = Menu::where([ ['id', 26], ['status', 1] ])->first();
@@ -150,76 +97,25 @@ class MPController extends Controller
         $service = Menu::findOrFail(18);
         $response['services'] = $service->menus;
         //menu con case-study
-        
-        $response['case_studies'] = Menu::where([ ['parent_id', 27], ['status', 1] ])->orderBy('sort','ASC')->get();
+        $case_study = Menu::findOrFail(27);
+        $response['case_studies'] = $case_study->menus;
+        //$response['case_studies'] = Menu::where([ ['parent_id', 27], ['status', 1] ])->orderBy('sort','ASC')->get();
         $response['case_study'] = Menu::where([ ['id', 27], ['status', 1] ])->first();
 
     	return view('MPsoftware.mpsw-casestudy', $response);
     }
 
-    public function case_studies_crm($slug) {
+    public function case_studies_item($slug) {
+        $response = [];
+        $response['case_study_item'] = Menu::where([ ['slug', $slug], ['status', 1]])->first();
         $service = Menu::findOrFail(18);
         $response['services'] = $service->menus;
         //menu con case-study
         $case_study = Menu::findOrFail(27);
         $response['case_studies'] = $case_study->menus;
-        $response['case_studies1'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
 
-        return view('MPsoftware.mpsw-case-studies-crm', $response);
-    }
 
-    public function case_studies_dream_home($slug) {
-        $service = Menu::findOrFail(18);
-        $response['services'] = $service->menus;
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
-        $response['case_studies2'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-
-        return view('MPsoftware.mpsw-case-studies-dreamhome', $response);
-    }
-    public function case_studies_mpcc($slug) {
-        $service = Menu::findOrFail(18);
-        $response['services'] = $service->menus;
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
-        $response['case_studies3'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-
-        return view('MPsoftware.mpsw-case-studies-MPCC', $response);
-    }
-
-    public function case_studies_school_link($slug) {
-        $service = Menu::findOrFail(18);
-        $response['services'] = $service->menus;
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
-        $response['case_studies4'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-
-        return view('MPsoftware.mpsw-case-studies-schoollink', $response);
-    }
-
-    public function case_studies_sv_jobs($slug) {
-        $service = Menu::findOrFail(18);
-        $response['services'] = $service->menus;
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
-        $response['case_studies5'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-
-        return view('MPsoftware.mpsw-case-studies-vsjob', $response);
-    }
-
-    public function case_studies_procurement($slug) {
-        $service = Menu::findOrFail(18);
-        $response['services'] = $service->menus;
-        //menu con case-study
-        $case_study = Menu::findOrFail(27);
-        $response['case_studies'] = $case_study->menus;
-        $response['case_studies6'] = Menu::where([ ['slug', $slug], ['status', 1] ])->first();
-
-        return view('MPsoftware.mpsw-case-studies-procurement', $response);
+        return view('MPsoftware.mpsw-case-studies-item', $response);
     }
 
 }

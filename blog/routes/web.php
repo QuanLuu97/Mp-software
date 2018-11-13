@@ -11,7 +11,8 @@
 |
 */
 //Back_End MPsoftware
-Route::get('admin', [ 'as' => 'home', 'uses' => 'backEnd\AdminController@home' ]);
+//Route::get('/', 'frontEnd\MPController@index');
+Route::get('/admin', [ 'as' => 'home', 'uses' => 'backEnd\AdminController@home' ]);
 
 Route::get('admin/news', ['as' => 'indexNews', 'uses' => 'backEnd\AdminController@index']);
 Route::get('admin/news/add', ['as' => 'addNews', 'uses' => 'backEnd\AdminController@add']);
@@ -44,22 +45,24 @@ Route::get('index',['as' => 'index', 'uses' => 'frontEnd\MPController@index']);
 Route::get('about',['as' => 'about', 'uses' => 'frontEnd\MPController@about']);
 
 Route::get('case-studies',['as' => 'case_studies', 'uses' => 'frontEnd\MPController@case_studies']);
-Route::get('case-studies/1/{slug}',['as' => 'case_studies/crm', 'uses' => 'frontEnd\MPController@case_studies_crm']);
-Route::get('case-studies/2/{slug}',['as' => 'case_studies/dream-home', 'uses' => 'frontEnd\MPController@case_studies_dream_home']);
-Route::get('case-studies/3/{slug}',['as' => 'case_studies/mpcc', 'uses' => 'frontEnd\MPController@case_studies_mpcc']);
-Route::get('case-studies/4/{slug}',['as' => 'case_studies/school-link', 'uses' => 'frontEnd\MPController@case_studies_school_link']);
-Route::get('case-studies/5/{slug}',['as' => 'case_studies/sv-jobs', 'uses' => 'frontEnd\MPController@case_studies_sv_jobs']);
-Route::get('case-studies/6/{slug}',['as' => 'case_studies/procurement', 'uses' => 'frontEnd\MPController@case_studies_procurement']);
+Route::get('case-studies/{slug}',['as' => 'case_studies/item', 'uses' => 'frontEnd\MPController@case_studies_item']);
+// Route::get('case-studies/1/{slug}',['as' => 'case_studies/crm', 'uses' => 'frontEnd\MPController@case_studies_crm']);
+// Route::get('case-studies/2/{slug}',['as' => 'case_studies/dream-home', 'uses' => 'frontEnd\MPController@case_studies_dream_home']);
+// Route::get('case-studies/3/{slug}',['as' => 'case_studies/mpcc', 'uses' => 'frontEnd\MPController@case_studies_mpcc']);
+// Route::get('case-studies/4/{slug}',['as' => 'case_studies/school-link', 'uses' => 'frontEnd\MPController@case_studies_school_link']);
+// Route::get('case-studies/5/{slug}',['as' => 'case_studies/sv-jobs', 'uses' => 'frontEnd\MPController@case_studies_sv_jobs']);
+// Route::get('case-studies/6/{slug}',['as' => 'case_studies/procurement', 'uses' => 'frontEnd\MPController@case_studies_procurement']);
 
 Route::get('client',['as' => 'client', 'uses' => 'frontEnd\MPController@client']);
 
 Route::get('service', ['as' => 'service', 'uses' => 'frontEnd\MPController@service']);
-Route::get('service/1/{slug}', ['as' => 'service/testing-and-qa-services', 'uses' => 'frontEnd\MPController@service_test']);
-Route::get('service/2/{slug}', ['as' => 'service/mobility', 'uses' => 'frontEnd\MPController@service_mobile']);
-Route::get('service/3/{slug}', ['as' => 'service/application-development', 'uses' => 'frontEnd\MPController@service_application']);
-Route::get('service/4/{slug}', ['as' => 'service/web-solutions', 'uses' => 'frontEnd\MPController@service_web']);
-Route::get('service/5/{slug}', ['as' => 'service/design', 'uses' => 'frontEnd\MPController@service_design']);
-Route::get('service/6/{slug}', ['as' => 'service/enterprise-solution', 'uses' => 'frontEnd\MPController@service_enterprise']);
+ Route::get('service/{slug}', ['as' => 'service/item', 'uses' => 'frontEnd\MPController@service_item']);
+// Route::get('service/1/{slug}', ['as' => 'service/testing-and-qa-services', 'uses' => 'frontEnd\MPController@service_test']);
+// Route::get('service/2/{slug}', ['as' => 'service/mobility', 'uses' => 'frontEnd\MPController@service_mobile']);
+// Route::get('service/3/{slug}', ['as' => 'service/application-development', 'uses' => 'frontEnd\MPController@service_application']);
+// Route::get('service/4/{slug}', ['as' => 'service/web-solutions', 'uses' => 'frontEnd\MPController@service_web']);
+// Route::get('service/5/{slug}', ['as' => 'service/design', 'uses' => 'frontEnd\MPController@service_design']);
+// Route::get('service/6/{slug}', ['as' => 'service/enterprise-solution', 'uses' => 'frontEnd\MPController@service_enterprise']);
 
 Route::get('contact',['as' =>'contact', 'uses' => 'frontEnd\ContactController@contact']);
 Route::post('contact', ['as' => 'add', 'uses' => 'frontEnd\ContactController@add']);
@@ -77,9 +80,12 @@ Route::get('news/tags/{tag}', ['as' => 'news/tags', 'uses' => 'frontEnd\NewsCont
 Route::get('news/{slug}.html', ['as' => 'detailNews', 'uses' => 'frontEnd\NewsController@detailNews']);
 Route::get('news/{cate_slug}/{slug}', ['as' => 'news/', 'uses' => 'frontEnd\NewsController@detail']);
 
+//excel
+route::get('export', 'ExController@Export');
+route::get('import', ['as' => 'importFile', 'uses' => 'ExController@importFile']);
 
-
+// đăng nhập 
 Auth::routes();
-Route::get('/', 'LoginController@index')->name('login');
-Route::get('import', ['as' => 'importFile', 'uses' => 'ExcelController@importFile']);
-Route::post('postImport', ['as' => 'postImport', 'uses' => 'ExcelController@postImport']);
+
+Route::post('login', ['as' => 'LOGIN', 'uses' => 'HomeController@login']);
+Route::get('logout', ['as' => 'logout1', 'uses' => 'HomeController@logout']);

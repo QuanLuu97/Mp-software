@@ -31,7 +31,7 @@
 		<div class="caption">
 			<i class="fa fa-globe"></i>List Menu
 		</div>
-
+		
 	</div>
 	<div class="col-md-12 portlet-body">
 		<table class="table table-striped table-bordered table-hover" id="sample_2">
@@ -53,7 +53,7 @@
                         Status
                     </th>
         			<th class="col-md-2" colspan="2">
-
+        				
         			</th>
         		</tr>
     		</thead>
@@ -61,25 +61,25 @@
         		@foreach($menus as $menu)
         			<tr class="text-center">
         				<td>{{ $menu->id }}</td>
-                        <td>{{ $menu->name }}</td>
+                        <td>{{ $menu->name }}</td>                
                         <td>
                             @if($menu->menu_parent != null)
                                 {{ $menu->menu_parent->name }}
                             @endif
                         </td>
                         <td>{{ $menu->sort }}</td>
-                        <td>{{ $menu->status }}</td>
+                        <td>{{ $menu->status }}</td> 
         				<td>
         					<a class="glyphicon btn btn-primary" id="delete" onclick='deleteItem(<?php echo $menu->id; ?>)'" >&#xe020;</a>
         				</td>
-                        <td>
-                            <a href="{{ route('editMenu', $menu->id) }}" class="glyphicon btn btn-primary"  >&#x270f;</a>
+                        <td>                
+                            <a href="{{ route('editMenu', $menu->id) }}" class="glyphicon btn btn-primary"  >&#x270f;</a>           
                         </td>
         			</tr>
-
-        		@endforeach
+        			
+        		@endforeach		
     		</tbody>
-		</table>
+		</table>		
 	</div>
 </div>
 <a href="{{ route('addMenu') }}" class="btn btn-success">ADD</a>
